@@ -1,6 +1,6 @@
 return {
-  ["Enabled"] = false,
-  ["JobId"] = false,
+  ["Enabled"] = true,
+  ["JobId"] = true,
   ["ServerLink"] = false,
   ["Message1"] = "Hi! Live message from creator of the script!",
   ["Message2"] = "you can join me by clicking ''join'' button in the ''other'' tab!",
