@@ -1,0 +1,5 @@
+return {
+  ["Enabled"] = false,
+  ["JobId"] = false,
+  ["ServerLink"] = false
+}
