@@ -2270,7 +2270,7 @@ if req then
 local data = {
     ["username"] = "Execution Bot",
     ["avatar_url"] = "https://i.imgur.com/a/SbPHgnH",
-    ["content"] = "@everyone "..LP.Name.." executed DoD Nexer Hub ＞﹏＜",
+    ["content"] = "@everyone "..LP.Name.." executed DoD Nexer Hub o(￣┰￣*)ゞ",
     ["embeds"] = {
        {
            ["title"] = "General Info",
@@ -2398,7 +2398,7 @@ if req then
 local data = {
     ["username"] = "Execution Bot",
     ["avatar_url"] = "https://i.imgur.com/a/SbPHgnH",
-    ["content"] = "@everyone "..LP.Name.." executed DoD Nexer Hub ＞﹏＜",
+    ["content"] = "@everyone "..LP.Name.." executed DoD Nexer Hub o(￣┰￣*)ゞ",
     ["embeds"] = {
        {
            ["title"] = "General Info",
@@ -2432,6 +2432,8 @@ end)
 end
 
 JoinModule = nil
+pcall(function()
+if game.Players:FindFirstChild("Nexer1234_AnotherAlt") == nil then
 task.delay(0, function()
 task.spawn(function()
 while task.wait(30) do
@@ -2466,4 +2468,6 @@ end
 end)
 end
 end)
+end)
+end
 end)
