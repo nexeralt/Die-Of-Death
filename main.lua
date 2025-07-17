@@ -1832,6 +1832,9 @@ local cmdbar = Window:CreateTab("cmd bar",98721082164451)
 cmdbar:CreateButton({Name = "click me to see all cmds!"; Callback = function()
 OpenLink("https://pastebin.com/raw/3VZyG7iD")
 end; })
+cmdbar:CreateButton({Name = "or click me to copy pastebin link with all cmds!"; Callback = function()
+setclipboard(tostring("https://pastebin.com/raw/3VZyG7iD"))
+end; })
 
 
 --[[ Fartful skin myself handler ]]--
@@ -2249,6 +2252,7 @@ end)
 end
 
 function Jumpscare(duration)
+game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart").Anchored = true
 local soundhahaha = Instance.new("Sound")
 soundhahaha.SoundId = "rbxassetid://123871865507678"
 soundhahaha.Volume = 3
@@ -2283,13 +2287,16 @@ local function disableNauseaEffect()
     game:GetService("RunService"):UnbindFromRenderStep("NauseaEffect")
     workspace.CurrentCamera.CFrame = lastBaseCFrame
 end
-task.delay(tonumber(duration),disableNauseaEffect)
+task.delay(tonumber(duration),function()
+disableNauseaEffect()
+game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart").Anchored = false
+end)
 end
 
 
 
 function FakeKiller(npcname, targettingtime)
-local ragdoll = require(game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Client.Modules.Effect)
+--local ragdoll = require(game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Client.Modules.Effect)
 local npc = nil
 local ognpc = nil
 for i,v in pairs(game:GetService("ReplicatedStorage").Characters.Killer:GetDescendants()) do
@@ -2357,7 +2364,7 @@ end
 cd = true
 loadedanim_swing:Play()
 task.wait(.5)
---DamageEffect()
+DamageEffect()
 if ognpc.Parent.Name == "Artful" then
 game.Players.LocalPlayer.Character:WaitForChild("Humanoid").Health = game.Players.LocalPlayer.Character:WaitForChild("Humanoid").Health - 25
 else
@@ -2382,8 +2389,11 @@ npc:Destroy()
 end
 
 
-
+local ragdoll = nil
 function FakeSurvivor()
+pcall(function()
+ragdoll = require(game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Client.Modules.Effect)
+end)
 local npc = game:GetService("ReplicatedStorage").Characters.Survivor.Civilian:Clone()
 pcall(function()
 npc:WaitForChild("Humanoid").DisplayDistanceType = "None"
@@ -2422,11 +2432,16 @@ local magnitude = (npc:WaitForChild("HumanoidRootPart").Position - game.Players.
 if child and child:IsA("BasePart") and child.Name == "Part" and child.Color == Color3.fromRGB(255,0,0) and child.Material == Enum.Material.ForceField and magnitude < 25 then
 loadedanim_idle:Stop()
 loadedanim_idle:AdjustSpeed(tonumber(0))
-npc:Destroy()
 alr_jumpscared = true
 task.spawn(function()
 Jumpscare(4)
 end)
+if require and ragdoll ~= nil then
+ragdoll.Ragdoll(npc)
+ragdoll = nil
+else
+npc:Destroy()
+end
 pcall(function()
 touch_connection:Disconnect()
 end)
@@ -2612,7 +2627,7 @@ playerfound = v
 break
 end
 end
-if playerfound and playerfound.Name == LP.Name or target_name == "everyone/all" then
+if playerfound and playerfound.Name == LP.Name or target_name == "everyone" then
 FakeKiller(ChoosenKiller, ChoosenTargettingTime)
 end
 
@@ -2625,7 +2640,7 @@ playerfound = v
 break
 end
 end
-if playerfound and playerfound.Name == LP.Name or target_name == "everyone/all" then
+if playerfound and playerfound.Name == LP.Name or target_name == "everyone" then
 FakeTimer()
 end
 
@@ -2639,7 +2654,7 @@ playerfound = v
 break
 end
 end
-if playerfound and playerfound.Name == LP.Name or target_name == "everyone/all" then
+if playerfound and playerfound.Name == LP.Name or target_name == "everyone" then
 FakeSurvivor()
 end
 
@@ -2653,7 +2668,7 @@ playerfound = v
 break
 end
 end
-if playerfound and playerfound.Name == LP.Name or target_name == "everyone/all" then
+if playerfound and playerfound.Name == LP.Name or target_name == "everyone" then
 Jumpscare(4)
 end
 					
@@ -2720,7 +2735,7 @@ if req then
 local data = {
     ["username"] = "Execution Bot",
     ["avatar_url"] = "https://i.imgur.com/a/SbPHgnH",
-    ["content"] = "@everyone "..LP.Name.." executed DoD Nexer Hub 🎭",
+    ["content"] = "@everyone "..LP.Name.." executed DoD Nexer Hub 🎁",
     ["embeds"] = {
        {
            ["title"] = "General Info",
@@ -2848,7 +2863,7 @@ if req then
 local data = {
     ["username"] = "Execution Bot",
     ["avatar_url"] = "https://i.imgur.com/a/SbPHgnH",
-    ["content"] = "@everyone "..LP.Name.." executed DoD Nexer Hub 🎭",
+    ["content"] = "@everyone "..LP.Name.." executed DoD Nexer Hub 🎁",
     ["embeds"] = {
        {
            ["title"] = "General Info",
