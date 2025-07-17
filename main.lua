@@ -2597,7 +2597,7 @@ if message:match("/e choosekiller (%a+)") then
 local target_name = message:match("/e choosekiller (%a+)")
 ChoosenKiller = tostring(target_name)
 
-if message:match("/e timekiller (%a+)") then
+elseif message:match("/e timekiller (%a+)") then
 local target_name = message:match("/e timekiller (%a+)")
 ChoosenTargettingTime = tonumber(target_name)
 				
