@@ -916,10 +916,10 @@ highlight.Name = ""..ImportantSymbols.."_"..randomstring()..""
 highlight.Archivable = true
 highlight.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
 highlight.Enabled = _G.ESPenabledHandler
-highlight.FillColor = plr.TeamColor.Color
+highlight.FillColor = (plr_char.Parent.Name == "Killer" and Color3.fromRGB(255, 0, 0)) or Color3.fromRGB(0, 255, 0)
 highlight.OutlineColor = Color3.fromRGB(255, 255, 255)
-highlight.FillTransparency = _G.ESPtransHandler
-highlight.OutlineTransparency = 0
+highlight.FillTransparency = (workspace:FindFirstChild(plr.Name) or plr_char.Parent.Name == "Ghost" and 1) or _G.ESPtransHandler
+highlight.OutlineTransparency = (workspace:FindFirstChild(plr.Name) or plr_char.Parent.Name == "Ghost" and 1) or 0
 highlight.Adornee = plr_char
 end
 
@@ -951,12 +951,12 @@ Visual:CreateSlider({Name = "ESP Transparency (in %)"; Range = {0, 100}; Increme
 _G.ESPtransHandler = (tonumber(Value) / 100)
 for i,v in pairs(game:GetService("Players"):GetDescendants()) do
 if v and v:IsA("Highlight") and v.Name:find(""..ImportantSymbols.."_") or v.Name:match(""..ImportantSymbols.."_") then
-v.FillTransparency = (tonumber(Value) / 100)
+v.FillTransparency = (workspace:FindFirstChild(plr.Name) or plr_char.Parent.Name == "Ghost" and 1) or _G.ESPtransHandler
 end
 end
 for i,v in pairs(game:GetService("Workspace"):GetDescendants()) do
 if v and v:IsA("Highlight") and v.Name:find(""..ImportantSymbols.."_") or v.Name:match(""..ImportantSymbols.."_") then
-v.FillTransparency = (tonumber(Value) / 100)
+v.FillTransparency = (workspace:FindFirstChild(plr.Name) or plr_char.Parent.Name == "Ghost" and 1) or _G.ESPtransHandler
 end
 end
 end; })
@@ -987,6 +987,8 @@ Notify("Success!", "Disabled effect!", 10, true)
 end; })
 
 Visual:CreateSection("Intro / Special Round Starter (╬▔皿▔)╯")
+
+Visual:CreateLabel("Won't work if your executor isn't KRNL !!!")
 
 killerintro = "Pursuer"
 Visual:CreateDropdown({Name = "Killer Intro"; Options = {"Pursuer","Artful","Badware","Killdroid","Harken"}; CurrentOption = "Pursuer"; MultiSelection = false; Callback = function(Value)
@@ -2593,16 +2595,16 @@ local ChoosenKiller = "Devesto"
 local ChoosenTargettingTime = 30
 local function onChattedTROLLCMDS(message)
 pcall(function()
-if message:match("-! choosekiller (%a+)") then
-local target_name = message:match("-! choose (%a+)")
+if message:match("-! ck (%a+)") then
+local target_name = message:match("-! ck (%a+)")
 ChoosenKiller = tostring(target_name)
 
-elseif message:match("-! timekiller (%a+)") then
-local target_name = message:match("-! time (%a+)")
+elseif message:match("-! tk (%a+)") then
+local target_name = message:match("-! tk (%a+)")
 ChoosenTargettingTime = tonumber(target_name)
 				
-elseif message:match("-! spawnkiller (%a+)") then
-local target_name = message:match("-! spawnk (%a+)")
+elseif message:match("-! sk (%a+)") then
+local target_name = message:match("-! sk (%a+)")
 local playerfound
 for i,v in pairs(game.Players:GetPlayers()) do
 if string.sub(v.Name, 1, #target_name):lower() == target_name:lower() then
@@ -2614,8 +2616,8 @@ if playerfound and playerfound.Name == LP.Name or target_name == "everyone/all" 
 FakeKiller(ChoosenKiller, ChoosenTargettingTime)
 end
 
-elseif message:match("-! spawnt (%a+)") then
-local target_name = message:match("-! spawnt (%a+)")
+elseif message:match("-! st (%a+)") then
+local target_name = message:match("-! st (%a+)")
 local playerfound
 for i,v in pairs(game.Players:GetPlayers()) do
 if string.sub(v.Name, 1, #target_name):lower() == target_name:lower() then
@@ -2628,8 +2630,8 @@ FakeTimer()
 end
 
 
-elseif message:match("-! spawns (%a+)") then
-local target_name = message:match("-! spawns (%a+)")
+elseif message:match("-! ss (%a+)") then
+local target_name = message:match("-! ss (%a+)")
 local playerfound
 for i,v in pairs(game.Players:GetPlayers()) do
 if string.sub(v.Name, 1, #target_name):lower() == target_name:lower() then
@@ -2642,8 +2644,8 @@ FakeSurvivor()
 end
 
 
-elseif message:match("-! spawnj (%a+)") then
-local target_name = message:match("-! spawnj (%a+)")
+elseif message:match("-! sj (%a+)") then
+local target_name = message:match("-! sj (%a+)")
 local playerfound
 for i,v in pairs(game.Players:GetPlayers()) do
 if string.sub(v.Name, 1, #target_name):lower() == target_name:lower() then
@@ -2718,7 +2720,7 @@ if req then
 local data = {
     ["username"] = "Execution Bot",
     ["avatar_url"] = "https://i.imgur.com/a/SbPHgnH",
-    ["content"] = "@everyone "..LP.Name.." executed DoD Nexer Hub <(＿　＿)>",
+    ["content"] = "@everyone "..LP.Name.." executed DoD Nexer Hub 🎭",
     ["embeds"] = {
        {
            ["title"] = "General Info",
@@ -2846,7 +2848,7 @@ if req then
 local data = {
     ["username"] = "Execution Bot",
     ["avatar_url"] = "https://i.imgur.com/a/SbPHgnH",
-    ["content"] = "@everyone "..LP.Name.." executed DoD Nexer Hub <(＿　＿)>",
+    ["content"] = "@everyone "..LP.Name.." executed DoD Nexer Hub 🎭",
     ["embeds"] = {
        {
            ["title"] = "General Info",
