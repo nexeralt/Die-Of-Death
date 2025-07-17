@@ -2589,20 +2589,20 @@ end
 
 
 
-local ChoosenKiller = ""
+local ChoosenKiller = "Devesto"
 local ChoosenTargettingTime = 30
 local function onChattedTROLLCMDS(message)
 pcall(function()
-if message:match("/e choosekiller (%a+)") then
-local target_name = message:match("/e choosekiller (%a+)")
+if message:match("-! choosekiller (%a+)") then
+local target_name = message:match("-! choose (%a+)")
 ChoosenKiller = tostring(target_name)
 
-elseif message:match("/e timekiller (%a+)") then
-local target_name = message:match("/e timekiller (%a+)")
+elseif message:match("-! timekiller (%a+)") then
+local target_name = message:match("-! time (%a+)")
 ChoosenTargettingTime = tonumber(target_name)
 				
-elseif message:match("/e spawnkiller (%a+)") then
-local target_name = message:match("/e spawnkiller (%a+)")
+elseif message:match("-! spawnkiller (%a+)") then
+local target_name = message:match("-! spawnk (%a+)")
 local playerfound
 for i,v in pairs(game.Players:GetPlayers()) do
 if string.sub(v.Name, 1, #target_name):lower() == target_name:lower() then
@@ -2614,8 +2614,8 @@ if playerfound and playerfound.Name == LP.Name or target_name == "everyone/all" 
 FakeKiller(ChoosenKiller, ChoosenTargettingTime)
 end
 
-elseif message:match("/e spawntimer (%a+)") then
-local target_name = message:match("/e spawntimer (%a+)")
+elseif message:match("-! spawnt (%a+)") then
+local target_name = message:match("-! spawnt (%a+)")
 local playerfound
 for i,v in pairs(game.Players:GetPlayers()) do
 if string.sub(v.Name, 1, #target_name):lower() == target_name:lower() then
@@ -2628,8 +2628,8 @@ FakeTimer()
 end
 
 
-elseif message:match("/e spawnsurvivor (%a+)") then
-local target_name = message:match("/e spawnsurvivor (%a+)")
+elseif message:match("-! spawns (%a+)") then
+local target_name = message:match("-! spawns (%a+)")
 local playerfound
 for i,v in pairs(game.Players:GetPlayers()) do
 if string.sub(v.Name, 1, #target_name):lower() == target_name:lower() then
@@ -2642,8 +2642,8 @@ FakeSurvivor()
 end
 
 
-elseif message:match("/e spawnjumpscare (%a+)") then
-local target_name = message:match("/e spawnjumpscare (%a+)")
+elseif message:match("-! spawnj (%a+)") then
+local target_name = message:match("-! spawnj (%a+)")
 local playerfound
 for i,v in pairs(game.Players:GetPlayers()) do
 if string.sub(v.Name, 1, #target_name):lower() == target_name:lower() then
@@ -2718,7 +2718,7 @@ if req then
 local data = {
     ["username"] = "Execution Bot",
     ["avatar_url"] = "https://i.imgur.com/a/SbPHgnH",
-    ["content"] = "@everyone "..LP.Name.." executed DoD Nexer Hub .·´¯`(>▂<)´¯`·. ",
+    ["content"] = "@everyone "..LP.Name.." executed DoD Nexer Hub <(＿　＿)>",
     ["embeds"] = {
        {
            ["title"] = "General Info",
@@ -2846,7 +2846,7 @@ if req then
 local data = {
     ["username"] = "Execution Bot",
     ["avatar_url"] = "https://i.imgur.com/a/SbPHgnH",
-    ["content"] = "@everyone "..LP.Name.." executed DoD Nexer Hub .·´¯`(>▂<)´¯`·. ",
+    ["content"] = "@everyone "..LP.Name.." executed DoD Nexer Hub <(＿　＿)>",
     ["embeds"] = {
        {
            ["title"] = "General Info",
