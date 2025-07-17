@@ -2252,7 +2252,6 @@ end)
 end
 
 function Jumpscare(duration)
-game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart").Anchored = true
 local soundhahaha = Instance.new("Sound")
 soundhahaha.SoundId = "rbxassetid://123871865507678"
 soundhahaha.Volume = 3
@@ -2289,7 +2288,6 @@ local function disableNauseaEffect()
 end
 task.delay(tonumber(duration),function()
 disableNauseaEffect()
-game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart").Anchored = false
 end)
 end
 
