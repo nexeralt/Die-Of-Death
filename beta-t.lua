@@ -253,8 +253,9 @@ Window = Rayfield:CreateWindow({
    }
 })
 
-
-
+local info = Window:CreateTab("Updates",0)
+info:CreateSection("(DD/MM/YYYY)")
+info:CreateParagraph({Title = "19/07/2025 update", Content = "1. updated esp ( now with colors and using boxes, plus you can see ghosts )\n2. added jump enabler in stamina management\n3. give cards works now ( it worked only on KRNL before )\n4. anti-evil scary recoded\n5. uhh added close hub button and this tab with updates info\n6. disable evil scary jumpscare now fully works\n7. idk"})
 
 
 --[[ 
@@ -298,6 +299,17 @@ Notify("Success!", "Your sprint modifier is now 2x!", 10, true)
 end; })
 
 Stamina:CreateSection("Quick Toggles (╯▽╰ )")
+
+Stamina:CreateToggle({Name = "Can Jump?"; CurrentValue = false; Callback = function(Value)
+CanJump = Value
+if CanJump == true then
+repeat task.wait() until game:GetService("Players").LocalPlayer.Character and game:GetService("Players").LocalPlayer.Character:FindFirstChildOfClass("Humanoid")
+game:GetService("Players").LocalPlayer.Character:FindFirstChildOfClass("Humanoid").JumpPower = 50
+elseif CanJump == false then
+repeat task.wait() until game:GetService("Players").LocalPlayer.Character and game:GetService("Players").LocalPlayer.Character:FindFirstChildOfClass("Humanoid")
+game:GetService("Players").LocalPlayer.Character:FindFirstChildOfClass("Humanoid").JumpPower = 0
+end
+end; })
 
 Stamina:CreateToggle({Name = "No Stamina Loss"; CurrentValue = false; Callback = function(Value)
 if TestRequire() ~= true then
@@ -774,6 +786,9 @@ end
 pcall(function()
 AbilityModule = require(game:GetService("Players").LocalPlayer:WaitForChild("PlayerGui"):WaitForChild("MainGui"):WaitForChild("Client"):WaitForChild("Modules"):WaitForChild("Ability"))
 end)
+pcall(function()
+UIModule = require(game:GetService("Players").LocalPlayer:WaitForChild("PlayerGui"):WaitForChild("MainGui"):WaitForChild("Client"):WaitForChild("Modules"):WaitForChild("UI"))
+end)
 local Ability = Window:CreateTab("Abilities Management",85436299122876)
 
 Ability:CreateSection("Give Abilities ~(￣▽￣)~")
@@ -809,8 +824,8 @@ Ability:CreateSection("Summon Cards ( •̀ ω •́ )✧")
 local preferedability_1_incard_1,preferedability_2_incard_1,preferedability_1_incard_2,preferedability_2_incard_2,preferedability_1_incard_3,preferedability_2_incard_3 = "Revolver","Caretaker","BonusPad","Caretaker","Revolver","Punch"
 
 Ability:CreateToggle({Name = "Auto-Inject"; CurrentValue = false; Callback = function(Value)
-if TestFireSignal() ~= true then
-ErrorSignal()
+if TestRequire() ~= true then
+ErrorRequire()
 return nil
 end
 AutoInjectCards = Value
@@ -819,7 +834,7 @@ end; })
 game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Teams").DescendantAdded:Connect(function(descendant)
 if descendant and descendant.Name == ""..LP.Name.."" and descendant.Parent.Name == "Survivor" and AutoInjectCards == true then
 task.wait(8)
-firesignal(game:GetService("ReplicatedStorage"):WaitForChild("Events"):WaitForChild("RemoteEvents"):WaitForChild("AbilitySelection").OnClientEvent, {preferedability_1_incard_1,preferedability_2_incard_1},{preferedability_1_incard_2,preferedability_2_incard_2},{preferedability_1_incard_3,preferedability_2_incard_3})
+UIModule["AbilitySelection"]({preferedability_1_incard_1,preferedability_2_incard_1},{preferedability_1_incard_2,preferedability_2_incard_2},{preferedability_1_incard_3,preferedability_2_incard_3})
 end
 end)
 
@@ -848,11 +863,11 @@ preferedability_2_incard_3 = TableFirstElementToString(Value)
 end; })
 
 Ability:CreateButton({Name = "Summon Choosen Cards"; Callback = function()
-if TestFireSignal() ~= true then
-ErrorSignal()
+if TestRequire() ~= true then
+ErrorRequire()
 return nil
 end
-firesignal(game:GetService("ReplicatedStorage"):WaitForChild("Events"):WaitForChild("RemoteEvents"):WaitForChild("AbilitySelection").OnClientEvent, {preferedability_1_incard_1,preferedability_2_incard_1},{preferedability_1_incard_2,preferedability_2_incard_2},{preferedability_1_incard_3,preferedability_2_incard_3})
+UIModule["AbilitySelection"]({preferedability_1_incard_1,preferedability_2_incard_1},{preferedability_1_incard_2,preferedability_2_incard_2},{preferedability_1_incard_3,preferedability_2_incard_3})
 end; })
 
 
@@ -895,7 +910,8 @@ Instance.new("Folder", game:GetService("CoreGui")).Name = "DOD_ESP_HANDLER"
 end
 
 _G.ESPenabledHandler = false
-_G.ESPtransHandler = 0.5
+_G.ESPtransHandler = 0.3
+
 function CreateHighlight(plr)
 task.spawn(function()
 for i,v in pairs(game:GetService("CoreGui"):FindFirstChild("DOD_ESP_HANDLER"):GetChildren()) do
@@ -918,8 +934,8 @@ esp.Adornee = v
 esp.AlwaysOnTop = true
 esp.ZIndex = 10 or 1
 esp.Size = v.Size
-esp.Transparency = (plr_char.Parent == workspace or plr_char.Parent.Name == "Ghost" and 1) or _G.ESPtransHandler
-esp.Color = (plr_char.Parent.Name == "Killer" and BrickColor.new("Bright red")) or BrickColor.new("Bright green")
+esp.Transparency = (plr_char.Parent.Name == "Workspace" and 1) or tonumber(_G.ESPtransHandler)
+esp.Color = (plr_char.Parent.Name == "Killer" and BrickColor.new("Bright red")) or (plr_char.Parent.Name == "Ghost" and BrickColor.new("White")) or BrickColor.new("Bright green")
 esp.Parent = game:GetService("CoreGui"):WaitForChild("DOD_ESP_HANDLER"):FindFirstChild("sillyfolder_"..plr.Name)
 end
 end
@@ -975,12 +991,14 @@ local Visual = Window:CreateTab("Visuals Management",90476367580326)
 
 Visual:CreateSection("Players ESP （︶^︶）")
 
-Visual:CreateSlider({Name = "ESP Transparency (in %)"; Range = {0, 100}; Increment = 5; Suffix = "%"; CurrentValue = 50; Callback = function(Value)
+Visual:CreateLabel("Main Settings")
+
+Visual:CreateSlider({Name = "ESP Transparency (in %)"; Range = {0, 100}; Increment = 5; Suffix = "%"; CurrentValue = 30; Callback = function(Value)
 _G.ESPtransHandler = (tonumber(Value) / 100)
-ChangeTransparency(_G.ESPtransHandler)
+ChangeTransparency(tonumber(_G.ESPtransHandler))
 end; })
 
-Visual:CreateToggle({Name = "ESP Everyone"; CurrentValue = false; Callback = function(Value)
+Visual:CreateToggle({Name = "Turn On/Off ESP"; CurrentValue = false; Callback = function(Value)
 _G.ESPenabledHandler = Value
 if _G.ESPenabledHandler == true then
 for i,v in pairs(game:GetService("Players"):GetPlayers()) do
@@ -995,18 +1013,19 @@ end; })
 
 Visual:CreateSection("Gui Changer ε=( o｀ω′)ノ")
 
+Visual:CreateLabel("Won't work if your executor isn't KRNL !!!")
+
 Visual:CreateButton({Name = "Disable ''Harken Broken Eye'' Effect [ Use Before Harken Use It ]"; Callback = function()
 game:GetService("ReplicatedStorage"):WaitForChild("Events"):WaitForChild("RemoteEvents"):WaitForChild("HarkenMove"):Destroy()
 Notify("Success!", "Disabled effect!", 10, true)
 end; })
 Visual:CreateButton({Name = "Disable ''Evil Scary'' Jumpscare"; Callback = function()
 game:GetService("Players").LocalPlayer:WaitForChild("PlayerGui"):WaitForChild("MainGui"):WaitForChild("EvilScary"):Destroy()
+game:GetService("ReplicatedStorage"):WaitForChild("Events"):WaitForChild("RemoteEvents"):WaitForChild("EvilScary"):Destroy()
 Notify("Success!", "Disabled effect!", 10, true)
 end; })
 
 Visual:CreateSection("Intro / Special Round Starter (╬▔皿▔)╯")
-
-Visual:CreateLabel("Won't work if your executor isn't KRNL !!!")
 
 killerintro = "Pursuer"
 Visual:CreateDropdown({Name = "Killer Intro"; Options = {"Pursuer","Artful","Badware","Killdroid","Harken"}; CurrentOption = "Pursuer"; MultiSelection = false; Callback = function(Value)
@@ -1548,12 +1567,12 @@ Player.Character.Archivable = true
 InvisChar = Player.Character:Clone()
 InvisChar.Parent = workspace
 InvisChar:WaitForChild("HumanoidRootPart").CFrame = Player.Character:WaitForChild("HumanoidRootPart").CFrame
-InvisChar.Name = tostring(randomstring())
+InvisChar.Name = tostring(math.random(1,99999999999))
 Camera.CameraSubject = InvisChar:FindFirstChildOfClass("Humanoid")
 task.wait(.1)
 Player.Character:WaitForChild("HumanoidRootPart").CFrame = workspace:FindFirstChild(tostring(plate_name)).CFrame * CFrame.new(0,20,0)
 Player.Character:FindFirstChildOfClass("Humanoid"):MoveTo(Vector3.new(workspace:FindFirstChild(tostring(plate_name)).Position.X, 9e9, workspace:FindFirstChild(tostring(plate_name)).Position.Z))
-task.wait(2.35)
+task.wait(1.5)
 for i,v in pairs(InvisChar:GetDescendants()) do
 	if v and v:IsA("BasePart") then
 		if v.Name == "HumanoidRootPart" then
