@@ -918,8 +918,8 @@ esp.Adornee = v
 esp.AlwaysOnTop = true
 esp.ZIndex = 10 or 1
 esp.Size = v.Size
-esp.Transparency = (workspace:FindFirstChild(plr.Name) or plr_char.Parent.Name == "Ghost" and 1) or _G.ESPtransHandler
-esp.Color = (plr_char.Parent.Name == "Killer" and Color3.fromRGB(255, 0, 0)) or Color3.fromRGB(0, 255, 0)
+esp.Transparency = (plr_char.Parent == workspace or plr_char.Parent.Name == "Ghost" and 1) or _G.ESPtransHandler
+esp.Color = (plr_char.Parent.Name == "Killer" and BrickColor.new("Bright red")) or BrickColor.new("Bright green")
 esp.Parent = game:GetService("CoreGui"):WaitForChild("DOD_ESP_HANDLER"):FindFirstChild("sillyfolder_"..plr.Name)
 end
 end
@@ -1529,7 +1529,7 @@ end; })
 
 
 
-local plate_name = randomstring()
+local plate_name = tostring(math.random(1,99999999999))
 function InvisibilityMode(mode)
 if workspace:FindFirstChild(tostring(plate_name)) == nil then
 local S = Instance.new("Part")
