@@ -971,25 +971,6 @@ end
 end
 end
 
-for i,v in pairs(game:GetService("Players"):GetPlayers()) do
-if v and v ~= game:GetService("Players").LocalPlayer then
-CreateHighlight(v)
-v.CharacterAdded:Connect(function(char)
-pcall(function()
-CreateHighlight(game:GetService("Players"):GetPlayerFromCharacter(char))
-end)
-end
-end
-
-game:GetService("Players").PlayerAdded:Connect(function(v)
-CreateHighlight(v)
-v.CharacterAdded:Connect(function(char)
-pcall(function()
-CreateHighlight(game:GetService("Players"):GetPlayerFromCharacter(char))
-end)
-end)
-end)
-
 local Visual = Window:CreateTab("Visuals Management",90476367580326)
 
 Visual:CreateSection("Players ESP （︶^︶）")
