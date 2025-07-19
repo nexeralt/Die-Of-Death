@@ -25,7 +25,7 @@ function predict(plr)
 local target = plr
 repeat task.wait() until target.Character and target.Character:FindFirstChild("HumanoidRootPart") and target.Character:FindFirstChildOfClass("Humanoid")
 local predicted_vector = target.Character:FindFirstChild("HumanoidRootPart").Position + target.Character:FindFirstChildOfClass("Humanoid").MoveDirection * target.Character:FindFirstChildOfClass("Humanoid").WalkSpeed
-return (predicted_vector * Vector3.new(0,1.1,math.random(-2.5,2.5)))
+return (predicted_vector + Vector3.new(0,1.1,math.random(-2.5,2.5)))
 end
 
 -- Group Checker by Nexer1234
@@ -236,13 +236,13 @@ Window = Rayfield:CreateWindow({
 
    KeySystem = true,
    KeySettings = {
-      Title = "WARNING ⚠️\nWhile this script may be the best one, please note that any form of exploiting is always bannable.",
-      Subtitle = "If you accept the risk, you can continue.",
-      Note = "The key is ''nexer1234''",
+      Title = "WARNING ⚠️",
+      Subtitle = "While this script may be the best one, please note that any form of exploiting is always bannable.",
+      Note = "If you accept the risk, you can continue.\nThe key is ''nexer1234''",
       FileName = "Key",
       SaveKey = false,
       GrabKeyFromSite = false,
-      Key = {"nexer1234"}
+      Key = {"nexer1234","NEXER1234","Nexer1234"}
    }
 })
 
@@ -1940,7 +1940,7 @@ Other:CreateButton({Name = "Become Ghost [ use when you're dead or in lobby ]"; 
 game:GetService("ReplicatedStorage"):WaitForChild("Events"):WaitForChild("RemoteFunctions"):WaitForChild("Spectate"):InvokeServer()
 end; })
 
-Other:CreateDropdown({Name = "Gui Theme"; Options = {"Amethyst","Default","AmberGlow","Bloom","DarkBlue","Green","Light","Ocean","Serenity"}; CurrentOption = "Amethyst"; MultiSelection = false; Callback = function(Value)
+Other:CreateDropdown({Name = "Gui Theme"; Options = {"Amethyst","Default","AmberGlow","Bloom","DarkBlue","Green","Light","Ocean","Serenity"}; CurrentOption = "Ocean"; MultiSelection = false; Callback = function(Value)
 Window.ModifyTheme(TableFirstElementToString(Value))
 end; })
 
