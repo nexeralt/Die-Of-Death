@@ -1032,11 +1032,9 @@ end
 end
 end; })
 
-Visual:CreateSection("Gui Changer ε=( o｀ω′)ノ")
+Visual:CreateSection("Gui Management ε=( o｀ω′)ノ")
 
-Visual:CreateLabel("Won't work if your executor isn't KRNL !!!")
-
-Visual:CreateButton({Name = "Disable ''Harken Broken Eye'' Effect [ Use Before Harken Use It ]"; Callback = function()
+Visual:CreateButton({Name = "Disable ''Harken Eye Game'' Effect [ Use Before Harken Use It ]"; Callback = function()
 game:GetService("ReplicatedStorage"):WaitForChild("Events"):WaitForChild("RemoteEvents"):WaitForChild("HarkenMove"):Destroy()
 Notify("Success!", "Disabled effect!", 10, true)
 end; })
@@ -1045,8 +1043,63 @@ game:GetService("Players").LocalPlayer:WaitForChild("PlayerGui"):WaitForChild("M
 game:GetService("ReplicatedStorage"):WaitForChild("Events"):WaitForChild("RemoteEvents"):WaitForChild("EvilScary"):Destroy()
 Notify("Success!", "Disabled effect!", 10, true)
 end; })
+Visual:CreateButton({Name = "Open Shop"; Callback = function()
+UIModule["OpenShop"]()
+end; })
+
+Visual:CreateSection("Money Giver (⁠｡⁠♡⁠‿⁠♡⁠｡⁠)")
+
+function AwardPoints(points, reason)
+	local Template = game:GetService("Players").LocalPlayer:WaitForChild("PlayerGui"):WaitForChild("MainGui"):WaitForChild("Client"):WaitForChild("Modules"):WaitForChild("UI"):WaitForChild("PlayerPoints"):Clone()
+	Template.Parent = game:GetService("Players").LocalPlayer:WaitForChild("PlayerGui"):WaitForChild("MainGui").PlayerPoints
+	Template.Frame.Title.Text = "<font color=\'rgb(255, 64, 67)\'>"..tostring(points).." Points</font> Awarded "..tostring(reason)
+	Template.Frame.Title.TextTransparency = 1
+	Template.Frame.Title.UIStroke.Transparency = 1
+	Template.Frame.Cash.ImageTransparency = 1
+	game:GetService("Debris"):AddItem(Template, 10)
+	game:GetService("TweenService"):Create(Template.Frame.Cash, TweenInfo.new(10, Enum.EasingStyle.Linear), {
+		["Rotation"] = 360
+	}):Play()
+	pcall(function()
+		for _ = 0,5 do
+			task.wait(0.2)
+			local Title = Template.Frame.Title
+			Title.TextTransparency = Title.TextTransparency - 0.2
+			local Stroke = Template.Frame.Title.UIStroke
+			Stroke.Transparency = Stroke.Transparency - 0.2
+			local Cash = Template.Frame.Cash
+			Cash.ImageTransparency = Cash.ImageTransparency - 0.2
+		end
+		task.wait(6)
+		for _ = 0,5 do
+			task.wait(0.5)
+			local Title = Template.Frame.Title
+			Title.TextTransparency = Title.TextTransparency + 0.2
+			local Stroke = Template.Frame.Title.UIStroke
+			Stroke.Transparency = Stroke.Transparency + 0.2
+			local Cash = Template.Frame.Cash
+			Cash.ImageTransparency = Cash.ImageTransparency + 0.2
+		end
+	end)
+end
+MoneyToGet = 10
+ReasonForMoney = "for surviving for atleast 60 seconds."
+
+Visual:CreateInput({Name = "Money amount"; PlaceholderText = "10"; NumbersOnly = true; OnEnter = true; RemoveTextAfterFocusLost = false; Callback = function(Value)
+MoneyToGet = tonumber(Value)
+end; })
+
+Visual:CreateInput({Name = "Reason for getting money"; PlaceholderText = "for surviving for atleast 60 seconds."; NumbersOnly = false; OnEnter = true; RemoveTextAfterFocusLost = false; Callback = function(Value)
+ReasonForMoney = tostring(Value)
+end; })
+
+Visual:CreateButton({Name = "Give Money"; Callback = function()
+AwardPoints(MoneyToGet, ReasonForMoney)
+end; })
 
 Visual:CreateSection("Intro / Special Round Starter (╬▔皿▔)╯")
+
+Visual:CreateLabel("Won't work if your executor isn't KRNL !!!")
 
 killerintro = "Pursuer"
 Visual:CreateDropdown({Name = "Killer Intro"; Options = {"Pursuer","Artful","Badware","Killdroid","Harken"}; CurrentOption = "Pursuer"; MultiSelection = false; Callback = function(Value)
