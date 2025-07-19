@@ -218,9 +218,9 @@ Window = Rayfield:CreateWindow({
    Icon = 0,    
    LoadingTitle = "Nexer Hub",
    LoadingSubtitle = "by nexer",
-   Theme = "Amethyst",
-   DisableRayfieldPrompts = false,
-   DisableBuildWarnings = false,
+   Theme = "Ocean",
+   DisableRayfieldPrompts = true,
+   DisableBuildWarnings = true,
 
    ConfigurationSaving = {
       Enabled = false,
@@ -234,15 +234,15 @@ Window = Rayfield:CreateWindow({
       RememberJoins = true
    },
 
-   KeySystem = false,
+   KeySystem = true,
    KeySettings = {
-      Title = "Verify yourself firstly!",
-      Subtitle = "Key Needed!",
-      Note = "The key is ''cheese''",
+      Title = "WARNING ⚠️\nWhile this script may be the best one, please note that any form of exploiting is always bannable.",
+      Subtitle = "If you accept the risk, you can continue.",
+      Note = "The key is ''nexer1234''",
       FileName = "Key",
-      SaveKey = true,
+      SaveKey = false,
       GrabKeyFromSite = false,
-      Key = {"cheese"}
+      Key = {"nexer1234"}
    }
 })
 
