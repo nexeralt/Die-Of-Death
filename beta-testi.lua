@@ -1001,6 +1001,8 @@ _G.ESPtransHandler = (tonumber(Value) / 100)
 ChangeTransparency(tonumber(_G.ESPtransHandler))
 end; })
 
+plradded_esp = nil
+plrremoved_esp = nil
 Visual:CreateToggle({Name = "Turn On/Off ESP"; CurrentValue = false; Callback = function(Value)
 _G.ESPenabledHandler = Value
 if _G.ESPenabledHandler == true then
@@ -1009,8 +1011,24 @@ if v and v ~= game:GetService("Players").LocalPlayer then
 CreateHighlight(v)
 end
 end
+plradded_esp = game:GetService("Players").PlayerAdded:Connect(function(plr)
+CreateHighlight(plr)
+end)
+plrremoved_esp = game:GetService("Players").PlayerRemoving:Connect(function(plr)
+if game:GetService("CoreGui"):WaitForChild("DOD_ESP_HANDLER"):FindFirstChild("sillyfolder_"..plr.Name) then
+game:GetService("CoreGui"):WaitForChild("DOD_ESP_HANDLER"):FindFirstChild("sillyfolder_"..plr.Name):Destroy()
+end
+end)
 elseif _G.ESPenabledHandler == false then
 game:GetService("CoreGui"):FindFirstChild("DOD_ESP_HANDLER"):Destroy()
+if plradded_esp ~= nil then
+plradded_esp:Disconnect()
+plradded_esp = nil
+end
+if plrremoved_esp ~= nil then
+plrremoved_esp:Disconnect()
+plrremoved_esp = nil
+end
 end
 end; })
 
@@ -1333,8 +1351,6 @@ else
     Notify("Success!", "Copied Link!", 10, true)
 end
 end; })
-
-PremiumFeatures:CreateLabel("")
 
 PremiumFeatures:CreateLabel("or join our roblox group to unlock premium features!")
 
