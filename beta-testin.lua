@@ -478,7 +478,7 @@ end; })
 Dance:CreateSection("Change Emote o((>ω< ))o")
 
 preferedemote = "Dance"
-Dance:CreateDropdown({Name = "Gui Theme"; Options = {"Dance","Squingle","Rainbow Waves"}; CurrentOption = "Dance"; MultiSelection = false; Callback = function(Value)
+Dance:CreateDropdown({Name = "Emote"; Options = {"Dance","Squingle","Rainbow Waves"}; CurrentOption = "Dance"; MultiSelection = false; Callback = function(Value)
 if Value == "Rainbow Waves" then
 preferedemote = "MyEmoteIdea"
 else
@@ -1950,6 +1950,10 @@ Other things, idk, why are you even skidding my script breeeeh
 local Other = Window:CreateTab("Other",116399911657417)
 Other:CreateButton({Name = "Become Ghost [ use when you're dead or in lobby ]"; Callback = function()
 game:GetService("ReplicatedStorage"):WaitForChild("Events"):WaitForChild("RemoteFunctions"):WaitForChild("Spectate"):InvokeServer()
+end; })
+
+Other:CreateDropdown({Name = "Gui Theme"; Options = {"Amethyst","Default","AmberGlow","Bloom","DarkBlue","Green","Light","Ocean","Serenity"}; CurrentOption = "Amethyst"; MultiSelection = false; Callback = function(Value)
+Window.ModifyTheme(TableFirstElementToString(Value))
 end; })
 
 Other:CreateButton({Name = "Close Hub"; Callback = function()
