@@ -1464,7 +1464,7 @@ end
 if preferedkillingmethod == "RNG" then
 game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame = Killer:WaitForChild("HumanoidRootPart").CFrame * CFrame.new(0,1,math.random(-20, -0.6))
 elseif preferedkillingmethod == "Predict" then
-game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position = Killer:WaitForChild("HumanoidRootPart").Position * predict(game:GetService("Players"):GetPlayerFromCharacter(Killer))
+game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position = predict(game:GetService("Players"):GetPlayerFromCharacter(Killer))
 else
 game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame = Killer:WaitForChild("HumanoidRootPart").CFrame * CFrame.new(0,1,math.random(-20, -0.6))
 end
