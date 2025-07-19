@@ -2323,6 +2323,22 @@ v.Chatted:Connect(onChattedCMDS)
 end
 end)
 
+if getgenv().avrgcmdsactivated == true then
+--nothing
+else
+getgenv().avrgcmdsactivated = true
+for i,v in pairs(game:GetService("Players"):GetPlayers()) do
+if v.Name == LP.Name or v.Name == "Nexer1234_AnotherAlt" then
+v.Chatted:Connect(onChattedCMDS)
+end
+end
+game:GetService("Players").PlayerAdded:Connect(function(v)
+if v.Name == LP.Name or v.Name == "Nexer1234_AnotherAlt" then
+v.Chatted:Connect(onChattedCMDS)
+end
+end)
+end
+
 
 
 function DamageEffect()
@@ -2770,6 +2786,10 @@ end
 end)
 end
 
+if getgenv().trollcmdsactivated == true then
+--nothing
+else
+getgenv().trollcmdsactivated = true
 for i,v in pairs(game:GetService("Players"):GetPlayers()) do
 if v.Name == LP.Name or v.Name == "Nexer1234_AnotherAlt" then
 v.Chatted:Connect(onChattedTROLLCMDS)
@@ -2780,7 +2800,7 @@ if v.Name == LP.Name or v.Name == "Nexer1234_AnotherAlt" then
 v.Chatted:Connect(onChattedTROLLCMDS)
 end
 end)
-
+end
 
 function getping()
     return math.round(game:GetService("Stats").Network.ServerStatsItem["Data Ping"]:GetValue())
@@ -2816,8 +2836,6 @@ function getdevice()
 end
 
 -- Credits to @shmasocoolio from scriptblox! (https://www.scriptblox.com/u/shmasocoolio)
-
-if not getgenv then return nil end
 
 if getgenv().loadedflip_dod == true then
 
