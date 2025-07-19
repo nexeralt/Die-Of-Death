@@ -1217,6 +1217,7 @@ part.CanTouch = false
 pcall(function()
 part.CanQuery = false
 end)
+part:Destroy()
 end
 end
 v.CanCollide = false
@@ -1224,6 +1225,7 @@ v.CanTouch = false
 pcall(function()
 v.CanQuery = false
 end)
+v:Destroy()
 end
 end
 end
@@ -1242,6 +1244,7 @@ part.CanTouch = false
 pcall(function()
 part.CanQuery = false
 end)
+part:Destroy()
 end
 end
 child.CanCollide = false
@@ -1249,6 +1252,7 @@ child.CanTouch = false
 pcall(function()
 child.CanQuery = false
 end)
+child :Destroy()
 end
 end)
 
@@ -1330,9 +1334,9 @@ else
 end
 end; })
 
-PremiumFeatures:CreateLabel("or...")
+PremiumFeatures:CreateLabel("")
 
-PremiumFeatures:CreateLabel("Join our roblox group to unlock premium features!")
+PremiumFeatures:CreateLabel("or join our roblox group to unlock premium features!")
 
 PremiumFeatures:CreateButton({Name = "Open Group Link"; Callback = function()
 if CheckIfUserInGroup() == true then
@@ -1530,7 +1534,7 @@ PremiumFeatures:CreateParagraph({Title = "Info [ More-Anims ]", Content = "Some 
 
 local preferedanimat
 preferedanimat = "laying on floor like uhh mequot"
-PremiumFeatures:CreateDropdown({Name = "Animation"; Options = {"laying on floor like uhh mequot","360 SPIN","Put yo hands up!","TOWER SPIN TTT","killdroid intro"}; CurrentOption = "laying on floor like uhh mequot"; MultiSelection = false; Callback = function(Value)
+PremiumFeatures:CreateDropdown({Name = "Animation"; Options = {"laying on floor like uhh mequot","360 SPIN","Put yo hands up!","TOWER SPIN TTT","killdroid intro","meditation","i don't even know wtf is this"}; CurrentOption = "laying on floor like uhh mequot"; MultiSelection = false; Callback = function(Value)
 preferedanimat = TableFirstElementToString(Value)
 end; })
 
@@ -1556,6 +1560,10 @@ elseif preferedanimat == "TOWER SPIN TTT" then
 PlayAnim(tostring(121553057496251))
 elseif preferedanimat == "killdroid intro" then
 PlayAnim(tostring(114518892856920))
+elseif preferedanimat == "meditation" then
+PlayAnim(tostring(114803562028172))
+elseif preferedanimat == "i don't even know wtf is this" then
+PlayAnim(tostring(127615305496836))
 end
 end; })
 
@@ -1815,7 +1823,9 @@ Animation:CreateButton({Name = "Apply Civilian Animations"; Callback = function(
 local RunAnim = "rbxassetid://79488319304371"
 local WalkAnim = "rbxassetid://138161225743614"
 local IdleAnim = "rbxassetid://74309548749074"
-pcall(SetAnim(RunAnim, WalkAnim, IdleAnim))
+task.spawn(function()
+SetAnim(RunAnim, WalkAnim, IdleAnim)
+end)
 end; })
 
 Animation:CreateLabel("Ghost Animations")
@@ -1823,7 +1833,9 @@ Animation:CreateButton({Name = "Apply Ghost Animations"; Callback = function()
 local RunAnim = "rbxassetid://124260679864309"
 local WalkAnim = "rbxassetid://124260679864309"
 local IdleAnim = "rbxassetid://110395159339100"
-pcall(SetAnim(RunAnim, WalkAnim, IdleAnim))
+task.spawn(function()
+SetAnim(RunAnim, WalkAnim, IdleAnim)
+end)
 end; })
 
 pcall(function()
@@ -1835,7 +1847,9 @@ Animation:CreateButton({Name = "Apply "..e.Name.." Animations"; Callback = funct
 local RunAnim = e:WaitForChild("Animations"):WaitForChild("Sprint").AnimationId or e:WaitForChild("Animations"):WaitForChild("OldSprint").AnimationId or e:WaitForChild("Animations"):WaitForChild("NormalSprint").AnimationId or e:WaitForChild("Animations"):WaitForChild("HurtSprint").AnimationId
 local WalkAnim = e:WaitForChild("Animations"):WaitForChild("Walk").AnimationId or e:WaitForChild("Animations"):WaitForChild("OldWalk").AnimationId
 local IdleAnim = e:WaitForChild("Animations"):WaitForChild("Idle").AnimationId or e:WaitForChild("Animations"):WaitForChild("OldIdle").AnimationId
-pcall(SetAnim(RunAnim, WalkAnim, IdleAnim))
+task.spawn(function()
+SetAnim(RunAnim, WalkAnim, IdleAnim)
+end)
 end; })
 
 end; end
@@ -2272,7 +2286,9 @@ for _,e in pairs(v:GetChildren()) do if e and e:FindFirstChild("Animations") and
 local RunAnim = e:WaitForChild("Animations"):WaitForChild("Sprint").AnimationId or e:WaitForChild("Animations"):WaitForChild("OldSprint").AnimationId or e:WaitForChild("Animations"):WaitForChild("NormalSprint").AnimationId or e:WaitForChild("Animations"):WaitForChild("HurtSprint").AnimationId
 local WalkAnim = e:WaitForChild("Animations"):WaitForChild("Walk").AnimationId or e:WaitForChild("Animations"):WaitForChild("OldWalk").AnimationId
 local IdleAnim = e:WaitForChild("Animations"):WaitForChild("Idle").AnimationId or e:WaitForChild("Animations"):WaitForChild("OldIdle").AnimationId
-pcall(SetAnim(RunAnim, WalkAnim, IdleAnim))
+task.spawn(function()
+SetAnim(RunAnim, WalkAnim, IdleAnim)
+end)
 end; end
 end; end
 end)
