@@ -25,7 +25,7 @@ function predict(plr)
 local target = plr
 repeat task.wait() until target.Character and target.Character:FindFirstChild("HumanoidRootPart") and target.Character:FindFirstChildOfClass("Humanoid")
 local predicted_vector = target.Character:FindFirstChild("HumanoidRootPart").Position + target.Character:FindFirstChildOfClass("Humanoid").MoveDirection * target.Character:FindFirstChildOfClass("Humanoid").WalkSpeed
-return predicted_vector
+return (predicted_vector * Vector3.new(0,1.1,math.random(-2.5,2.5)))
 end
 
 -- Group Checker by Nexer1234
@@ -1462,11 +1462,11 @@ game:GetService("RunService").Heartbeat:Wait()
 end
 
 if preferedkillingmethod == "RNG" then
-game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame = Killer:WaitForChild("HumanoidRootPart").CFrame * CFrame.new(0,1,math.random(-20, -0.6))
+game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame = Killer:WaitForChild("HumanoidRootPart").CFrame * CFrame.new(0,1.1,math.random(-20, -0.6))
 elseif preferedkillingmethod == "Predict" then
 game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position = predict(game:GetService("Players"):GetPlayerFromCharacter(Killer))
 else
-game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame = Killer:WaitForChild("HumanoidRootPart").CFrame * CFrame.new(0,1,math.random(-20, -0.6))
+game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame = Killer:WaitForChild("HumanoidRootPart").CFrame * CFrame.new(0,1.1,math.random(-20, -0.6))
 end
 
 vel = game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Velocity
