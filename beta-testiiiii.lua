@@ -24,7 +24,8 @@ end
 function predict(plr)
 local target = plr
 repeat task.wait() until target.Character and target.Character:FindFirstChild("HumanoidRootPart") and target.Character:FindFirstChildOfClass("Humanoid")
-local predicted_vector = target.Character:FindFirstChild("HumanoidRootPart").Position + target.Character:FindFirstChildOfClass("Humanoid").MoveDirection * target.Character:FindFirstChildOfClass("Humanoid").WalkSpeed
+local speed = math.round(Vector3.new(game:GetService("Players").LocalPlayer.Character:WaitForChild("HumanoidRootPart").Velocity.X, 0, game:GetService("Players").LocalPlayer.Character:WaitForChild("HumanoidRootPart").Velocity.Z).Magnitude)
+local predicted_vector = target.Character:FindFirstChild("HumanoidRootPart").Position + target.Character:FindFirstChildOfClass("Humanoid").MoveDirection * speed
 return (predicted_vector + Vector3.new(0,1.1,math.random(-2.5,2.5)))
 end
 
@@ -238,7 +239,7 @@ Window = Rayfield:CreateWindow({
    KeySettings = {
       Title = "WARNING ⚠️",
       Subtitle = "While this script may be the best one, please note that any form of exploiting is always bannable.",
-      Note = "If you accept the risk, you can continue.\nThe key is ''nexer1234''",
+      Note = "If you accept the risk, you can continue. The key is ''nexer1234''",
       FileName = "Key",
       SaveKey = false,
       GrabKeyFromSite = false,
