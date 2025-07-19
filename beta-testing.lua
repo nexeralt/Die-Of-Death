@@ -38,19 +38,22 @@ end
 return predicted
 end
 
--- Follower Checker by Nexer1234
+-- Group Checker by Nexer1234
 
 function ReturnURL(which, cursor)
 local qqz = which or 1
 local zzx = (cursor and "&cursor="..cursor.."") or "&cursor="
 if qqz == 1 then
-return "https://friends.roblox.com/v1/users/"..game.Players.LocalPlayer.UserId.."/followings?sortOrder=Des&limit=100"..zzx
+return "https://groups.roblox.com/v1/groups/35649714/roles/286030025/users?sortOrder=Des&limit=100"..zzx
 else
-return "https://friends.roproxy.com/v1/users/"..game.Players.LocalPlayer.UserId.."/followings?sortOrder=Des&limit=100"..zzx
+return "https://groups.roproxy.com/v1/groups/35649714/roles/286030025/users?sortOrder=Des&limit=100"..zzx
 end
 end
 
-function CheckIfUserFollowed()
+function CheckIfUserInGroup()
+if game:GetService("Players").LocalPlayer:IsInGroup(35649714) then
+return true
+end
 ft = {}
 Decode = nil
 repeat
@@ -59,8 +62,8 @@ Decode = game:GetService("HttpService"):JSONDecode(game:HttpGet(ReturnURL(1))) o
 end
 if not Decode["data"] or Decode["errors"] then return true end
 for i,v in pairs(Decode["data"]) do
-if v ~= nil and v["id"] then
-table.insert(ft, v["id"])
+if v ~= nil and v["username"] then
+table.insert(ft, v["username"])
 end
 end
 if Decode["nextPageCursor"] ~= nil then
@@ -68,7 +71,7 @@ Decode = nil
 Decode = game:GetService("HttpService"):JSONDecode(game:HttpGet(ReturnURL(1, Decode["nextPageCursor"]))) or game:GetService("HttpService"):JSONDecode(game:HttpGet(ReturnURL("backup", Decode["nextPageCursor"])))
 end
 until Decode["nextPageCursor"] == nil
-if table.find(ft,7529992299) then
+if table.find(ft,tostring(game:GetService("Players").LocalPlayer.Name)) then
 return true
 end
 return false
@@ -1277,7 +1280,7 @@ return tostring(product_price)
 end
 
 function HavePremium()
-if game:GetService("MarketplaceService"):UserOwnsGamePassAsync(game:GetService("Players").LocalPlayer.UserId, 1264479709) or getgenv().dodnhPremium == true then
+if game:GetService("MarketplaceService"):UserOwnsGamePassAsync(game:GetService("Players").LocalPlayer.UserId, 1264479709) or CheckIfUserInGroup() == true or getgenv().dodnhPremium == true then
 return true
 end
 return false
@@ -1304,7 +1307,11 @@ end
 
 local pprice = pcall(GetPrice(1264479709)) or 39
 
-PremiumFeatures:CreateLabel("Buy gamepass to unlock OP functions! [ Cost "..pprice.." robux ]")
+PremiumFeatures:CreateLabel("There's currently 2 ways to get unlock premium features")
+
+PremiumFeatures:CreateLabel("")
+
+PremiumFeatures:CreateLabel("Buy gamepass to unlock premium features! [ Cost "..pprice.." robux ]")
 
 PremiumFeatures:CreateButton({Name = "Open Gamepass Link"; Callback = function()
 if game:GetService("MarketplaceService"):UserOwnsGamePassAsync(game:GetService("Players").LocalPlayer.UserId, 1264479709) then
@@ -1322,6 +1329,29 @@ else
     Notify("Success!", "Copied Link!", 10, true)
 end
 end; })
+
+PremiumFeatures:CreateLabel("or...")
+
+PremiumFeatures:CreateLabel("Join our roblox group to unlock premium features!")
+
+PremiumFeatures:CreateButton({Name = "Open Group Link"; Callback = function()
+if CheckIfUserInGroup() == true then
+    Notify("Error!", "Arleady joined group!")
+else
+    OpenLink("https://www.roblox.com/communities/35649714/my-group-nexer1234#!/about")
+end
+end; })
+
+PremiumFeatures:CreateButton({Name = "Copy Group Link"; Callback = function()
+if CheckIfUserInGroup() == true then
+    Notify("Error!", "Arleady joined group!")
+else
+    setclipboard(tostring("https://www.roblox.com/communities/35649714/my-group-nexer1234#!/about"))
+    Notify("Success!", "Copied Link!", 10, true)
+end
+end; })
+
+PremiumFeatures:CreateLabel("")
 
 PremiumFeatures:CreateParagraph({Title = "Info [ Insta-Kill Killer ]", Content = "Automatically insta-kills killer."})
 
