@@ -23,19 +23,9 @@ end
 
 function predict(plr)
 local target = plr
-local predicted = 0
-if getplrspeed(target) == 0 then
-predicted = 0.5
-elseif getplrspeed(target) < 10 then
-predicted = getplrspeed(target) + 3
-elseif getplrspeed(target) < 20 then
-predicted = getplrspeed(target) + 6
-elseif getplrspeed(target) < 30 then
-predicted = getplrspeed(target) + 9
-else
-predicted = getplrspeed(target) + 11
-end
-return predicted
+repeat task.wait() until target.Character and target.Character:FindFirstChild("HumanoidRootPart") and target.Character:FindFirstChildOfClass("Humanoid")
+local predicted_vector = target.Character:FindFirstChild("HumanoidRootPart").Position + target.Character:FindFirstChildOfClass("Humanoid").MoveDirection * target.Character:FindFirstChildOfClass("Humanoid").WalkSpeed
+return predicted_vector
 end
 
 -- Group Checker by Nexer1234
@@ -1431,7 +1421,7 @@ PremiumFeatures:CreateParagraph({Title = "Info [ Insta-Kill Killer ]", Content =
 PremiumFeatures:CreateParagraph({Title = "How To Use [ Insta-Kill Killer ]", Content = "Activate when match started ( you should be survivor, AKA civilian ).\nPS: you may get killed during it :)"})
 
 preferedkillingmethod = "RNG"
-PremiumFeatures:CreateDropdown({Name = "Insta-Kill Method"; Options = {"RNG","Velocity + Magnitude [BETA]","Predict [BETA]"}; CurrentOption = "RNG"; MultiSelection = false; Callback = function(Value)
+PremiumFeatures:CreateDropdown({Name = "Insta-Kill Method"; Options = {"RNG","Predict"}; CurrentOption = "RNG"; MultiSelection = false; Callback = function(Value)
 preferedkillingmethod = TableFirstElementToString(Value)
 end; })
 
@@ -1473,10 +1463,8 @@ end
 
 if preferedkillingmethod == "RNG" then
 game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame = Killer:WaitForChild("HumanoidRootPart").CFrame * CFrame.new(0,1,math.random(-20, -0.6))
-elseif preferedkillingmethod == "Velocity + Magnitude" then
-game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame = Killer:WaitForChild("HumanoidRootPart").CFrame * CFrame.new(0,1,getplrspeed(Killer))
 elseif preferedkillingmethod == "Predict" then
-game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame = Killer:WaitForChild("HumanoidRootPart").CFrame * CFrame.new(0,1,predict(Killer))
+game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position = Killer:WaitForChild("HumanoidRootPart").Position * predict(game:GetService("Players"):GetPlayerFromCharacter(Killer))
 else
 game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame = Killer:WaitForChild("HumanoidRootPart").CFrame * CFrame.new(0,1,math.random(-20, -0.6))
 end
