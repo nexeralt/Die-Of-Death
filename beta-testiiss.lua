@@ -752,7 +752,7 @@ return Abilities_Table[math.random(1, #Abilities_Table)]
 end
 
 AbilityData = {
-
+	
 --\\ Civilians Abilities //--
 ["Adrenaline"] = {Name = "Adrenaline",InputShown = "",Tip = "Get a temporary speed boost for 6 seconds, highlighting you to your teamates and slowing you down after it\'s over.",Cooldown = 35,Icon = "rbxassetid://116399911657417",DisplayName = "Adrenaline"};
 ["Punch"] = {Name = "Punch",InputShown = "",Tip = "Swing foward stunning any killers hit for 3 seconds, if missed you\'ll get severe endlag.",Cooldown = 40,Icon = "rbxassetid://97428323453639",DisplayName = "Punch"};
@@ -806,11 +806,7 @@ AbilityData = {
 }
 
 function ReturnAbilityData(ability)
-if table.find(AbilityData, tostring(ability)) then
-return AbilityData[tostring(ability)]
-else
-return {Name = "Untitled",InputShown = "?",Tip = "No tips for this ability.",Cooldown = 10,Icon = "rbxassetid://82116081649912",DisplayName = "Untitled"}
-end
+return AbilityData[ability]
 end
 pcall(function()
 AbilityModule = require(game:GetService("Players").LocalPlayer:WaitForChild("PlayerGui"):WaitForChild("MainGui"):WaitForChild("Client"):WaitForChild("Modules"):WaitForChild("Ability"))
@@ -1084,7 +1080,7 @@ Visual:CreateButton({Name = "Open Shop"; Callback = function()
 UIModule["OpenShop"]()
 end; })
 
-Visual:CreateToggle({Name = "Turn On/Off Teammate Death Effect"; CurrentValue = false; Callback = function(Value)
+Visual:CreateToggle({Name = "Teammate Death Effect Enabled"; CurrentValue = true; Callback = function(Value)
 if TestRequire() ~= true then
 ErrorRequire()
 return nil
