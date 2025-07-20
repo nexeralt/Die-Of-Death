@@ -1038,6 +1038,36 @@ Visual:CreateButton({Name = "Open Shop"; Callback = function()
 UIModule["OpenShop"]()
 end; })
 
+Visual:CreateToggle({Name = "Turn On/Off Teammate Death Effect"; CurrentValue = false; Callback = function(Value)
+if TestRequire() ~= true then
+ErrorRequire()
+return nil
+end
+DeathEffectEnabled = Value
+if DeathEffectEnabled == true then
+UIModule["TeamateDeathEffect"] = function()
+	game:GetService("Lighting").TeamateDeathEffect.Enabled = true
+	game:GetService("Lighting").TeamateDeathEffect.Contrast = 0
+	game:GetService("Lighting").TeamateDeathEffect.TintColor = Color3.fromRGB(255, 255, 255)
+	game:GetService("TweenService"):Create(game:GetService("Lighting").TeamateDeathEffect, TweenInfo.new(0.5), {
+		["Contrast"] = 1
+	}):Play()
+	game:GetService("TweenService"):Create(game:GetService("Lighting").TeamateDeathEffect, TweenInfo.new(0.5), {
+		["TintColor"] = Color3.fromRGB(255, 52, 52)
+	}):Play()
+	task.wait(0.5)
+	game:GetService("TweenService"):Create(game:GetService("Lighting").TeamateDeathEffect, TweenInfo.new(2), {
+		["Contrast"] = 0
+	}):Play()
+	game:GetService("TweenService"):Create(game:GetService("Lighting").TeamateDeathEffect, TweenInfo.new(2), {
+		["TintColor"] = Color3.fromRGB(255, 255, 255)
+	}):Play()
+end
+elseif DeathEffectEnabled == false then
+UIModule["TeamateDeathEffect"] = function() return nil end
+end
+end; })
+
 Visual:CreateSection("Money Giver (⁠｡⁠♡⁠‿⁠♡⁠｡⁠)")
 
 function AwardPoints(points, reason)
