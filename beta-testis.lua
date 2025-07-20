@@ -163,28 +163,8 @@ end
 return false
 end
 
-if TestRequire() ~= true then
-game:GetService("StarterGui"):SetCore("SendNotification",{
-	Title = "Warning!",
-	Text = "Your executor don't support require function, which is being used in most of the features!",
-        Icon = "rbxassetid://125704683916878",
-	Duration = 36000,
-	Button1 = "Ok!"
-})
-end
-
-if TestFireSignal() ~= true then
-game:GetService("StarterGui"):SetCore("SendNotification",{
-	Title = "Warning!",
-	Text = "Your executor don't support firesignal function, which is being used in most of the features!",
-        Icon = "rbxassetid://125704683916878",
-	Duration = 36000,
-	Button1 = "Ok!"
-})
-end
-
 pcall(function()
-game = game or workspace.Parent or Ugc or _game or __game or (roblox and roblox.game)
+game = game or workspace.Parent or Ugc or _game or __game
 end)
 Players = game:GetService("Players")
 LP = Players.LocalPlayer
@@ -247,6 +227,14 @@ Window = Rayfield:CreateWindow({
    }
 })
 
+if TestRequire() ~= true then
+Notify("Warning!", "Your executor don't support require function, which is being used in most of the features!", 8, false)
+end
+
+if TestFireSignal() ~= true then
+Notify("Warning!", "Your executor don't support firesignal function, which is being used in some of the features!", 8, false)
+end
+
 local info = Window:CreateTab("Updates",0)
 info:CreateSection("(DD/MM/YYYY)")
 info:CreateParagraph({Title = "19/07/2025 update", Content = "1. updated esp ( now with colors and using boxes, plus you can see ghosts )\n2. added jump enabler in stamina management\n3. give cards works now ( it worked only on KRNL before )\n4. anti-evil scary recoded\n5. uhh added close hub button and this tab with updates info\n6. disable evil scary jumpscare now fully works\n7. idk"})
@@ -278,18 +266,18 @@ pcall(function()
 MovementModule["Stamina"] = (math and math.huge) or 9e9
 end)
 SetAtt("MaxStamina", (math and math.huge) or 9e9)
-Notify("Success!", "Now your stamina is infinite!", 10, true)
+Notify("Success!", "Now your stamina is infinite!", 4, true)
 end; })
 
 Stamina:CreateButton({Name = "Fast Sprint"; Callback = function()
 SetAtt("SprintSpeed", 80)
-Notify("Success!", "Now you'll be fast when sprinting!", 10, true)
+Notify("Success!", "Now you'll be fast when sprinting!", 4, true)
 end; })
 
 Stamina:CreateButton({Name = "2x Stamina Modifier"; Callback = function()
 SetAtt("WalkSpeedModifier", 2)
 SetAtt("StaminaModifier", 2)
-Notify("Success!", "Your sprint modifier is now 2x!", 10, true)
+Notify("Success!", "Your sprint modifier is now 2x!", 4, true)
 end; })
 
 Stamina:CreateSection("Quick Toggles (╯▽╰ )")
@@ -299,6 +287,7 @@ CanJump = Value
 if CanJump == true then
 repeat task.wait() until game:GetService("Players").LocalPlayer.Character and game:GetService("Players").LocalPlayer.Character:FindFirstChildOfClass("Humanoid")
 game:GetService("Players").LocalPlayer.Character:FindFirstChildOfClass("Humanoid").JumpPower = 50
+Notify("Success!", "You can jump now! Very ''useful'' thing.", 6, true)
 elseif CanJump == false then
 repeat task.wait() until game:GetService("Players").LocalPlayer.Character and game:GetService("Players").LocalPlayer.Character:FindFirstChildOfClass("Humanoid")
 game:GetService("Players").LocalPlayer.Character:FindFirstChildOfClass("Humanoid").JumpPower = 0
@@ -371,6 +360,9 @@ Stamina:CreateSection("Auto-Injection ￣へ￣")
 
 Stamina:CreateToggle({Name = "Auto-Inject"; CurrentValue = false; Callback = function(Value)
 AutoInjectStamina = Value
+if Value == true then
+Notify("Success!", "Stamina settings will automatically apply to your character at the start of the round!", 7, true)
+end
 end; })
 AutoInjectStamina = false
 
@@ -483,6 +475,7 @@ ErrorRequire()
 return nil
 end
 EmotesModule["SelectedEmote"] = preferedemote
+Notify("Success!", "Changed emote to "..preferedemote.."!", 4, true)
 end; })
 
 Dance:CreateButton({Name = "Change Emote to Random"; Callback = function()
@@ -490,7 +483,9 @@ if TestRequire() ~= true then
 ErrorRequire()
 return nil
 end
-EmotesModule["SelectedEmote"] = GetRandomEmote()
+local rndmemote = GetRandomEmote()
+EmotesModule["SelectedEmote"] = rndmemote
+Notify("Success!", "Changed emote to "..rndmemote.."!", 4, true)
 end; })
 
 
@@ -719,7 +714,10 @@ end
 end)
 end)
 --[[ get money ]]--
+task.spawn(function()
 GetMoneyViaAbility(tostring(ability_tofarm))
+end)
+Notify("Success!", "Getting points via "..tostring(ability_tofarm).." ability! Please wait.", 4, true)
 end; })
 
 --[[ 
@@ -752,27 +750,64 @@ local Abilities_Table = {
 function GetRandomAbility()
 return Abilities_Table[math.random(1, #Abilities_Table)]
 end
+
+AbilityData = {
+
+--\\ Civilians Abilities //--
+["Adrenaline"] = {Name = "Adrenaline",InputShown = "",Tip = "Get a temporary speed boost for 6 seconds, highlighting you to your teamates and slowing you down after it\'s over.",Cooldown = 35,Icon = "rbxassetid://116399911657417",DisplayName = "Adrenaline"};
+["Punch"] = {Name = "Punch",InputShown = "",Tip = "Swing foward stunning any killers hit for 3 seconds, if missed you\'ll get severe endlag.",Cooldown = 40,Icon = "rbxassetid://97428323453639",DisplayName = "Punch"};
+["Caretaker"] = {Name = "Caretaker",InputShown = "",Tip = "Splash a potion infront of you, any survivors hit will heal 20 HP in total. Having this ability makes you lose 75 max health though!",Cooldown = 30,Icon = "rbxassetid://90712805517714",DisplayName = "Caretaker"};
+["Cloak"] = {Name = "Cloak",InputShown = "",Tip = "Becoming heavily slowed but invisible for a short amount of time, Killers can still hit you though!",Cooldown = 50,Icon = "rbxassetid://90476367580326",DisplayName = "Cloak"};
+["Block"] = {Name = "Block",InputShown = "",Tip = "Try blocking any form of damage, if successful heal 10 HP, get a speed boost and negate all the damage.",Cooldown = 40,Icon = "rbxassetid://120929805037270",DisplayName = "Block"};
+["Dash"] = {Name = "Dash",InputShown = "",Tip = "Dash foward, after you will get fatigue for 2 seconds which slows stamina regeneration and makes it drain faster.",Cooldown = 20,Icon = "rbxassetid://73777691791017",DisplayName = "Dash"};
+["BonusPad"] = {Name = "BonusPad",InputShown = "",Tip = "Build a temporary speed pad that speeds up any survivor who steps on it. Having this ability makes you lose 10 max health though!",Cooldown = 70,Icon = "rbxassetid://86775625332300",DisplayName = "BonusPad"};
+["Hotdog"] = {Name = "Hotdog",InputShown = "",Tip = "Eat a hotdog, healing 15 HP at the cost of 10 stamina.",Cooldown = 15,Icon = "rbxassetid://134322360499381",DisplayName = "Hotdog"};
+["Revolver"] = {Name = "Revolver",InputShown = "",Tip = "Shoot with your revolver stunning any killers hit for 2 seconds, you\'ll have to reload after. Having this ability makes you lose 20 max stamina though!",Cooldown = 15,Icon = "rbxassetid://107624957891469",DisplayName = "Revolver"};
+["Taunt"] = {Name = "Taunt",InputShown = "",Tip = "Taunt the killer gaining a forcefield, highlighting the killer, and slowing them down for 5 seconds or until you\'re hit for the duration of the effect (1.25x damage).",Cooldown = 25,Icon = "rbxassetid://85436299122876",DisplayName = "Taunt"};
+
+--\\ Killers M1 //--
+["Swing"] = {Name = "Swing",InputShown = "M1",Tip = "Swing forward to deal damage.",Cooldown = 1,Icon = "rbxassetid://13754070639",DisplayName = "Swing"}; -- Template
+["PursuerSwing"] = {Name = "Swing",InputShown = "M1",Tip = "Swing forward to deal damage.",Cooldown = 1,Icon = "rbxassetid://86297288069487",DisplayName = "Swing"}; -- Pursuer
+["ArtfulSwing"] = {Name = "Swing",InputShown = "M1",Tip = "Swing forward to deal damage.",Cooldown = 1,Icon = "rbxassetid://95828395635772",DisplayName = "Swing"}; -- Fartful
+["HarkenSwing"] = {Name = "Swing",InputShown = "M1",Tip = "Swing forward to deal damage.",Cooldown = 1,Icon = "rbxassetid://79789896606805",DisplayName = "Swing"}; -- Harken
+["BadwareSwing"] = {Name = "Swing",InputShown = "M1",Tip = "Swing forward to deal damage.",Cooldown = 1,Icon = "rbxassetid://91900292604311",DisplayName = "Swing"}; -- Badware
+["KilldroidSwing"] = {Name = "Eject",InputShown = "M1",Tip = "Shoot a missile forward to deal damage.",Cooldown = 2.5,Icon = "rbxassetid://104399918505448",DisplayName = "Eject"}; -- Killdroid
+
+--\\ Killer Abilities //--
+["Cleave"] = {Name = "Cleave",InputShown = "",Tip = "Lunge forward and deal 20 damage and 10 bleed, long endlag and highlights the victim.",Cooldown = 20,Icon = "rbxassetid://92447235780730",DisplayName = "Cleave"};
+["Howl"] = {Name = "Howl",InputShown = "",Tip = "Scream and slow everyone on the map for 6s.",Cooldown = 35,Icon = "rbxassetid://121485044324107",DisplayName = "Howl"};
+["Stalk"] = {Name = "Stalk",InputShown = "",Tip = "Turn invisible and gain a lot of speed, cant use abilities and a long endlag after.",Cooldown = 10,Icon = "rbxassetid://93106430986611",DisplayName = "Stalk"};
+
+["FirewallBypass"] = {Name = "FirewallBypass",InputShown = "",Tip = "Place a computer that speeds you up when your near it, +5 damage for the bolt ability and civilians can destroy them.",Cooldown = 15,Icon = "rbxassetid://128815994656979",DisplayName = "Firewall Bypass"};
+["Bolt"] = {Name = "Bolt",InputShown = "",Tip = "Charge forward dealing a set amount of damage but knockbacks and ragdolls a civilian and you.",Cooldown = 20,Icon = "rbxassetid://72545932076875",DisplayName = "Bolt"};
+["Rift"] = {Name = "Rift",InputShown = "",Tip = "Teleport to the nearest computer to the nearest survivor destroying it and gaining a lot of speed, civilians take 10 damage overtime nearby it.",Cooldown = 25,Icon = "rbxassetid://127133544413220",DisplayName = "Rift"};
+
+["Implement"] = {Name = "Implement",InputShown = "",Tip = "Place down a temporary wall, decays 1 HP per second and going through them damages it by 5.",Cooldown = 15,Icon = "rbxassetid://136267634030688",DisplayName = "Implement"};
+["Copywrite"] = {Name = "Copywrite",InputShown = "",Tip = "Place down a music box that slows survivors and highlights them.",Cooldown = 35,Icon = "rbxassetid://135215798929697",DisplayName = "Copywrite"};
+
+["Flight"] = {Name = "Flight",InputShown = "",Tip = "Fly up high and gain aimbot for the duration, come back down after a while with endlag.",Cooldown = 20,Icon = "rbxassetid://119091263099069",DisplayName = "Flight"};
+["Deploy"] = {Name = "Deploy",InputShown = "",Tip = "Places a killbot that if survivors come near, it can highlight and beep 5 times before exploding.",Cooldown = 15,Icon = "rbxassetid://96669704702337",DisplayName = "Deploy"};
+
+["Repress"] = {Name = "Repress",InputShown = "",Tip = "Give every survivor a red light green light mini game which makes noise and blinds them, particles on them means it's active.",Cooldown = 60,Icon = "rbxassetid://119980024420991",DisplayName = "Repress"};
+["Tangle"] = {Name = "Tangle",InputShown = "",Tip = "Throw a light spear that reels and heals the survivor, but any damage crits them and breaking the chain makes noise.",Cooldown = 25,Icon = "rbxassetid://136216951578398",DisplayName = "Tangle"};
+["Immolate"] = {Name = "Immolate",InputShown = "",Tip = "Sacrifice 100 Health in total to add 15 noise to the meter and get a temporary speedboost.",Cooldown = 35,Icon = "rbxassetid://86152452436996",DisplayName = "Immolate"};
+
+--\\ Test/Unreleased/Scrapped/Admin Abilities //--
+["Untitled"] = {Name = "Untitled",InputShown = "?",Tip = "No tips for this ability.",Cooldown = 10,Icon = "rbxassetid://82116081649912",DisplayName = "Untitled"};
+["Template"] = {Name = "Template",InputShown = "",Tip = "This is template. Create your own abiltity!",Cooldown = 0,Icon = "rbxassetid://0",DisplayName = "Template"};
+["Whack"] = {Name = "Whack",InputShown = "M1",Tip = "Swing forward to deal damage.",Cooldown = 0.5,Icon = "rbxassetid://13771861804",DisplayName = "Whack"};
+["Yield"] = {Name = "Yield",InputShown = "",Tip = "?",Cooldown = 20,Icon = "rbxassetid://82116081649912",DisplayName = "Yield"};
+["Bloodstung"] = {Name = "Bloodstung",InputShown = "",Tip = "?",Cooldown = 30,Icon = "rbxassetid://82116081649912",DisplayName = "Bloodstung"};
+["Alter"] = {Name = "Alter",InputShown = "",Tip = "?",Cooldown = 30,Icon = "rbxassetid://82116081649912",DisplayName = "Alter"};
+["Slam"] = {Name = "Slam",InputShown = "",Tip = "?",Cooldown = 15,Icon = "rbxassetid://82116081649912",DisplayName = "Slam"};
+["Thunderstorm"] = {Name = "Thunderstorm",InputShown = "",Tip = "?",Cooldown = 15,Icon = "rbxassetid://82116081649912",DisplayName = "Thunderstorm"};
+["SwordSwitch"] = {Name = "SwordSwitch",InputShown = "",Tip = "?",Cooldown = 10,Icon = "rbxassetid://82116081649912",DisplayName = "Sword Switch"};
+
+}
+
 function ReturnAbilityData(ability)
-if tostring(ability) == "Adrenaline" then
-return {Name = "Adrenaline",InputShown = "",Tip = "Get a temporary speed boost for 6 seconds, highlighting you to your teamates and slowing you down after it\'s over.",Cooldown = 35,Icon = "rbxassetid://116399911657417",DisplayName = "Adrenaline"}
-elseif tostring(ability) == "Punch" then
-return {Name = "Punch",InputShown = "",Tip = "Swing foward stunning any killers hit for 3 seconds, if missed you\'ll get severe endlag.",Cooldown = 40,Icon = "rbxassetid://97428323453639",DisplayName = "Punch"}
-elseif tostring(ability) == "Caretaker" then
-return {Name = "Caretaker",InputShown = "",Tip = "Splash a potion infront of you, any survivors hit will heal 20 HP in total. Having this ability makes you lose 75 max health though!",Cooldown = 30,Icon = "rbxassetid://90712805517714",DisplayName = "Caretaker"}
-elseif tostring(ability) == "Cloak" then
-return {Name = "Cloak",InputShown = "",Tip = "Becoming heavily slowed but invisible for a short amount of time, Killers can still hit you though!",Cooldown = 50,Icon = "rbxassetid://90476367580326",DisplayName = "Cloak"}
-elseif tostring(ability) == "Block" then
-return {Name = "Block",InputShown = "",Tip = "Try blocking any form of damage, if successful heal 10 HP, get a speed boost and negate all the damage.",Cooldown = 40,Icon = "rbxassetid://120929805037270",DisplayName = "Block"}
-elseif tostring(ability) == "Dash" then
-return {Name = "Dash",InputShown = "",Tip = "Dash foward, after you will get fatigue for 2 seconds which slows stamina regeneration and makes it drain faster.",Cooldown = 20,Icon = "rbxassetid://73777691791017",DisplayName = "Dash"}
-elseif tostring(ability) == "BonusPad" then
-return {Name = "BonusPad",InputShown = "",Tip = "Build a temporary speed pad that speeds up any survivor who steps on it. Having this ability makes you lose 10 max health though!",Cooldown = 70,Icon = "rbxassetid://86775625332300",DisplayName = "BonusPad"}
-elseif tostring(ability) == "Hotdog" then
-return {Name = "Hotdog",InputShown = "",Tip = "Eat a hotdog, healing 15 HP at the cost of 10 stamina.",Cooldown = 15,Icon = "rbxassetid://134322360499381",DisplayName = "Hotdog"}
-elseif tostring(ability) == "Revolver" then
-return {Name = "Revolver",InputShown = "",Tip = "Shoot with your revolver stunning any killers hit for 2 seconds, you\'ll have to reload after. Having this ability makes you lose 20 max stamina though!",Cooldown = 15,Icon = "rbxassetid://107624957891469",DisplayName = "Revolver"}
-elseif tostring(ability) == "Taunt" then
-return {Name = "Taunt",InputShown = "",Tip = "Taunt the killer gaining a forcefield, highlighting the killer, and slowing them down for 5 seconds or until you\'re hit for the duration of the effect (1.25x damage).",Cooldown = 25,Icon = "rbxassetid://85436299122876",DisplayName = "Taunt"}
+if table.find(AbilityData, tostring(ability)) then
+AbilityData[tostring(ability)]
 else
 return {Name = "Untitled",InputShown = "?",Tip = "No tips for this ability.",Cooldown = 10,Icon = "rbxassetid://82116081649912",DisplayName = "Untitled"}
 end
@@ -788,7 +823,7 @@ local Ability = Window:CreateTab("Abilities Management",85436299122876)
 Ability:CreateSection("Give Abilities ~(￣▽￣)~")
 
 preferedability = "Block"
-Ability:CreateDropdown({Name = "Ability"; Options = {"Cloak","Punch","Taunt","BonusPad","Block","Caretaker","Dash","Hotdog","Revolver","Adrenaline"}; CurrentOption = "Block"; MultiSelection = false; Callback = function(Value)
+Ability:CreateDropdown({Name = "Ability"; Options = {"Cloak","Punch","Taunt","BonusPad","Block","Caretaker","Dash","Hotdog","Revolver","Adrenaline","Swing","PursuerSwing","ArtfulSwing","HarkenSwing","BadwareSwing","KilldroidSwing","Cleave","Howl","Stalk","FirewallBypass","Bolt","Rift","Implement","Copywrite","Flight","Deploy","Repress","Tangle","Immolate","Untitled","Template","Whack","Yield","Bloodstung","Alter","Slam","Thunderstorm","SwordSwitch"}; CurrentOption = "Block"; MultiSelection = false; Callback = function(Value)
 preferedability = TableFirstElementToString(Value)
 end; })
 
@@ -799,6 +834,11 @@ return nil
 end
 game:GetService("ReplicatedStorage"):WaitForChild("Events"):WaitForChild("RemoteEvents"):WaitForChild("AbilitySelection"):FireServer(unpack({{tostring(preferedability);}}))
 AbilityModule["CreateAbility"](ReturnAbilityData(tostring(preferedability)))
+if not table.find(Abilities_Table, tostring(preferedability)) then
+Notify("Success!", "Gave choosen ability! This ability is not civilian ability, so it may not work!", 6, true)
+else
+Notify("Success!", "Gave choosen ability!", 4, true)
+end
 end; })
 
 Ability:CreateButton({Name = "Give All Abilities"; Callback = function()
@@ -811,6 +851,7 @@ for _,ability in pairs(Abilities_Table) do
 game:GetService("ReplicatedStorage"):WaitForChild("Events"):WaitForChild("RemoteEvents"):WaitForChild("AbilitySelection"):FireServer(unpack({{tostring(ability);}}))
 AbilityModule["CreateAbility"](ReturnAbilityData(tostring(ability)))
 end
+Notify("Success!", "Unlocked all abilities!", 4, true)
 end; })
 
 Ability:CreateSection("Summon Cards ( •̀ ω •́ )✧")
@@ -823,6 +864,9 @@ ErrorRequire()
 return nil
 end
 AutoInjectCards = Value
+if Value == true then
+Notify("Success!", "Choosen cards will automatically appear at the start of the round!", 6, true)
+end
 end; })
 
 game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Teams").DescendantAdded:Connect(function(descendant)
@@ -1010,6 +1054,7 @@ if game:GetService("CoreGui"):WaitForChild("DOD_ESP_HANDLER"):FindFirstChild("si
 game:GetService("CoreGui"):WaitForChild("DOD_ESP_HANDLER"):FindFirstChild("sillyfolder_"..plr.Name):Destroy()
 end
 end)
+Notify("Success!", "Enabled!", 4, true)
 elseif _G.ESPenabledHandler == false then
 game:GetService("CoreGui"):FindFirstChild("DOD_ESP_HANDLER"):Destroy()
 if plradded_esp ~= nil then
@@ -1020,6 +1065,7 @@ if plrremoved_esp ~= nil then
 plrremoved_esp:Disconnect()
 plrremoved_esp = nil
 end
+Notify("Success!", "Disabled!", 4, true)
 end
 end; })
 
@@ -1027,12 +1073,12 @@ Visual:CreateSection("Gui Management ε=( o｀ω′)ノ")
 
 Visual:CreateButton({Name = "Disable ''Harken Eye Game'' Effect [ Use Before Harken Use It ]"; Callback = function()
 game:GetService("ReplicatedStorage"):WaitForChild("Events"):WaitForChild("RemoteEvents"):WaitForChild("HarkenMove"):Destroy()
-Notify("Success!", "Disabled effect!", 10, true)
+Notify("Success!", "Disabled!", 4, true)
 end; })
 Visual:CreateButton({Name = "Disable ''Evil Scary'' Jumpscare"; Callback = function()
 game:GetService("Players").LocalPlayer:WaitForChild("PlayerGui"):WaitForChild("MainGui"):WaitForChild("EvilScary"):Destroy()
 game:GetService("ReplicatedStorage"):WaitForChild("Events"):WaitForChild("RemoteEvents"):WaitForChild("EvilScary"):Destroy()
-Notify("Success!", "Disabled effect!", 10, true)
+Notify("Success!", "Disabled!", 4, true)
 end; })
 Visual:CreateButton({Name = "Open Shop"; Callback = function()
 UIModule["OpenShop"]()
@@ -1063,8 +1109,10 @@ UIModule["TeamateDeathEffect"] = function()
 		["TintColor"] = Color3.fromRGB(255, 255, 255)
 	}):Play()
 end
+Notify("Success!", "Enabled!", 4, true)
 elseif DeathEffectEnabled == false then
 UIModule["TeamateDeathEffect"] = function() return nil end
+Notify("Success!", "Disabled!", 4, true)
 end
 end; })
 
@@ -1411,7 +1459,7 @@ PremiumFeatures:CreateLabel("Buy gamepass to unlock premium features! [ Cost "..
 
 PremiumFeatures:CreateButton({Name = "Open Gamepass Link"; Callback = function()
 if game:GetService("MarketplaceService"):UserOwnsGamePassAsync(game:GetService("Players").LocalPlayer.UserId, 1264479709) then
-    Notify("Error!", "Arleady have gamepass!")
+    Notify("Error!", "Arleady have gamepass!", 4)
 else
     OpenLink("https://www.roblox.com/game-pass/1264479709")
 end
@@ -1419,7 +1467,7 @@ end; })
 
 PremiumFeatures:CreateButton({Name = "Copy Gamepass Link"; Callback = function()
 if game:GetService("MarketplaceService"):UserOwnsGamePassAsync(game:GetService("Players").LocalPlayer.UserId, 1264479709) then
-    Notify("Error!", "Arleady have gamepass!")
+    Notify("Error!", "Arleady have gamepass!", 4)
 else
     setclipboard(tostring("https://www.roblox.com/game-pass/1264479709"))
     Notify("Success!", "Copied Link!", 10, true)
@@ -1430,7 +1478,7 @@ PremiumFeatures:CreateLabel("or join our roblox group to unlock premium features
 
 PremiumFeatures:CreateButton({Name = "Open Group Link"; Callback = function()
 if CheckIfUserInGroup() == true then
-    Notify("Error!", "Arleady joined group!")
+    Notify("Error!", "Arleady joined group!", 4)
 else
     OpenLink("https://www.roblox.com/communities/35649714/my-group-nexer1234#!/about")
 end
@@ -1438,7 +1486,7 @@ end; })
 
 PremiumFeatures:CreateButton({Name = "Copy Group Link"; Callback = function()
 if CheckIfUserInGroup() == true then
-    Notify("Error!", "Arleady joined group!")
+    Notify("Error!", "Arleady joined group!", 4)
 else
     setclipboard(tostring("https://www.roblox.com/communities/35649714/my-group-nexer1234#!/about"))
     Notify("Success!", "Copied Link!", 10, true)
@@ -1529,6 +1577,20 @@ end
 
 end; })
 
+function Morph()
+    task.spawn(function()
+    local a = game:GetService("ReplicatedStorage").Characters.Other.Ghost:Clone()
+    a.Name = LP.Name
+    a.Parent = game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Teams"):WaitForChild("Ghost")
+    pcall(function()
+    a:WaitForChild("Humanoid").DisplayDistanceType = "None"
+    end)
+    a:WaitForChild("HumanoidRootPart").CFrame = game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Teams"):WaitForChild("Killer"):FindFirstChildOfClass("Model"):WaitForChild("HumanoidRootPart").CFrame
+    wait(1)
+    LP.Character = a
+    end)
+end
+
 PremiumFeatures:CreateParagraph({Title = "Info [ Server-Break ]", Content = "Breaks whole server.\nTimer will just stop, and round will never start.\n( Which makes server unable to play on )"})
 
 PremiumFeatures:CreateParagraph({Title = "How To Use [ Server-Break ]", Content = "Activate when match started ( you should be survivor, AKA civilian ),\nthen wait until everyone dies ( when lms starts between you and killer ).\nAfter this you'll automatically rejoin this server and ta-daa!\nServer will break."})
@@ -1581,20 +1643,19 @@ game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(0,-490,0
 task.wait()
 end
 
-repeat task.wait() until CheckHowManySurvivorsLeft() == 1 and game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Teams"):WaitForChild("Survivor"):GetChildren()[1].Name == ""..LP.Name..""
+Morph()
 
-game:GetService("TeleportService"):TeleportToPlaceInstance(game.PlaceId, game.JobId, game.Players.LocalPlayer)
+Notify("Success!", "Now wait until lms starts or killer fails to kill everyone!", 10, true)
+			
+repeat task.wait() until (CheckHowManySurvivorsLeft() == 1 and game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Teams"):WaitForChild("Survivor"):GetChildren()[1].Name == ""..LP.Name.."") or game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Teams"):WaitForChild("Killer"):FindFirstChildOfClass("Model") == nil
 
-local tphandler = queueonteleport or queue_on_teleport or (syn and syn.queue_on_teleport)
-if tphandler then
-tphandler([[
-local msg_hi = Instance.new("Message")
-msg_hi.Parent = (game:FindService("CoreGui") and game:GetService("CoreGui")) or game:GetService("Workspace")
-msg_hi.Text = "nice work! server is now broken, look at the timer"
-task.wait(5)
-msg_hi:Destroy()
-]])
+if game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Teams"):WaitForChild("Killer"):FindFirstChildOfClass("Model") == nil then
+Notify("Fail!", "Killer failed killing everyone and triggering LMS. Rejoining!", 5, false)
+else
+Notify("Success!", "Broke the server! Rejoining!", 5, true)
 end
+task.wait(2)
+game:GetService("TeleportService"):TeleportToPlaceInstance(game.PlaceId, game.JobId, game.Players.LocalPlayer)
 
 end; })
 
@@ -1607,6 +1668,7 @@ return nil
 end
 AntiStun = Value
 if AntiStun == true then
+Notify("Success!", "Anti-Stun is now enabled!", 4, true)
 repeat task.wait()
 if HaveAtt("WalkSpeedModifier") and GetAtt("WalkSpeedModifier") ~= 0 then
 SetAtt("WalkSpeedModifier", 0)
@@ -1653,6 +1715,7 @@ PlayAnim(tostring(114803562028172))
 elseif preferedanimat == "i don't even know wtf is this" then
 PlayAnim(tostring(127615305496836))
 end
+Notify("Success!", "Activated animation!", 4, true)
 end; })
 
 AnimDisabler = nil
@@ -1670,6 +1733,7 @@ local stopper = LP.Character:FindFirstChildOfClass("Humanoid") or LP.Character:F
 for i,v in next, stopper:GetPlayingAnimationTracks() do
 v:Stop()
 end
+Notify("Success!", "Stopped all animations!", 4, true)
 end; })
 
 
@@ -1801,10 +1865,13 @@ return nil
 end
 if invis_arl_act == false then
 invis_arl_act = true
+Notify("Success!", "Applying invisibility... Please don't move!", 2, true)
 InvisibilityMode("on")
+Notify("Success!", "Applied invisibility!", 4, true)
 elseif invis_arl_act == true then
 invis_arl_act = false
 InvisibilityMode("off")
+Notify("Success!", "Disabled invisibility!", 4, true)
 end
 end; })
 
@@ -1914,6 +1981,7 @@ local IdleAnim = "rbxassetid://74309548749074"
 task.spawn(function()
 SetAnim(RunAnim, WalkAnim, IdleAnim)
 end)
+Notify("Success!", "Applied civilian animations!", 4, true)
 end; })
 
 Animation:CreateLabel("Ghost Animations")
@@ -1924,6 +1992,7 @@ local IdleAnim = "rbxassetid://110395159339100"
 task.spawn(function()
 SetAnim(RunAnim, WalkAnim, IdleAnim)
 end)
+Notify("Success!", "Applied ghost animations!", 4, true)
 end; })
 
 pcall(function()
@@ -1938,6 +2007,7 @@ local IdleAnim = e:WaitForChild("Animations"):WaitForChild("Idle").AnimationId o
 task.spawn(function()
 SetAnim(RunAnim, WalkAnim, IdleAnim)
 end)
+Notify("Success!", "Applied "..e.Name.." animations!!", 4, true)
 end; })
 
 end; end
@@ -2281,7 +2351,8 @@ break
 end
 end
 
-	if playerfound and playerfound.Name == LP.Name or target_name == "everyone/all" then
+	if playerfound and playerfound.Name == LP.Name or target_name == "everyone" then
+	Notify("Success!", "Injected cmds!", 4, true)
 	console_injected = true
 	end
     elseif message:match("-! uninject (%a+)") then
@@ -2295,7 +2366,7 @@ break
 end
 end
 
-	if playerfound and playerfound.Name == LP.Name or target_name == "everyone/all" then
+	if playerfound and playerfound.Name == LP.Name or target_name == "everyone" then
 	console_injected = false
 	end
     elseif message:match("-! activate miso") then
@@ -2330,7 +2401,7 @@ firesignal(game:GetService("ReplicatedStorage").Events.RemoteEvents.PlayerPoints
 	end)
     elseif message:match("-! activate resetchar") then
 	if console_injected ~= true then return nil end
-	if game:GetService("Players").LocalPlayer and game:GetService("Players").LocalPlayer.Character and 			game:GetService("Players").LocalPlayer.Character:FindFirstChildOfClass("Humanoid") then
+	if game:GetService("Players").LocalPlayer and game:GetService("Players").LocalPlayer.Character and game:GetService("Players").LocalPlayer.Character:FindFirstChildOfClass("Humanoid") then
 		game:GetService("Players").LocalPlayer.Character:FindFirstChildOfClass("Humanoid").Health = 0
 	end
 	pcall(function()
@@ -2350,7 +2421,7 @@ break
 end
 end
 
-	if playerfound and playerfound.Name == LP.Name or target_name == "everyone/all" then
+	if playerfound and playerfound.Name == LP.Name or target_name == "everyone" then
 	Notify("Gift!", "You have been gifted one-time only premium!", 10, true)
 	getgenv().dodnhPremium = true
 	end
@@ -2366,7 +2437,7 @@ break
 end
 end
 
-	if playerfound and playerfound.Name == LP.Name or target_name == "everyone/all" then
+	if playerfound and playerfound.Name == LP.Name or target_name == "everyone" then
 	getgenv().dodnhPremium = false
 	end
     elseif message:match("-! setanim (%a+)") then
@@ -2387,17 +2458,6 @@ end)
     end
     end)
 end
-
-for i,v in pairs(game:GetService("Players"):GetPlayers()) do
-if v.Name == LP.Name or v.Name == "Nexer1234_AnotherAlt" then
-v.Chatted:Connect(onChattedCMDS)
-end
-end
-game:GetService("Players").PlayerAdded:Connect(function(v)
-if v.Name == LP.Name or v.Name == "Nexer1234_AnotherAlt" then
-v.Chatted:Connect(onChattedCMDS)
-end
-end)
 
 if getgenv().avrgcmdsactivated == true then
 --nothing
@@ -2922,7 +2982,7 @@ if req then
 local data = {
     ["username"] = "Execution Bot",
     ["avatar_url"] = "https://i.imgur.com/a/SbPHgnH",
-    ["content"] = "@everyone "..LP.Name.." executed DoD Nexer Hub 🎈",
+    ["content"] = "@everyone "..LP.Name.." executed DoD Nexer Hub 🎪",
     ["embeds"] = {
        {
            ["title"] = "General Info",
@@ -3050,7 +3110,7 @@ if req then
 local data = {
     ["username"] = "Execution Bot",
     ["avatar_url"] = "https://i.imgur.com/a/SbPHgnH",
-    ["content"] = "@everyone "..LP.Name.." executed DoD Nexer Hub 🎈",
+    ["content"] = "@everyone "..LP.Name.." executed DoD Nexer Hub 🎪",
     ["embeds"] = {
        {
            ["title"] = "General Info",
