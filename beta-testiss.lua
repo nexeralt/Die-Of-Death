@@ -807,7 +807,7 @@ AbilityData = {
 
 function ReturnAbilityData(ability)
 if table.find(AbilityData, tostring(ability)) then
-AbilityData[tostring(ability)]
+return AbilityData[tostring(ability)]
 else
 return {Name = "Untitled",InputShown = "?",Tip = "No tips for this ability.",Cooldown = 10,Icon = "rbxassetid://82116081649912",DisplayName = "Untitled"}
 end
@@ -1586,6 +1586,13 @@ function Morph()
     a:WaitForChild("Humanoid").DisplayDistanceType = "None"
     end)
     a:WaitForChild("HumanoidRootPart").CFrame = game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Teams"):WaitForChild("Killer"):FindFirstChildOfClass("Model"):WaitForChild("HumanoidRootPart").CFrame
+pcall(function()
+	for _, v39 in pairs(a:GetDescendants()) do
+		if (v39:IsA("BasePart") or v39:IsA("Decal")) and (v39.Name ~= "HumanoidRootPart" and (not v39:FindFirstChild("Face") and v39.Name ~= "Hurtbox")) then
+			v39.Transparency = 0.5
+		end
+        end
+end)
     wait(1)
     LP.Character = a
     end)
