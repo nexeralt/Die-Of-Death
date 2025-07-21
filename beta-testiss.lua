@@ -24,7 +24,7 @@ end
 function predict(plr)
 local target = plr
 repeat task.wait() until target.Character and target.Character:FindFirstChild("HumanoidRootPart") and target.Character:FindFirstChildOfClass("Humanoid")
-local speed = math.round(Vector3.new(game:GetService("Players").LocalPlayer.Character:WaitForChild("HumanoidRootPart").Velocity.X, 0, game:GetService("Players").LocalPlayer.Character:WaitForChild("HumanoidRootPart").Velocity.Z).Magnitude)
+local speed = math.round(Vector3.new(target.Character:WaitForChild("HumanoidRootPart").Velocity.X, 0, target.Character:WaitForChild("HumanoidRootPart").Velocity.Z).Magnitude)
 local predicted_vector = target.Character:FindFirstChild("HumanoidRootPart").Position + target.Character:FindFirstChildOfClass("Humanoid").MoveDirection * speed
 return (predicted_vector + Vector3.new(0,1.1,math.random(-1,1)))
 end
@@ -1428,7 +1428,68 @@ child :Destroy()
 end
 end)
 
+--[[ 
 
+
+___________    .__                               __   
+\__    ___/___ |  |   ____ ______   ____________/  |_ 
+  |    |_/ __ \|  | _/ __ \\____ \ /  _ \_  __ \   __\
+  |    |\  ___/|  |_\  ___/|  |_> >  <_> )  | \/|  |  
+  |____| \___  >____/\___  >   __/ \____/|__|   |__|  
+             \/          \/|__|                       
+
+Teleport
+
+
+]]--
+
+local TeleportFeatures = Window:CreateTab("Teleport",127133544413220)
+
+function SafeTeleport(model)
+local time = tick()
+while tick() - time < 1.5 do
+for i,v in pairs(LP.Character:GetDescendants()) do
+if v and v:IsA("BasePart") then
+v.Velocity = Vector3.new(0,0,0)
+v.RotVelocity = Vector3.new(0,0,0)
+end
+end
+LP.Character:WaitForChild("HumanoidRootPart").CFrame = model.CFrame
+task.wait()
+end
+end
+
+TeleportFeatures:CreateSection("Team Teleport (⓿_⓿)")
+
+local TeleportToKillerDropdown = TeleportFeatures:CreateDropdown({Name = "Teleport to Killer"; Options = game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Teams"):WaitForChild("Killer"):GetChildren(); CurrentOption = ""; MultiSelection = false; Callback = function(Value)
+SafeTeleport(game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Teams"):WaitForChild("Killer"):FindFirstChild(TableFirstElementToString(Value)))
+end; })
+game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Teams"):WaitForChild("Killer").ChildAdded:Connect(function()
+TeleportToKillerDropdown:Add(tostring(child.Name))
+end)
+game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Teams"):WaitForChild("Killer").ChildRemoved:Connect(function()
+TeleportToKillerDropdown:Remove(tostring(child.Name))
+end)
+
+local TeleportToSurvivorDropdown = TeleportFeatures:CreateDropdown({Name = "Teleport to Survivor"; Options = game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Teams"):WaitForChild("Survivor"):GetChildren(); CurrentOption = ""; MultiSelection = false; Callback = function(Value)
+SafeTeleport(game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Teams"):WaitForChild("Survivor"):FindFirstChild(TableFirstElementToString(Value)))
+end; })
+game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Teams"):WaitForChild("Survivor").ChildAdded:Connect(function()
+TeleportToSurvivorDropdown:Add(tostring(child.Name))
+end)
+game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Teams"):WaitForChild("Survivor").ChildRemoved:Connect(function()
+TeleportToSurvivorDropdown:Remove(tostring(child.Name))
+end)
+
+local TeleportToGhostDropdown = TeleportFeatures:CreateDropdown({Name = "Teleport to Ghost"; Options = game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Teams"):WaitForChild("Ghost"):GetChildren(); CurrentOption = ""; MultiSelection = false; Callback = function(Value)
+SafeTeleport(game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Teams"):WaitForChild("Ghost"):FindFirstChild(TableFirstElementToString(Value)))
+end; })
+game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Teams"):WaitForChild("Ghost").ChildAdded:Connect(function()
+TeleportToGhostDropdown:Add(tostring(child.Name))
+end)
+game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Teams"):WaitForChild("Ghost").ChildRemoved:Connect(function()
+TeleportToGhostDropdown:Remove(tostring(child.Name))
+end)
 
 --[[ 
 
