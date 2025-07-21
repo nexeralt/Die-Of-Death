@@ -1447,7 +1447,7 @@ local TeleportFeatures = Window:CreateTab("Teleport",127133544413220)
 
 function SafeTeleport(model)
 local time = tick()
-while tick() - time < 1.5 do
+while tick() - time < 1 do
 for i,v in pairs(LP.Character:GetDescendants()) do
 if v and v:IsA("BasePart") then
 v.Velocity = Vector3.new(0,0,0)
@@ -1471,10 +1471,21 @@ end
 
 TeleportFeatures:CreateSection("Team Teleport (⓿_⓿)")
 
+ChoosenKillerTarget = nil
+ChoosenSurvivorTarget = nil
+ChoosenGhostTarget = nil
 local TeleportToKillerDropdown = TeleportFeatures:CreateDropdown({Name = "Target Killer"; Options = GetChildNames(game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Teams"):WaitForChild("Killer")); CurrentOption = ""; MultiSelection = false; Callback = function(Value)
 ChoosenKillerTarget = TableFirstElementToString(Value)
 end; })
 TeleportFeatures:CreateButton({Name = "Teleport to Killer"; Callback = function()
+if not game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Teams"):WaitForChild("Killer"):FindFirstChildOfClass("Model") then
+Notify("Error!", "There are no killers!", 3, false)
+return nil
+end
+if ChoosenKillerTarget == nil or ChoosenKillerTarget == "" or not ChoosenKillerTarget then
+Notify("Error!", "Choose your target!", 3, false)
+return nil
+end
 SafeTeleport(game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Teams"):WaitForChild("Killer"):FindFirstChild(ChoosenKillerTarget):WaitForChild("HumanoidRootPart"))
 end; })
 game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Teams"):WaitForChild("Killer").ChildAdded:Connect(function(child)
@@ -1488,6 +1499,14 @@ local TeleportToSurvivorDropdown = TeleportFeatures:CreateDropdown({Name = "Targ
 ChoosenSurvivorTarget = TableFirstElementToString(Value)
 end; })
 TeleportFeatures:CreateButton({Name = "Teleport to Survivor"; Callback = function()
+if not game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Teams"):WaitForChild("Survivor"):FindFirstChildOfClass("Model") then
+Notify("Error!", "There are no survivors!", 3, false)
+return nil
+end
+if ChoosenSurvivorTarget == nil or ChoosenSurvivorTarget == "" or not ChoosenSurvivorTarget then
+Notify("Error!", "Choose your target!", 3, false)
+return nil
+end
 SafeTeleport(game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Teams"):WaitForChild("Survivor"):FindFirstChild(ChoosenSurvivorTarget):WaitForChild("HumanoidRootPart"))
 end; })
 game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Teams"):WaitForChild("Survivor").ChildAdded:Connect(function(child)
@@ -1501,6 +1520,14 @@ local TeleportToGhostDropdown = TeleportFeatures:CreateDropdown({Name = "Target 
 ChoosenGhostTarget = TableFirstElementToString(Value)
 end; })
 TeleportFeatures:CreateButton({Name = "Teleport to Ghost"; Callback = function()
+if not game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Teams"):WaitForChild("Ghost"):FindFirstChildOfClass("Model") then
+Notify("Error!", "There are no ghosts!", 3, false)
+return nil
+end
+if ChoosenGhostTarget == nil or ChoosenGhostTarget == "" or not ChoosenGhostTarget then
+Notify("Error!", "Choose your target!", 3, false)
+return nil
+end
 SafeTeleport(game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Teams"):WaitForChild("Ghost"):FindFirstChild(ChoosenGhostTarget):WaitForChild("HumanoidRootPart"))
 end; })
 game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Teams"):WaitForChild("Ghost").ChildAdded:Connect(function(child)
@@ -1509,6 +1536,60 @@ end)
 game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Teams"):WaitForChild("Ghost").ChildRemoved:Connect(function(child)
 TeleportToGhostDropdown:Refresh(GetChildNames(game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Teams"):WaitForChild("Ghost")))
 end)
+
+TeleportFeatures:CreateSection("Specific Teleports ლ(╹◡╹ლ)")
+
+TeleportFeatures:CreateButton({Name = "Teleport to survivor with caretaker"; Callback = function()
+if not game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Teams"):WaitForChild("Survivor"):FindFirstChildOfClass("Model") then
+Notify("Error!", "There are no caretakers!", 3, false)
+return nil
+end
+local plrwithcaretaker = nil
+for i,v in pairs(game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Teams"):WaitForChild("Survivor"):GetChildren()) do
+if v and v.Parent and v:WaitForChild("Vanities"):WaitForChild("Caretaker").Transparency ~= 1 then
+plrwithcaretaker = v
+end
+end
+if plrwithcaretaker then
+SafeTeleport(plrwithcaretaker:WaitForChild("HumanoidRootPart"))
+else
+Notify("Error!", "There are no caretakers!", 3, false)
+end
+end; })
+
+TeleportFeatures:CreateButton({Name = "Teleport to survivor with caretaker"; Callback = function()
+if not game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Teams"):WaitForChild("Survivor"):FindFirstChildOfClass("Model") then
+Notify("Error!", "There are no caretakers!", 3, false)
+return nil
+end
+local plrwithcaretaker = nil
+for i,v in pairs(game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Teams"):WaitForChild("Survivor"):GetChildren()) do
+if v and v.Parent and v:WaitForChild("Vanities"):WaitForChild("Caretaker").Transparency ~= 1 then
+plrwithcaretaker = v
+end
+end
+if plrwithcaretaker then
+SafeTeleport(plrwithcaretaker:WaitForChild("HumanoidRootPart"))
+else
+Notify("Error!", "There are no caretakers!", 3, false)
+end
+end; })
+
+TeleportFeatures:CreateButton({Name = "Teleport to bonus pad"; Callback = function()
+if not game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Debris"):WaitForChild("Cleanable"):FindFirstChild("BonusPad") then
+Notify("Error!", "There are no bonus pads!", 3, false)
+return nil
+end
+SafeTeleport(game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Debris"):WaitForChild("Cleanable"):WaitForChild("BonusPad"):WaitForChild("Pad"))
+end; })
+
+TeleportFeatures:CreateButton({Name = "Teleport to badware computer"; Callback = function()
+if not game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Debris"):WaitForChild("Cleanable"):FindFirstChild("Computer") then
+Notify("Error!", "There are no badware computers!", 3, false)
+return nil
+end
+SafeTeleport(game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Debris"):WaitForChild("Cleanable"):WaitForChild("Computer"):WaitForChild("Primary"))
+end; })
 
 --[[ 
 
