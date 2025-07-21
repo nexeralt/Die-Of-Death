@@ -1776,7 +1776,9 @@ local function PlayAnim(id)
 local Anim = Instance.new("Animation")
 Anim.AnimationId = "rbxassetid://"..id
 local loadedanim = LP.Character:FindFirstChildOfClass("Humanoid"):LoadAnimation(Anim)
+repeat task.wait() until loadedanim.Length > 0	
 loadedanim:Play()
+repeat task.wait() until loadedanim.IsPlaying
 end
 
 PremiumFeatures:CreateButton({Name = "Play Choosen Anim"; Callback = function()
@@ -1802,8 +1804,41 @@ end
 Notify("Success!", "Activated animation!", 4, true)
 end; })
 
-AnimDisabler = nil
 
+--[[
+
+LP = game.Players.LocalPlayer
+for i,v in pairs(LP.Character:GetDescendants()) do
+if v and v:IsA("BasePart") and v.CanCollide == true then
+v.CanCollide = false
+end
+end
+if LP.Character:FindFirstChild("HumanoidRootPart") then
+LP.Character:FindFirstChild("HumanoidRootPart").CanCollide = true
+end
+local Anim = Instance.new("Animation")
+Anim.AnimationId = "rbxassetid://90444351114401"
+local loadedanim = LP.Character:FindFirstChildOfClass("Humanoid"):LoadAnimation(Anim)
+loadedanim.Priority = Enum.AnimationPriority.Action4
+repeat task.wait() until loadedanim.Length > 0	
+loadedanim:Play()
+repeat task.wait() until loadedanim.IsPlaying
+task.wait(2)
+loadedanim:AdjustSpeed(tonumber(0))
+for i,v in pairs(LP.Character:GetDescendants()) do
+if v and v:IsA("BasePart") and v.CanCollide == true then
+v.CanCollide = false
+end
+end
+if LP.Character:FindFirstChild("HumanoidRootPart") then
+LP.Character:FindFirstChild("HumanoidRootPart").CanCollide = true
+end
+
+]]--
+
+
+AnimDisabler = nil
+-- .TimePosition :AdjustSpeed()
 PremiumFeatures:CreateButton({Name = "Stop All Anims"; Callback = function()
 if HavePremium() ~= true then
 ErrorPremium()
