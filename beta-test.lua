@@ -215,7 +215,7 @@ Window = Rayfield:CreateWindow({
       RememberJoins = true
    },
 
-   KeySystem = true,
+   KeySystem = false,
    KeySettings = {
       Title = "WARNING ⚠️",
       Subtitle = "While this script may be the best one, please note that any form of exploiting is always bannable.",
@@ -259,12 +259,15 @@ Changelogs:
 
 13. Re-coded ESP in visual tab. Now they're using box handlers instead of highlights with different colors. ( and yes you can now see ghosts i don't know why would you need it anyway )
 14. Fixed disabling evil scary jumpscare feature.
-15. Added ''Teammate Death Effect Enabled?'' feature.
+15. Added ''Teammate Death Effect Enabled?'' and open shop features.
 16. Added visual money giver. ( customizable )
 
 17. Fixed lagging after applying animations in animation changer.
 
-18-∞. And a lot of more very cool features, go check them by yourself!]]})
+18. Fixed cooldown thingy in point farm tab.
+		
+19-∞. And a lot of more very cool features and fixes, go check them by yourself!
+(psst... there's still no auto-block...)]]})
 
 
 --[[ 
