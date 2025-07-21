@@ -1966,10 +1966,10 @@ end
 
 PremiumFeatures:CreateSection("Invisibility (°°)～")
 
-local InvisibilityMode
-InvisibilityMode = "Invisibility (can use abilities)"
+local InvisibilityType
+InvisibilityType = "Invisibility (can use abilities)"
 PremiumFeatures:CreateDropdown({Name = "Invisibility Mode"; Options = {"Invisibility (can use abilities)","Invisibility + Invincibility (can't use abilities)"}; CurrentOption = "Invisibility (can use abilities)"; MultiSelection = false; Callback = function(Value)
-InvisibilityMode = TableFirstElementToString(Value)
+InvisibilityType = TableFirstElementToString(Value)
 end; })
 
 noclip_connection = nil
@@ -1987,7 +1987,7 @@ noclip_connection = nil
 end
 Notify("Success!", "Disabled invisibility!", 4, true)
 elseif Value == true then
-if InvisibilityMode == "Invisibility (can use abilities)" then		
+if InvisibilityType == "Invisibility (can use abilities)" then		
 local function nocollision()
 for i,v in pairs(LP.Character:GetDescendants()) do
 if v and v:IsA("BasePart") and v.CanCollide == true and v.Name ~= "HumanoidRootPart" then
@@ -1998,7 +1998,7 @@ if LP.Character:FindFirstChild("HumanoidRootPart") then
 LP.Character:FindFirstChild("HumanoidRootPart").CanCollide = true
 end
 end
-noclip_connection = RunService.Stepped:Connect(nocollision)
+noclip_connection = game:GetService("RunService").Stepped:Connect(nocollision)
 local Anim = Instance.new("Animation")
 Anim.AnimationId = "rbxassetid://90444351114401"
 local loadedanim = LP.Character:FindFirstChildOfClass("Humanoid"):LoadAnimation(Anim)
@@ -2009,7 +2009,7 @@ repeat task.wait() until loadedanim.IsPlaying
 loadedanim:AdjustSpeed(tonumber(0))
 loadedanim.TimePosition = 2.2
 Notify("Success!", "Applied invisibility!", 4, true)
-elseif InvisibilityMode == "Invisibility + Invincibility (can't use abilities)" then
+elseif InvisibilityType == "Invisibility + Invincibility (can't use abilities)" then
 Notify("Success!", "Applying invisibility... Please don't move!", 2, true)
 InvisibilityMode("on")
 Notify("Success!", "Applied invisibility!", 4, true)
