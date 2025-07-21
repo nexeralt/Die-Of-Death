@@ -661,7 +661,7 @@ ReturnToOldSpot()
 end
 end
 
-local PointFarm = Window:CreateTab("Point Farm [ BETA ]",107624957891469)
+local PointFarm = Window:CreateTab("Point Farm",107624957891469)
 
 PointFarm:CreateLabel("Before farming money make sure to disable shiftlock! ヾ(•ω•`)o")
 
@@ -676,40 +676,76 @@ local TauntLabel = PointFarm:CreateLabel("Taunt Cooldown: 0")
 local RevolverLabel = PointFarm:CreateLabel("Revolver Cooldown: 0")
 local AdrenalineLabel = PointFarm:CreateLabel("Adrenaline Cooldown: 0")
 
+local CloakDebounce = false
+local PunchDebounce = false
+local TauntDebounce = false
+local RevolverDebounce = false
+local AdrenalineDebounce = false
+
 PointFarm:CreateButton({Name = "Get Money with Ability"; Callback = function()
 --[[ cooldown thingy ]]--
 task.delay(0,function()
 task.spawn(function()
 if ability_tofarm == "Cloak" then
+if CloakDebounce then
+Notify("Error!", "Cloak ability is in cooldown. Please wait!", 5, false)
+return nil
+end
+CloakDebounce = true
 for i = 50, 1, -1 do
 CloakLabel:Set("Cloak Cooldown: "..i)
 wait(1)
 end
 CloakLabel:Set("Cloak Cooldown: 0")
+CloakDebounce = false
 elseif ability_tofarm == "Punch" then
+if PunchDebounce then
+Notify("Error!", "Punch ability is in cooldown. Please wait!", 5, false)
+return nil
+end
+PunchDebounce = true
 for i = 40, 1, -1 do
 PunchLabel:Set("Punch Cooldown: "..i)
 wait(1)
 end
 PunchLabel:Set("Punch Cooldown: 0")
+PunchDebounce = false
 elseif ability_tofarm == "Taunt" then
+if TauntDebounce then
+Notify("Error!", "Taunt ability is in cooldown. Please wait!", 5, false)
+return nil
+end
+TauntDebounce = true
 for i = 25, 1, -1 do
 TauntLabel:Set("Taunt Cooldown: "..i)
 wait(1)
 end
 TauntLabel:Set("Taunt Cooldown: 0")
+TauntDebounce = false
 elseif ability_tofarm == "Revolver" then
+if RevolverDebounce then
+Notify("Error!", "Revolver ability is in cooldown. Please wait!", 5, false)
+return nil
+end
+RevolverDebounce = true
 for i = 15, 1, -1 do
 RevolverLabel:Set("Revolver Cooldown: "..i)
 wait(1)
 end
 RevolverLabel:Set("Revolver Cooldown: 0")
+RevolverDebounce = false
 elseif ability_tofarm == "Adrenaline" then
+if AdrenalineDebounce then
+Notify("Error!", "Adrenaline ability is in cooldown. Please wait!", 5, false)
+return nil
+end
+AdrenalineDebounce = true
 for i = 35, 1, -1 do
 AdrenalineLabel:Set("Adrenaline Cooldown: "..i)
 wait(1)
 end
 AdrenalineLabel:Set("Adrenaline Cooldown: 0")
+AdrenalineDebounce = false
 end
 end)
 end)
@@ -1594,6 +1630,51 @@ end)
     end)
 end
 
+PremiumFeatures:CreateToggle({Name = "Auto-Kill Killer On Match Start"; CurrentValue = false; Callback = function(Value)
+if HavePremium() ~= true then
+ErrorPremium()
+return nil
+end
+AutoKillKillaKilla = Value
+end; })
+
+game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Teams"):WaitForChild("Killer").ChildAdded:Connect(function(Killer)
+if AutoKillKillaKilla == true and Killer and Killer.Parent then
+local gothisassflinged = false
+local function checkifgotflingedlol(hrp)
+    local velocity = hrp.Velocity
+    local speed = velocity.Magnitude
+    if speed > 200 then
+        local verticalsp = math.abs(velocity.Y)
+        if verticalsp > 50 and verticalsp > math.abs(velocity.X) and verticalsp > math.abs(velocity.Z) then
+            return true
+        end
+    end
+    return false
+end
+wait(1)
+repeat task.wait()
+gothisassflinged = checkifgotflingedlol(Killer:WaitForChild("HumanoidRootPart"))
+local vel, movel = nil, 0.1
+if game:GetService("Players").LocalPlayer.Character and game:GetService("Players").LocalPlayer.Character.Parent and game:GetService("Players").LocalPlayer.Character.HumanoidRootPart and game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Parent then
+LP.Character.HumanoidRootPart.CFrame = Killer:WaitForChild("HumanoidRootPart").CFrame * CFrame.new(0,1.1,0)
+end
+if game:GetService("Players").LocalPlayer.Character and game:GetService("Players").LocalPlayer.Character.Parent and game:GetService("Players").LocalPlayer.Character.HumanoidRootPart and game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Parent then
+vel = game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Velocity
+game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Velocity = vel * 10000 + Vector3.new(0, 10000, 0)
+game:GetService("RunService").RenderStepped:Wait()
+end
+if game:GetService("Players").LocalPlayer.Character and game:GetService("Players").LocalPlayer.Character.Parent and game:GetService("Players").LocalPlayer.Character.HumanoidRootPart and game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Parent then
+game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Velocity = vel
+game:GetService("RunService").Stepped:Wait()
+end
+if game:GetService("Players").LocalPlayer.Character and game:GetService("Players").LocalPlayer.Character.Parent and game:GetService("Players").LocalPlayer.Character.HumanoidRootPart and game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Parent then
+game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Velocity = vel + Vector3.new(0, movel, 0)
+movel = movel * -1
+end
+until gothisassflinged == true or not Killer or Killer == nil or not Killer:FindFirstChild("HumanoidRootPart") or AutoKillKillaKilla == false or not Killer:FindFirstChild("Head")
+end
+end)
 PremiumFeatures:CreateParagraph({Title = "Info [ Server-Break ]", Content = "Breaks whole server.\nTimer will just stop, and round will never start.\n( Which makes server unable to play on )"})
 
 PremiumFeatures:CreateParagraph({Title = "How To Use [ Server-Break ]", Content = "Activate when match started ( you should be survivor, AKA civilian ),\nthen wait until everyone dies ( when lms starts between you and killer ).\nAfter this you'll automatically rejoin this server and ta-daa!\nServer will break."})
@@ -1653,12 +1734,12 @@ Notify("Success!", "Now wait until lms starts or killer fails to kill everyone!"
 repeat task.wait() until (CheckHowManySurvivorsLeft() == 1 and game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Teams"):WaitForChild("Survivor"):GetChildren()[1].Name == ""..LP.Name.."") or game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Teams"):WaitForChild("Killer"):FindFirstChildOfClass("Model") == nil
 
 if game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Teams"):WaitForChild("Killer"):FindFirstChildOfClass("Model") == nil then
-Notify("Fail!", "Killer failed killing everyone and triggering LMS. Rejoining!", 5, false)
+Notify("Fail!", "Killer failed killing everyone and triggering LMS.", 5, false)
 else
 Notify("Success!", "Broke the server! Rejoining!", 5, true)
-end
 task.wait(2)
 game:GetService("TeleportService"):TeleportToPlaceInstance(game.PlaceId, game.JobId, game.Players.LocalPlayer)
+end
 
 end; })
 
