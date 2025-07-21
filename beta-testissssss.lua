@@ -1462,7 +1462,9 @@ end
 function GetChildNames(model)
 local coolbalt = {}
 for i,v in pairs(model:GetChildren()) do
+if v then
 table.insert(coolbalt, tostring(v.Name))
+end
 end
 return coolbalt
 end
