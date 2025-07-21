@@ -1459,9 +1459,17 @@ task.wait()
 end
 end
 
+function GetChildNames(model)
+local coolbalt = {}
+for i,v in pairs(model:GetChildren()) do
+table.insert(coolbalt, tostring(v.Name))
+end
+return coolbalt
+end
+
 TeleportFeatures:CreateSection("Team Teleport (⓿_⓿)")
 
-local TeleportToKillerDropdown = TeleportFeatures:CreateDropdown({Name = "Teleport to Killer"; Options = game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Teams"):WaitForChild("Killer"):GetChildren(); CurrentOption = ""; MultiSelection = false; Callback = function(Value)
+local TeleportToKillerDropdown = TeleportFeatures:CreateDropdown({Name = "Teleport to Killer"; Options = GetChildNames(game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Teams"):WaitForChild("Killer")); CurrentOption = ""; MultiSelection = false; Callback = function(Value)
 SafeTeleport(game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Teams"):WaitForChild("Killer"):FindFirstChild(TableFirstElementToString(Value)))
 end; })
 game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Teams"):WaitForChild("Killer").ChildAdded:Connect(function()
@@ -1471,7 +1479,7 @@ game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Teams"):Wa
 TeleportToKillerDropdown:Remove(tostring(child.Name))
 end)
 
-local TeleportToSurvivorDropdown = TeleportFeatures:CreateDropdown({Name = "Teleport to Survivor"; Options = game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Teams"):WaitForChild("Survivor"):GetChildren(); CurrentOption = ""; MultiSelection = false; Callback = function(Value)
+local TeleportToSurvivorDropdown = TeleportFeatures:CreateDropdown({Name = "Teleport to Survivor"; Options = GetChildNames(game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Teams"):WaitForChild("Survivor"):GetChildren()); CurrentOption = ""; MultiSelection = false; Callback = function(Value)
 SafeTeleport(game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Teams"):WaitForChild("Survivor"):FindFirstChild(TableFirstElementToString(Value)))
 end; })
 game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Teams"):WaitForChild("Survivor").ChildAdded:Connect(function()
@@ -1481,7 +1489,7 @@ game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Teams"):Wa
 TeleportToSurvivorDropdown:Remove(tostring(child.Name))
 end)
 
-local TeleportToGhostDropdown = TeleportFeatures:CreateDropdown({Name = "Teleport to Ghost"; Options = game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Teams"):WaitForChild("Ghost"):GetChildren(); CurrentOption = ""; MultiSelection = false; Callback = function(Value)
+local TeleportToGhostDropdown = TeleportFeatures:CreateDropdown({Name = "Teleport to Ghost"; Options = GetChildNames(game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Teams"):WaitForChild("Ghost"):GetChildren()); CurrentOption = ""; MultiSelection = false; Callback = function(Value)
 SafeTeleport(game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Teams"):WaitForChild("Ghost"):FindFirstChild(TableFirstElementToString(Value)))
 end; })
 game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Teams"):WaitForChild("Ghost").ChildAdded:Connect(function()
