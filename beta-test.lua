@@ -26,7 +26,7 @@ local target = plr
 repeat task.wait() until target.Character and target.Character:FindFirstChild("HumanoidRootPart") and target.Character:FindFirstChildOfClass("Humanoid")
 local speed = math.round(Vector3.new(game:GetService("Players").LocalPlayer.Character:WaitForChild("HumanoidRootPart").Velocity.X, 0, game:GetService("Players").LocalPlayer.Character:WaitForChild("HumanoidRootPart").Velocity.Z).Magnitude)
 local predicted_vector = target.Character:FindFirstChild("HumanoidRootPart").Position + target.Character:FindFirstChildOfClass("Humanoid").MoveDirection * speed
-return (predicted_vector + Vector3.new(0,1.1,math.random(-2.5,2.5)))
+return (predicted_vector + Vector3.new(0,1.1,math.random(-1,1)))
 end
 
 -- Group Checker by Nexer1234
@@ -1527,25 +1527,20 @@ end; })
 
 PremiumFeatures:CreateLabel("")
 
-PremiumFeatures:CreateParagraph({Title = "Info [ Insta-Kill Killer ]", Content = "Automatically insta-kills killer."})
+PremiumFeatures:CreateSection("Killing / Flinging Killers ::>_<::")
 
-PremiumFeatures:CreateParagraph({Title = "How To Use [ Insta-Kill Killer ]", Content = "Activate when match started ( you should be survivor, AKA civilian ).\nPS: you may get killed during it :)"})
+PremiumFeatures:CreateLabel("Important note: YOU HAVE TO BE IN ROUND AS CIVILIAN TO KILL KILLER!\nalso it is recommended to activate invisibility before using fling!")
 
-preferedkillingmethod = "RNG"
-PremiumFeatures:CreateDropdown({Name = "Insta-Kill Method"; Options = {"RNG","Predict"}; CurrentOption = "RNG"; MultiSelection = false; Callback = function(Value)
+preferedkillingmethod = "Predict"
+PremiumFeatures:CreateDropdown({Name = "Insta-Kill Method"; Options = {"RNG","Predict"}; CurrentOption = "Predict"; MultiSelection = false; Callback = function(Value)
 preferedkillingmethod = TableFirstElementToString(Value)
 end; })
 
-PremiumFeatures:CreateButton({Name = "Insta-Kill Killer [OP!]"; Callback = function()
+PremiumFeatures:CreateButton({Name = "Insta-Kill Killer"; Callback = function()
 if HavePremium() ~= true then
 ErrorPremium()
 return nil
 end
-
-game:GetService("ReplicatedStorage"):WaitForChild("Events"):WaitForChild("RemoteEvents"):WaitForChild("AbilitySelection"):FireServer(unpack({{tostring("Cloak")}}))
-game:GetService("ReplicatedStorage"):WaitForChild("Events"):WaitForChild("RemoteFunctions"):WaitForChild("UseAbility"):InvokeServer(unpack({tostring("Cloak")}))
-
-task.wait(3)
 
 local function checkifgotflingedlol(hrp)
     local velocity = hrp.Velocity
@@ -1609,7 +1604,7 @@ end
 
 end; })
 
-function Morph()
+function GhostMorph()
     task.spawn(function()
     local a = game:GetService("ReplicatedStorage").Characters.Other.Ghost:Clone()
     a.Name = LP.Name
@@ -1630,7 +1625,7 @@ end)
     end)
 end
 
-PremiumFeatures:CreateToggle({Name = "Auto-Kill Killer On Match Start"; CurrentValue = false; Callback = function(Value)
+PremiumFeatures:CreateToggle({Name = "Auto-Kill Killer On Match Start [ BETA ]"; CurrentValue = false; Callback = function(Value)
 if HavePremium() ~= true then
 ErrorPremium()
 return nil
@@ -1672,14 +1667,17 @@ if game:GetService("Players").LocalPlayer.Character and game:GetService("Players
 game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Velocity = vel + Vector3.new(0, movel, 0)
 movel = movel * -1
 end
-until gothisassflinged == true or not Killer or Killer == nil or not Killer:FindFirstChild("HumanoidRootPart") or AutoKillKillaKilla == false or not Killer:FindFirstChild("Head")
+until gothisassflinged == true or not Killer or Killer == nil or not Killer:FindFirstChild("HumanoidRootPart") or AutoKillKillaKilla == false or not Killer:FindFirstChild("Head") or (game:GetService("Players").LocalPlayer.Character and game:GetService("Players").LocalPlayer.Character:FindFirstChild("Humanoid") and game:GetService("Players").LocalPlayer.Character.Humanoid.Health == 0)
 end
 end)
-PremiumFeatures:CreateParagraph({Title = "Info [ Server-Break ]", Content = "Breaks whole server.\nTimer will just stop, and round will never start.\n( Which makes server unable to play on )"})
 
-PremiumFeatures:CreateParagraph({Title = "How To Use [ Server-Break ]", Content = "Activate when match started ( you should be survivor, AKA civilian ),\nthen wait until everyone dies ( when lms starts between you and killer ).\nAfter this you'll automatically rejoin this server and ta-daa!\nServer will break."})
+PremiumFeatures:CreateSection("Server Break / Crasher / Destroyer ⊙﹏⊙∥")
 
-PremiumFeatures:CreateButton({Name = "Server-Break [OP!]"; Callback = function()
+PremiumFeatures:CreateParagraph({Title = "Info [ Crash Server ]", Content = "Breaks whole server.\nTimer will just stop, and round will never start.\n( Which makes server unable to play on )"})
+
+PremiumFeatures:CreateParagraph({Title = "How To Use [ Crash Server ]", Content = "Activate when match started ( you should be survivor, AKA civilian ),\nthen wait until everyone dies ( when lms starts between you and killer ).\nAfter this you'll automatically rejoin this server and ta-daa!\nServer will break."})
+
+PremiumFeatures:CreateButton({Name = "Crash Server [OP!]"; Callback = function()
 if HavePremium() ~= true then
 ErrorPremium()
 return nil
@@ -1727,7 +1725,7 @@ game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(0,-490,0
 task.wait()
 end
 
-Morph()
+GhostMorph()
 
 Notify("Success!", "Now wait until lms starts or killer fails to kill everyone!", 10, true)
 			
@@ -1743,7 +1741,7 @@ end
 
 end; })
 
-PremiumFeatures:CreateParagraph({Title = "Info [ Anti-Stun ]", Content = "You won't be stunned anymore. Like never. That's all!"})
+PremiumFeatures:CreateSection("Advanced Anti (｡･∀･)ﾉﾞ")
 
 PremiumFeatures:CreateToggle({Name = "Anti-Stun"; CurrentValue = false; Callback = function(Value)
 if HavePremium() ~= true then
@@ -1764,7 +1762,7 @@ until AntiStun == false
 end
 end; })
 
-PremiumFeatures:CreateParagraph({Title = "Info [ More-Anims ]", Content = "Some silly anims."})
+PremiumFeatures:CreateSection("Silly animations UwU")
 
 local preferedanimat
 preferedanimat = "laying on floor like uhh mequot"
@@ -1808,6 +1806,7 @@ end; })
 --[[
 
 LP = game.Players.LocalPlayer
+function nocollision()
 for i,v in pairs(LP.Character:GetDescendants()) do
 if v and v:IsA("BasePart") and v.CanCollide == true then
 v.CanCollide = false
@@ -1816,6 +1815,8 @@ end
 if LP.Character:FindFirstChild("HumanoidRootPart") then
 LP.Character:FindFirstChild("HumanoidRootPart").CanCollide = true
 end
+end
+Noclipping = RunService.Stepped:Connect(nocollision)
 local Anim = Instance.new("Animation")
 Anim.AnimationId = "rbxassetid://90444351114401"
 local loadedanim = LP.Character:FindFirstChildOfClass("Humanoid"):LoadAnimation(Anim)
@@ -1823,35 +1824,26 @@ loadedanim.Priority = Enum.AnimationPriority.Action4
 repeat task.wait() until loadedanim.Length > 0	
 loadedanim:Play()
 repeat task.wait() until loadedanim.IsPlaying
-task.wait(2)
 loadedanim:AdjustSpeed(tonumber(0))
-for i,v in pairs(LP.Character:GetDescendants()) do
-if v and v:IsA("BasePart") and v.CanCollide == true then
-v.CanCollide = false
-end
-end
-if LP.Character:FindFirstChild("HumanoidRootPart") then
-LP.Character:FindFirstChild("HumanoidRootPart").CanCollide = true
-end
+loadedanim.TimePosition = 2.2
 
 ]]--
 
-
-AnimDisabler = nil
+function StopAllAnims()
+task.spawn(function()
+local stopper = LP.Character:FindFirstChildOfClass("Humanoid") or LP.Character:FindFirstChildOfClass("AnimationController") 
+for i,v in next, stopper:GetPlayingAnimationTracks() do
+v:Stop()
+end
+end)
+end
 -- .TimePosition :AdjustSpeed()
 PremiumFeatures:CreateButton({Name = "Stop All Anims"; Callback = function()
 if HavePremium() ~= true then
 ErrorPremium()
 return nil
 end
-if AnimDisabler then
-AnimDisabler:Disconnect()
-AnimDisabler = nil
-end
-local stopper = LP.Character:FindFirstChildOfClass("Humanoid") or LP.Character:FindFirstChildOfClass("AnimationController")
-for i,v in next, stopper:GetPlayingAnimationTracks() do
-v:Stop()
-end
+StopAllAnims()
 Notify("Success!", "Stopped all animations!", 4, true)
 end; })
 
@@ -1972,28 +1964,61 @@ end
 end
 end
 
+PremiumFeatures:CreateSection("Invisibility (°°)～")
 
+local InvisibilityMode
+InvisibilityMode = "Invisibility (can use abilities)"
+PremiumFeatures:CreateDropdown({Name = "Invisibility Mode"; Options = {"Invisibility (can use abilities)","Invisibility + Invincibility (can't use abilities)"}; CurrentOption = "Invisibility (can use abilities)"; MultiSelection = false; Callback = function(Value)
+InvisibilityMode = TableFirstElementToString(Value)
+end; })
 
-PremiumFeatures:CreateParagraph({Title = "Info [ Invisibility ]", Content = "You'll become fully invisible and [TITLE CARD] ╚(•⌂•)╝\nPS: you won't be able to use abilties, and don't spam it, or it might break."})
-
-local invis_arl_act = false
-PremiumFeatures:CreateButton({Name = "Turn On/Off Invisibility [ BETA ]"; Callback = function()
+noclip_connection = nil
+PremiumFeatures:CreateToggle({Name = "Turn On/Off Invisibility"; CurrentValue = false; Callback = function(Value)
 if HavePremium() ~= true then
 ErrorPremium()
 return nil
 end
-if invis_arl_act == false then
-invis_arl_act = true
+if Value == false then
+StopAllAnims()
+InvisibilityMode("off")
+if noclip_connection then
+noclip_connection:Disconnect()
+noclip_connection = nil
+end
+Notify("Success!", "Disabled invisibility!", 4, true)
+elseif Value == true then
+if InvisibilityMode == "Invisibility (can use abilities)" then		
+local function nocollision()
+for i,v in pairs(LP.Character:GetDescendants()) do
+if v and v:IsA("BasePart") and v.CanCollide == true and v.Name ~= "HumanoidRootPart" then
+v.CanCollide = false
+end
+end
+if LP.Character:FindFirstChild("HumanoidRootPart") then
+LP.Character:FindFirstChild("HumanoidRootPart").CanCollide = true
+end
+end
+noclip_connection = RunService.Stepped:Connect(nocollision)
+local Anim = Instance.new("Animation")
+Anim.AnimationId = "rbxassetid://90444351114401"
+local loadedanim = LP.Character:FindFirstChildOfClass("Humanoid"):LoadAnimation(Anim)
+loadedanim.Priority = Enum.AnimationPriority.Action4
+repeat task.wait() until loadedanim.Length > 0	
+loadedanim:Play()
+repeat task.wait() until loadedanim.IsPlaying
+loadedanim:AdjustSpeed(tonumber(0))
+loadedanim.TimePosition = 2.2
+Notify("Success!", "Applied invisibility!", 4, true)
+elseif InvisibilityMode == "Invisibility + Invincibility (can't use abilities)" then
 Notify("Success!", "Applying invisibility... Please don't move!", 2, true)
 InvisibilityMode("on")
 Notify("Success!", "Applied invisibility!", 4, true)
-elseif invis_arl_act == true then
-invis_arl_act = false
-InvisibilityMode("off")
-Notify("Success!", "Disabled invisibility!", 4, true)
+end
 end
 end; })
 
+
+--[[
 PremiumFeatures:CreateParagraph({Title = "Info [ All Abilities ]", Content = "You'll get all abilities. ( That's all, but it's pretty OP )"})
 
 PremiumFeatures:CreateButton({Name = "Get All Abilities [kinda OP!!]"; Callback = function()
@@ -2007,6 +2032,7 @@ return nil
 end
 
 end; })
+]]--
 
 PremiumFeatures:CreateLabel("More coming very and very soon!!! :)")
 
