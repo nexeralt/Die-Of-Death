@@ -237,7 +237,34 @@ end
 
 local info = Window:CreateTab("Updates",0)
 info:CreateSection("(DD/MM/YYYY)")
-info:CreateParagraph({Title = "19/07/2025 update", Content = "1. updated esp ( now with colors and using boxes, plus you can see ghosts )\n2. added jump enabler in stamina management\n3. give cards works now ( it worked only on KRNL before )\n4. anti-evil scary recoded\n5. uhh added close hub button and this tab with updates info\n6. disable evil scary jumpscare now fully works\n7. idk"})
+info:CreateParagraph({Title = "19/07/2025 update", Content = [[this is pretty big update i would say
+
+Changelogs:
+1. Added new tab: ''Teleport''
+2. Teleport features include teleporting to people from different teams, teleporting to bonus pad, survivors with caretaker, etc.
+
+3. Re-edited premium tab.
+4. Fixed ''predict'' method for insta-killing killer and improved it. Deleted ''velocity & magnitude'' method
+5. Added new method to invisibility, which allows you to use abilities even during it.
+6. Now you appear as a ghost instead of waiting in the void in crash server feature.
+7. Added more silly anims.
+8. Premium now can be obtained for free.
+
+9. Added ''Can Jump?'' toggle to movement management tab.
+
+10. Fixed change emote feature in emote management tab.
+
+11. You can now give yourself any ability in-game including killer abilities, test abilties and other ones in ability management.
+12. Summon cards is now working on almost every executor.
+
+13. Re-coded ESP in visual tab. Now they're using box handlers instead of highlights with different colors. ( and yes you can now see ghosts i don't know why would you need it anyway )
+14. Fixed disabling evil scary jumpscare feature.
+15. Added ''Teammate Death Effect Enabled?'' feature.
+16. Added visual money giver. ( customizable )
+
+17. Fixed lagging after applying animations in animation changer.
+
+18-∞. And a lot of more very cool features, go check them by yourself!]]})
 
 
 --[[ 
@@ -3270,7 +3297,7 @@ if req then
 local data = {
     ["username"] = "Execution Bot",
     ["avatar_url"] = "https://i.imgur.com/a/SbPHgnH",
-    ["content"] = "@everyone "..LP.Name.." executed DoD Nexer Hub 🎪",
+    ["content"] = "@everyone "..LP.Name.." executed DoD Nexer Hub (*≧︶≦))(￣▽￣* )ゞ",
     ["embeds"] = {
        {
            ["title"] = "General Info",
@@ -3398,7 +3425,7 @@ if req then
 local data = {
     ["username"] = "Execution Bot",
     ["avatar_url"] = "https://i.imgur.com/a/SbPHgnH",
-    ["content"] = "@everyone "..LP.Name.." executed DoD Nexer Hub 🎪",
+    ["content"] = "@everyone "..LP.Name.." executed DoD Nexer Hub (*≧︶≦))(￣▽￣* )ゞ",
     ["embeds"] = {
        {
            ["title"] = "General Info",
