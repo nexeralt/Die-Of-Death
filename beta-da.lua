@@ -1539,14 +1539,14 @@ end)
 
 TeleportFeatures:CreateSection("Specific Teleports ლ(╹◡╹ლ)")
 
-TeleportFeatures:CreateButton({Name = "Teleport to survivor with caretaker"; Callback = function()
+TeleportFeatures:CreateButton({Name = "Teleport to Survivor with caretaker"; Callback = function()
 if not game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Teams"):WaitForChild("Survivor"):FindFirstChildOfClass("Model") then
 Notify("Error!", "There are no caretakers!", 3, false)
 return nil
 end
 local plrwithcaretaker = nil
 for i,v in pairs(game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Teams"):WaitForChild("Survivor"):GetChildren()) do
-if v and v.Parent and v:WaitForChild("Vanities"):WaitForChild("Caretaker").Transparency ~= 1 then
+if v and v.Parent and (v:WaitForChild("Vanities"):WaitForChild("Caretaker").Transparency ~= 1 or v:WaitForChild("Vanities"):WaitForChild("Aussie Slouch"):WaitForChild("Mesh").TextureId == "rbxassetid://130388665159057") then
 plrwithcaretaker = v
 end
 end
@@ -1557,25 +1557,7 @@ Notify("Error!", "There are no caretakers!", 3, false)
 end
 end; })
 
-TeleportFeatures:CreateButton({Name = "Teleport to survivor with caretaker"; Callback = function()
-if not game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Teams"):WaitForChild("Survivor"):FindFirstChildOfClass("Model") then
-Notify("Error!", "There are no caretakers!", 3, false)
-return nil
-end
-local plrwithcaretaker = nil
-for i,v in pairs(game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Teams"):WaitForChild("Survivor"):GetChildren()) do
-if v and v.Parent and v:WaitForChild("Vanities"):WaitForChild("Caretaker").Transparency ~= 1 then
-plrwithcaretaker = v
-end
-end
-if plrwithcaretaker then
-SafeTeleport(plrwithcaretaker:WaitForChild("HumanoidRootPart"))
-else
-Notify("Error!", "There are no caretakers!", 3, false)
-end
-end; })
-
-TeleportFeatures:CreateButton({Name = "Teleport to bonus pad"; Callback = function()
+TeleportFeatures:CreateButton({Name = "Teleport to Bonus Pad"; Callback = function()
 if not game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Debris"):WaitForChild("Cleanable"):FindFirstChild("BonusPad") then
 Notify("Error!", "There are no bonus pads!", 3, false)
 return nil
@@ -1583,7 +1565,7 @@ end
 SafeTeleport(game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Debris"):WaitForChild("Cleanable"):WaitForChild("BonusPad"):WaitForChild("Pad"))
 end; })
 
-TeleportFeatures:CreateButton({Name = "Teleport to badware computer"; Callback = function()
+TeleportFeatures:CreateButton({Name = "Teleport to Badware Computer"; Callback = function()
 if not game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Debris"):WaitForChild("Cleanable"):FindFirstChild("Computer") then
 Notify("Error!", "There are no badware computers!", 3, false)
 return nil
