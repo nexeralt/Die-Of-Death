@@ -1469,8 +1469,11 @@ end
 
 TeleportFeatures:CreateSection("Team Teleport (⓿_⓿)")
 
-local TeleportToKillerDropdown = TeleportFeatures:CreateDropdown({Name = "Teleport to Killer"; Options = GetChildNames(game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Teams"):WaitForChild("Killer")); CurrentOption = ""; MultiSelection = false; Callback = function(Value)
-SafeTeleport(game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Teams"):WaitForChild("Killer"):FindFirstChild(TableFirstElementToString(Value)))
+local TeleportToKillerDropdown = TeleportFeatures:CreateDropdown({Name = "Target Killer"; Options = GetChildNames(game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Teams"):WaitForChild("Killer")); CurrentOption = ""; MultiSelection = false; Callback = function(Value)
+ChoosenKillerTarget = Value
+end; })
+TeleportFeatures:CreateButton({Name = "Teleport to Killer"; Callback = function()
+SafeTeleport(game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Teams"):WaitForChild("Killer"):FindFirstChild(ChoosenKillerTarget):WaitForChild("HumanoidRootPart"))
 end; })
 game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Teams"):WaitForChild("Killer").ChildAdded:Connect(function()
 TeleportToKillerDropdown:Add(tostring(child.Name))
@@ -1479,8 +1482,11 @@ game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Teams"):Wa
 TeleportToKillerDropdown:Remove(tostring(child.Name))
 end)
 
-local TeleportToSurvivorDropdown = TeleportFeatures:CreateDropdown({Name = "Teleport to Survivor"; Options = GetChildNames(game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Teams"):WaitForChild("Survivor"):GetChildren()); CurrentOption = ""; MultiSelection = false; Callback = function(Value)
-SafeTeleport(game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Teams"):WaitForChild("Survivor"):FindFirstChild(TableFirstElementToString(Value)))
+local TeleportToSurvivorDropdown = TeleportFeatures:CreateDropdown({Name = "Target Survivor"; Options = GetChildNames(game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Teams"):WaitForChild("Survivor"):GetChildren()); CurrentOption = ""; MultiSelection = false; Callback = function(Value)
+SafeTeleport(game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Teams"):WaitForChild("Survivor"):FindFirstChild(TableFirstElementToString(Value)):WaitForChild("HumanoidRootPart"))
+end; })
+TeleportFeatures:CreateButton({Name = "Teleport to Survivor"; Callback = function()
+SafeTeleport(game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Teams"):WaitForChild("Survivor"):FindFirstChild(ChoosenKillerTarget):WaitForChild("HumanoidRootPart"))
 end; })
 game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Teams"):WaitForChild("Survivor").ChildAdded:Connect(function()
 TeleportToSurvivorDropdown:Add(tostring(child.Name))
@@ -1489,8 +1495,11 @@ game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Teams"):Wa
 TeleportToSurvivorDropdown:Remove(tostring(child.Name))
 end)
 
-local TeleportToGhostDropdown = TeleportFeatures:CreateDropdown({Name = "Teleport to Ghost"; Options = GetChildNames(game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Teams"):WaitForChild("Ghost"):GetChildren()); CurrentOption = ""; MultiSelection = false; Callback = function(Value)
-SafeTeleport(game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Teams"):WaitForChild("Ghost"):FindFirstChild(TableFirstElementToString(Value)))
+local TeleportToGhostDropdown = TeleportFeatures:CreateDropdown({Name = "Target Ghost"; Options = GetChildNames(game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Teams"):WaitForChild("Ghost"):GetChildren()); CurrentOption = ""; MultiSelection = false; Callback = function(Value)
+SafeTeleport(game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Teams"):WaitForChild("Ghost"):FindFirstChild(TableFirstElementToString(Value)):WaitForChild("HumanoidRootPart"))
+end; })
+TeleportFeatures:CreateButton({Name = "Teleport to Ghost"; Callback = function()
+SafeTeleport(game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Teams"):WaitForChild("Ghost"):FindFirstChild(ChoosenKillerTarget):WaitForChild("HumanoidRootPart"))
 end; })
 game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Teams"):WaitForChild("Ghost").ChildAdded:Connect(function()
 TeleportToGhostDropdown:Add(tostring(child.Name))
