@@ -23,34 +23,28 @@ end
 
 function predict(plr)
 local target = plr
-local predicted = 0
-if getplrspeed(target) == 0 then
-predicted = 0.5
-elseif getplrspeed(target) < 10 then
-predicted = getplrspeed(target) + 3
-elseif getplrspeed(target) < 20 then
-predicted = getplrspeed(target) + 6
-elseif getplrspeed(target) < 30 then
-predicted = getplrspeed(target) + 9
-else
-predicted = getplrspeed(target) + 11
-end
-return predicted
+repeat task.wait() until target.Character and target.Character:FindFirstChild("HumanoidRootPart") and target.Character:FindFirstChildOfClass("Humanoid")
+local speed = math.round(Vector3.new(target.Character:WaitForChild("HumanoidRootPart").Velocity.X, 0, target.Character:WaitForChild("HumanoidRootPart").Velocity.Z).Magnitude)
+local predicted_vector = target.Character:FindFirstChild("HumanoidRootPart").Position + target.Character:FindFirstChildOfClass("Humanoid").MoveDirection * speed
+return (predicted_vector + Vector3.new(0,1.1,math.random(-1,1)))
 end
 
--- Follower Checker by Nexer1234
+-- Group Checker by Nexer1234
 
 function ReturnURL(which, cursor)
 local qqz = which or 1
 local zzx = (cursor and "&cursor="..cursor.."") or "&cursor="
 if qqz == 1 then
-return "https://friends.roblox.com/v1/users/"..game.Players.LocalPlayer.UserId.."/followings?sortOrder=Des&limit=100"..zzx
+return "https://groups.roblox.com/v1/groups/35649714/roles/286030025/users?sortOrder=Des&limit=100"..zzx
 else
-return "https://friends.roproxy.com/v1/users/"..game.Players.LocalPlayer.UserId.."/followings?sortOrder=Des&limit=100"..zzx
+return "https://groups.roproxy.com/v1/groups/35649714/roles/286030025/users?sortOrder=Des&limit=100"..zzx
 end
 end
 
-function CheckIfUserFollowed()
+function CheckIfUserInGroup()
+if game:GetService("Players").LocalPlayer:IsInGroup(35649714) then
+return true
+end
 ft = {}
 Decode = nil
 repeat
@@ -59,8 +53,8 @@ Decode = game:GetService("HttpService"):JSONDecode(game:HttpGet(ReturnURL(1))) o
 end
 if not Decode["data"] or Decode["errors"] then return true end
 for i,v in pairs(Decode["data"]) do
-if v ~= nil and v["id"] then
-table.insert(ft, v["id"])
+if v ~= nil and v["username"] then
+table.insert(ft, v["username"])
 end
 end
 if Decode["nextPageCursor"] ~= nil then
@@ -68,7 +62,7 @@ Decode = nil
 Decode = game:GetService("HttpService"):JSONDecode(game:HttpGet(ReturnURL(1, Decode["nextPageCursor"]))) or game:GetService("HttpService"):JSONDecode(game:HttpGet(ReturnURL("backup", Decode["nextPageCursor"])))
 end
 until Decode["nextPageCursor"] == nil
-if table.find(ft,7529992299) then
+if table.find(ft,tostring(game:GetService("Players").LocalPlayer.Name)) then
 return true
 end
 return false
@@ -169,28 +163,8 @@ end
 return false
 end
 
-if TestRequire() ~= true then
-game:GetService("StarterGui"):SetCore("SendNotification",{
-	Title = "Warning!",
-	Text = "Your executor don't support require function, which is being used in most of the features!",
-        Icon = "rbxassetid://125704683916878",
-	Duration = 36000,
-	Button1 = "Ok!"
-})
-end
-
-if TestFireSignal() ~= true then
-game:GetService("StarterGui"):SetCore("SendNotification",{
-	Title = "Warning!",
-	Text = "Your executor don't support firesignal function, which is being used in most of the features!",
-        Icon = "rbxassetid://125704683916878",
-	Duration = 36000,
-	Button1 = "Ok!"
-})
-end
-
 pcall(function()
-game = game or workspace.Parent or Ugc or _game or __game or (roblox and roblox.game)
+game = game or workspace.Parent or Ugc or _game or __game
 end)
 Players = game:GetService("Players")
 LP = Players.LocalPlayer
@@ -225,9 +199,9 @@ Window = Rayfield:CreateWindow({
    Icon = 0,    
    LoadingTitle = "Nexer Hub",
    LoadingSubtitle = "by nexer",
-   Theme = "Amethyst",
-   DisableRayfieldPrompts = false,
-   DisableBuildWarnings = false,
+   Theme = "Ocean",
+   DisableRayfieldPrompts = true,
+   DisableBuildWarnings = true,
 
    ConfigurationSaving = {
       Enabled = false,
@@ -243,18 +217,57 @@ Window = Rayfield:CreateWindow({
 
    KeySystem = false,
    KeySettings = {
-      Title = "Verify yourself firstly!",
-      Subtitle = "Key Needed!",
-      Note = "The key is ''cheese''",
+      Title = "WARNING ⚠️",
+      Subtitle = "While this script may be the best one, please note that any form of exploiting is always bannable.",
+      Note = "If you accept the risk, you can continue. The key is ''nexer1234''",
       FileName = "Key",
-      SaveKey = true,
+      SaveKey = false,
       GrabKeyFromSite = false,
-      Key = {"cheese"}
+      Key = {"nexer1234","NEXER1234","Nexer1234"}
    }
 })
 
+if TestRequire() ~= true then
+Notify("Warning!", "Your executor don't support require function, which is being used in most of the features!", 8, false)
+end
 
+if TestFireSignal() ~= true then
+Notify("Warning!", "Your executor don't support firesignal function, which is being used in some of the features!", 8, false)
+end
 
+local info = Window:CreateTab("Updates",0)
+info:CreateSection("(DD/MM/YYYY)")
+info:CreateParagraph({Title = "19/07/2025 update", Content = [[this is pretty big update i would say
+
+Changelogs:
+1. Added new tab: ''Teleport''
+2. Teleport features include teleporting to people from different teams, teleporting to bonus pad, survivors with caretaker, etc.
+
+3. Re-edited premium tab.
+4. Fixed ''predict'' method for insta-killing killer and improved it. Deleted ''velocity & magnitude'' method
+5. Added new method to invisibility, which allows you to use abilities even during it.
+6. Now you appear as a ghost instead of waiting in the void in crash server feature.
+7. Added more silly anims.
+8. Premium now can be obtained for free.
+
+9. Added ''Can Jump?'' toggle to movement management tab.
+
+10. Fixed change emote feature in emote management tab.
+
+11. You can now give yourself any ability in-game including killer abilities, test abilties and other ones in ability management.
+12. Summon cards is now working on almost every executor.
+
+13. Re-coded ESP in visual tab. Now they're using box handlers instead of highlights with different colors. ( and yes you can now see ghosts i don't know why would you need it anyway )
+14. Fixed disabling evil scary jumpscare feature.
+15. Added ''Teammate Death Effect Enabled?'' and open shop features.
+16. Added visual money giver. ( customizable )
+
+17. Fixed lagging after applying animations in animation changer.
+
+18. Fixed cooldown thingy in point farm tab.
+		
+19-∞. And a lot of more very cool features and fixes, go check them by yourself!
+(psst... there's still no auto-block...)]]})
 
 
 --[[ 
@@ -283,21 +296,33 @@ pcall(function()
 MovementModule["Stamina"] = (math and math.huge) or 9e9
 end)
 SetAtt("MaxStamina", (math and math.huge) or 9e9)
-Notify("Success!", "Now your stamina is infinite!", 10, true)
+Notify("Success!", "Now your stamina is infinite!", 4, true)
 end; })
 
 Stamina:CreateButton({Name = "Fast Sprint"; Callback = function()
 SetAtt("SprintSpeed", 80)
-Notify("Success!", "Now you'll be fast when sprinting!", 10, true)
+Notify("Success!", "Now you'll be fast when sprinting!", 4, true)
 end; })
 
 Stamina:CreateButton({Name = "2x Stamina Modifier"; Callback = function()
 SetAtt("WalkSpeedModifier", 2)
 SetAtt("StaminaModifier", 2)
-Notify("Success!", "Your sprint modifier is now 2x!", 10, true)
+Notify("Success!", "Your sprint modifier is now 2x!", 4, true)
 end; })
 
 Stamina:CreateSection("Quick Toggles (╯▽╰ )")
+
+Stamina:CreateToggle({Name = "Can Jump?"; CurrentValue = false; Callback = function(Value)
+CanJump = Value
+if CanJump == true then
+repeat task.wait() until game:GetService("Players").LocalPlayer.Character and game:GetService("Players").LocalPlayer.Character:FindFirstChildOfClass("Humanoid")
+game:GetService("Players").LocalPlayer.Character:FindFirstChildOfClass("Humanoid").JumpPower = 50
+Notify("Success!", "You can jump now! Very ''useful'' thing.", 6, true)
+elseif CanJump == false then
+repeat task.wait() until game:GetService("Players").LocalPlayer.Character and game:GetService("Players").LocalPlayer.Character:FindFirstChildOfClass("Humanoid")
+game:GetService("Players").LocalPlayer.Character:FindFirstChildOfClass("Humanoid").JumpPower = 0
+end
+end; })
 
 Stamina:CreateToggle({Name = "No Stamina Loss"; CurrentValue = false; Callback = function(Value)
 if TestRequire() ~= true then
@@ -365,6 +390,9 @@ Stamina:CreateSection("Auto-Injection ￣へ￣")
 
 Stamina:CreateToggle({Name = "Auto-Inject"; CurrentValue = false; Callback = function(Value)
 AutoInjectStamina = Value
+if Value == true then
+Notify("Success!", "Stamina settings will automatically apply to your character at the start of the round!", 7, true)
+end
 end; })
 AutoInjectStamina = false
 
@@ -463,7 +491,7 @@ end; })
 Dance:CreateSection("Change Emote o((>ω< ))o")
 
 preferedemote = "Dance"
-Dance:CreateDropdown({Name = "Gui Theme"; Options = {"Dance","Squingle","Rainbow Waves"}; CurrentOption = "Dance"; MultiSelection = false; Callback = function(Value)
+Dance:CreateDropdown({Name = "Emote"; Options = {"Dance","Squingle","Rainbow Waves"}; CurrentOption = "Dance"; MultiSelection = false; Callback = function(Value)
 if Value == "Rainbow Waves" then
 preferedemote = "MyEmoteIdea"
 else
@@ -477,6 +505,7 @@ ErrorRequire()
 return nil
 end
 EmotesModule["SelectedEmote"] = preferedemote
+Notify("Success!", "Changed emote to "..preferedemote.."!", 4, true)
 end; })
 
 Dance:CreateButton({Name = "Change Emote to Random"; Callback = function()
@@ -484,7 +513,9 @@ if TestRequire() ~= true then
 ErrorRequire()
 return nil
 end
-EmotesModule["SelectedEmote"] = GetRandomEmote()
+local rndmemote = GetRandomEmote()
+EmotesModule["SelectedEmote"] = rndmemote
+Notify("Success!", "Changed emote to "..rndmemote.."!", 4, true)
 end; })
 
 
@@ -660,7 +691,7 @@ ReturnToOldSpot()
 end
 end
 
-local PointFarm = Window:CreateTab("Point Farm [ BETA ]",107624957891469)
+local PointFarm = Window:CreateTab("Point Farm",107624957891469)
 
 PointFarm:CreateLabel("Before farming money make sure to disable shiftlock! ヾ(•ω•`)o")
 
@@ -675,45 +706,84 @@ local TauntLabel = PointFarm:CreateLabel("Taunt Cooldown: 0")
 local RevolverLabel = PointFarm:CreateLabel("Revolver Cooldown: 0")
 local AdrenalineLabel = PointFarm:CreateLabel("Adrenaline Cooldown: 0")
 
+local CloakDebounce = false
+local PunchDebounce = false
+local TauntDebounce = false
+local RevolverDebounce = false
+local AdrenalineDebounce = false
+
 PointFarm:CreateButton({Name = "Get Money with Ability"; Callback = function()
 --[[ cooldown thingy ]]--
 task.delay(0,function()
 task.spawn(function()
 if ability_tofarm == "Cloak" then
+if CloakDebounce then
+Notify("Error!", "Cloak ability is in cooldown. Please wait!", 5, false)
+return nil
+end
+CloakDebounce = true
 for i = 50, 1, -1 do
 CloakLabel:Set("Cloak Cooldown: "..i)
 wait(1)
 end
 CloakLabel:Set("Cloak Cooldown: 0")
+CloakDebounce = false
 elseif ability_tofarm == "Punch" then
+if PunchDebounce then
+Notify("Error!", "Punch ability is in cooldown. Please wait!", 5, false)
+return nil
+end
+PunchDebounce = true
 for i = 40, 1, -1 do
 PunchLabel:Set("Punch Cooldown: "..i)
 wait(1)
 end
 PunchLabel:Set("Punch Cooldown: 0")
+PunchDebounce = false
 elseif ability_tofarm == "Taunt" then
+if TauntDebounce then
+Notify("Error!", "Taunt ability is in cooldown. Please wait!", 5, false)
+return nil
+end
+TauntDebounce = true
 for i = 25, 1, -1 do
 TauntLabel:Set("Taunt Cooldown: "..i)
 wait(1)
 end
 TauntLabel:Set("Taunt Cooldown: 0")
+TauntDebounce = false
 elseif ability_tofarm == "Revolver" then
+if RevolverDebounce then
+Notify("Error!", "Revolver ability is in cooldown. Please wait!", 5, false)
+return nil
+end
+RevolverDebounce = true
 for i = 15, 1, -1 do
 RevolverLabel:Set("Revolver Cooldown: "..i)
 wait(1)
 end
 RevolverLabel:Set("Revolver Cooldown: 0")
+RevolverDebounce = false
 elseif ability_tofarm == "Adrenaline" then
+if AdrenalineDebounce then
+Notify("Error!", "Adrenaline ability is in cooldown. Please wait!", 5, false)
+return nil
+end
+AdrenalineDebounce = true
 for i = 35, 1, -1 do
 AdrenalineLabel:Set("Adrenaline Cooldown: "..i)
 wait(1)
 end
 AdrenalineLabel:Set("Adrenaline Cooldown: 0")
+AdrenalineDebounce = false
 end
 end)
 end)
 --[[ get money ]]--
+task.spawn(function()
 GetMoneyViaAbility(tostring(ability_tofarm))
+end)
+Notify("Success!", "Getting points via "..tostring(ability_tofarm).." ability! Please wait.", 4, true)
 end; })
 
 --[[ 
@@ -746,40 +816,76 @@ local Abilities_Table = {
 function GetRandomAbility()
 return Abilities_Table[math.random(1, #Abilities_Table)]
 end
+
+AbilityData = {
+	
+--\\ Civilians Abilities //--
+["Adrenaline"] = {Name = "Adrenaline",InputShown = "",Tip = "Get a temporary speed boost for 6 seconds, highlighting you to your teamates and slowing you down after it\'s over.",Cooldown = 35,Icon = "rbxassetid://116399911657417",DisplayName = "Adrenaline"};
+["Punch"] = {Name = "Punch",InputShown = "",Tip = "Swing foward stunning any killers hit for 3 seconds, if missed you\'ll get severe endlag.",Cooldown = 40,Icon = "rbxassetid://97428323453639",DisplayName = "Punch"};
+["Caretaker"] = {Name = "Caretaker",InputShown = "",Tip = "Splash a potion infront of you, any survivors hit will heal 20 HP in total. Having this ability makes you lose 75 max health though!",Cooldown = 30,Icon = "rbxassetid://90712805517714",DisplayName = "Caretaker"};
+["Cloak"] = {Name = "Cloak",InputShown = "",Tip = "Becoming heavily slowed but invisible for a short amount of time, Killers can still hit you though!",Cooldown = 50,Icon = "rbxassetid://90476367580326",DisplayName = "Cloak"};
+["Block"] = {Name = "Block",InputShown = "",Tip = "Try blocking any form of damage, if successful heal 10 HP, get a speed boost and negate all the damage.",Cooldown = 40,Icon = "rbxassetid://120929805037270",DisplayName = "Block"};
+["Dash"] = {Name = "Dash",InputShown = "",Tip = "Dash foward, after you will get fatigue for 2 seconds which slows stamina regeneration and makes it drain faster.",Cooldown = 20,Icon = "rbxassetid://73777691791017",DisplayName = "Dash"};
+["BonusPad"] = {Name = "BonusPad",InputShown = "",Tip = "Build a temporary speed pad that speeds up any survivor who steps on it. Having this ability makes you lose 10 max health though!",Cooldown = 70,Icon = "rbxassetid://86775625332300",DisplayName = "BonusPad"};
+["Hotdog"] = {Name = "Hotdog",InputShown = "",Tip = "Eat a hotdog, healing 15 HP at the cost of 10 stamina.",Cooldown = 15,Icon = "rbxassetid://134322360499381",DisplayName = "Hotdog"};
+["Revolver"] = {Name = "Revolver",InputShown = "",Tip = "Shoot with your revolver stunning any killers hit for 2 seconds, you\'ll have to reload after. Having this ability makes you lose 20 max stamina though!",Cooldown = 15,Icon = "rbxassetid://107624957891469",DisplayName = "Revolver"};
+["Taunt"] = {Name = "Taunt",InputShown = "",Tip = "Taunt the killer gaining a forcefield, highlighting the killer, and slowing them down for 5 seconds or until you\'re hit for the duration of the effect (1.25x damage).",Cooldown = 25,Icon = "rbxassetid://85436299122876",DisplayName = "Taunt"};
+
+--\\ Killers M1 //--
+["Swing"] = {Name = "Swing",InputShown = "M1",Tip = "Swing forward to deal damage.",Cooldown = 1,Icon = "rbxassetid://13754070639",DisplayName = "Swing"}; -- Template
+["PursuerSwing"] = {Name = "Swing",InputShown = "M1",Tip = "Swing forward to deal damage.",Cooldown = 1,Icon = "rbxassetid://86297288069487",DisplayName = "Swing"}; -- Pursuer
+["ArtfulSwing"] = {Name = "Swing",InputShown = "M1",Tip = "Swing forward to deal damage.",Cooldown = 1,Icon = "rbxassetid://95828395635772",DisplayName = "Swing"}; -- Fartful
+["HarkenSwing"] = {Name = "Swing",InputShown = "M1",Tip = "Swing forward to deal damage.",Cooldown = 1,Icon = "rbxassetid://79789896606805",DisplayName = "Swing"}; -- Harken
+["BadwareSwing"] = {Name = "Swing",InputShown = "M1",Tip = "Swing forward to deal damage.",Cooldown = 1,Icon = "rbxassetid://91900292604311",DisplayName = "Swing"}; -- Badware
+["KilldroidSwing"] = {Name = "Eject",InputShown = "M1",Tip = "Shoot a missile forward to deal damage.",Cooldown = 2.5,Icon = "rbxassetid://104399918505448",DisplayName = "Eject"}; -- Killdroid
+
+--\\ Killer Abilities //--
+["Cleave"] = {Name = "Cleave",InputShown = "",Tip = "Lunge forward and deal 20 damage and 10 bleed, long endlag and highlights the victim.",Cooldown = 20,Icon = "rbxassetid://92447235780730",DisplayName = "Cleave"};
+["Howl"] = {Name = "Howl",InputShown = "",Tip = "Scream and slow everyone on the map for 6s.",Cooldown = 35,Icon = "rbxassetid://121485044324107",DisplayName = "Howl"};
+["Stalk"] = {Name = "Stalk",InputShown = "",Tip = "Turn invisible and gain a lot of speed, cant use abilities and a long endlag after.",Cooldown = 10,Icon = "rbxassetid://93106430986611",DisplayName = "Stalk"};
+
+["FirewallBypass"] = {Name = "FirewallBypass",InputShown = "",Tip = "Place a computer that speeds you up when your near it, +5 damage for the bolt ability and civilians can destroy them.",Cooldown = 15,Icon = "rbxassetid://128815994656979",DisplayName = "Firewall Bypass"};
+["Bolt"] = {Name = "Bolt",InputShown = "",Tip = "Charge forward dealing a set amount of damage but knockbacks and ragdolls a civilian and you.",Cooldown = 20,Icon = "rbxassetid://72545932076875",DisplayName = "Bolt"};
+["Rift"] = {Name = "Rift",InputShown = "",Tip = "Teleport to the nearest computer to the nearest survivor destroying it and gaining a lot of speed, civilians take 10 damage overtime nearby it.",Cooldown = 25,Icon = "rbxassetid://127133544413220",DisplayName = "Rift"};
+
+["Implement"] = {Name = "Implement",InputShown = "",Tip = "Place down a temporary wall, decays 1 HP per second and going through them damages it by 5.",Cooldown = 15,Icon = "rbxassetid://136267634030688",DisplayName = "Implement"};
+["Copywrite"] = {Name = "Copywrite",InputShown = "",Tip = "Place down a music box that slows survivors and highlights them.",Cooldown = 35,Icon = "rbxassetid://135215798929697",DisplayName = "Copywrite"};
+
+["Flight"] = {Name = "Flight",InputShown = "",Tip = "Fly up high and gain aimbot for the duration, come back down after a while with endlag.",Cooldown = 20,Icon = "rbxassetid://119091263099069",DisplayName = "Flight"};
+["Deploy"] = {Name = "Deploy",InputShown = "",Tip = "Places a killbot that if survivors come near, it can highlight and beep 5 times before exploding.",Cooldown = 15,Icon = "rbxassetid://96669704702337",DisplayName = "Deploy"};
+
+["Repress"] = {Name = "Repress",InputShown = "",Tip = "Give every survivor a red light green light mini game which makes noise and blinds them, particles on them means it's active.",Cooldown = 60,Icon = "rbxassetid://119980024420991",DisplayName = "Repress"};
+["Tangle"] = {Name = "Tangle",InputShown = "",Tip = "Throw a light spear that reels and heals the survivor, but any damage crits them and breaking the chain makes noise.",Cooldown = 25,Icon = "rbxassetid://136216951578398",DisplayName = "Tangle"};
+["Immolate"] = {Name = "Immolate",InputShown = "",Tip = "Sacrifice 100 Health in total to add 15 noise to the meter and get a temporary speedboost.",Cooldown = 35,Icon = "rbxassetid://86152452436996",DisplayName = "Immolate"};
+
+--\\ Test/Unreleased/Scrapped/Admin Abilities //--
+["Untitled"] = {Name = "Untitled",InputShown = "?",Tip = "No tips for this ability.",Cooldown = 10,Icon = "rbxassetid://82116081649912",DisplayName = "Untitled"};
+["Template"] = {Name = "Template",InputShown = "",Tip = "This is template. Create your own abiltity!",Cooldown = 0,Icon = "rbxassetid://0",DisplayName = "Template"};
+["Whack"] = {Name = "Whack",InputShown = "M1",Tip = "Swing forward to deal damage.",Cooldown = 0.5,Icon = "rbxassetid://13771861804",DisplayName = "Whack"};
+["Yield"] = {Name = "Yield",InputShown = "",Tip = "?",Cooldown = 20,Icon = "rbxassetid://82116081649912",DisplayName = "Yield"};
+["Bloodstung"] = {Name = "Bloodstung",InputShown = "",Tip = "?",Cooldown = 30,Icon = "rbxassetid://82116081649912",DisplayName = "Bloodstung"};
+["Alter"] = {Name = "Alter",InputShown = "",Tip = "?",Cooldown = 30,Icon = "rbxassetid://82116081649912",DisplayName = "Alter"};
+["Slam"] = {Name = "Slam",InputShown = "",Tip = "?",Cooldown = 15,Icon = "rbxassetid://82116081649912",DisplayName = "Slam"};
+["Thunderstorm"] = {Name = "Thunderstorm",InputShown = "",Tip = "?",Cooldown = 15,Icon = "rbxassetid://82116081649912",DisplayName = "Thunderstorm"};
+["SwordSwitch"] = {Name = "SwordSwitch",InputShown = "",Tip = "?",Cooldown = 10,Icon = "rbxassetid://82116081649912",DisplayName = "Sword Switch"};
+
+}
+
 function ReturnAbilityData(ability)
-if tostring(ability) == "Adrenaline" then
-return {Name = "Adrenaline",InputShown = "",Tip = "Get a temporary speed boost for 6 seconds, highlighting you to your teamates and slowing you down after it\'s over.",Cooldown = 35,Icon = "rbxassetid://116399911657417",DisplayName = "Adrenaline"}
-elseif tostring(ability) == "Punch" then
-return {Name = "Punch",InputShown = "",Tip = "Swing foward stunning any killers hit for 3 seconds, if missed you\'ll get severe endlag.",Cooldown = 40,Icon = "rbxassetid://97428323453639",DisplayName = "Punch"}
-elseif tostring(ability) == "Caretaker" then
-return {Name = "Caretaker",InputShown = "",Tip = "Splash a potion infront of you, any survivors hit will heal 20 HP in total. Having this ability makes you lose 75 max health though!",Cooldown = 30,Icon = "rbxassetid://90712805517714",DisplayName = "Caretaker"}
-elseif tostring(ability) == "Cloak" then
-return {Name = "Cloak",InputShown = "",Tip = "Becoming heavily slowed but invisible for a short amount of time, Killers can still hit you though!",Cooldown = 50,Icon = "rbxassetid://90476367580326",DisplayName = "Cloak"}
-elseif tostring(ability) == "Block" then
-return {Name = "Block",InputShown = "",Tip = "Try blocking any form of damage, if successful heal 10 HP, get a speed boost and negate all the damage.",Cooldown = 40,Icon = "rbxassetid://120929805037270",DisplayName = "Block"}
-elseif tostring(ability) == "Dash" then
-return {Name = "Dash",InputShown = "",Tip = "Dash foward, after you will get fatigue for 2 seconds which slows stamina regeneration and makes it drain faster.",Cooldown = 20,Icon = "rbxassetid://73777691791017",DisplayName = "Dash"}
-elseif tostring(ability) == "BonusPad" then
-return {Name = "BonusPad",InputShown = "",Tip = "Build a temporary speed pad that speeds up any survivor who steps on it. Having this ability makes you lose 10 max health though!",Cooldown = 70,Icon = "rbxassetid://86775625332300",DisplayName = "BonusPad"}
-elseif tostring(ability) == "Hotdog" then
-return {Name = "Hotdog",InputShown = "",Tip = "Eat a hotdog, healing 15 HP at the cost of 10 stamina.",Cooldown = 15,Icon = "rbxassetid://134322360499381",DisplayName = "Hotdog"}
-elseif tostring(ability) == "Revolver" then
-return {Name = "Revolver",InputShown = "",Tip = "Shoot with your revolver stunning any killers hit for 2 seconds, you\'ll have to reload after. Having this ability makes you lose 20 max stamina though!",Cooldown = 15,Icon = "rbxassetid://107624957891469",DisplayName = "Revolver"}
-elseif tostring(ability) == "Taunt" then
-return {Name = "Taunt",InputShown = "",Tip = "Taunt the killer gaining a forcefield, highlighting the killer, and slowing them down for 5 seconds or until you\'re hit for the duration of the effect (1.25x damage).",Cooldown = 25,Icon = "rbxassetid://85436299122876",DisplayName = "Taunt"}
-else
-return {Name = "Untitled",InputShown = "?",Tip = "No tips for this ability.",Cooldown = 10,Icon = "rbxassetid://82116081649912",DisplayName = "Untitled"}
-end
+return AbilityData[ability]
 end
 pcall(function()
 AbilityModule = require(game:GetService("Players").LocalPlayer:WaitForChild("PlayerGui"):WaitForChild("MainGui"):WaitForChild("Client"):WaitForChild("Modules"):WaitForChild("Ability"))
+end)
+pcall(function()
+UIModule = require(game:GetService("Players").LocalPlayer:WaitForChild("PlayerGui"):WaitForChild("MainGui"):WaitForChild("Client"):WaitForChild("Modules"):WaitForChild("UI"))
 end)
 local Ability = Window:CreateTab("Abilities Management",85436299122876)
 
 Ability:CreateSection("Give Abilities ~(￣▽￣)~")
 
 preferedability = "Block"
-Ability:CreateDropdown({Name = "Ability"; Options = {"Cloak","Punch","Taunt","BonusPad","Block","Caretaker","Dash","Hotdog","Revolver","Adrenaline"}; CurrentOption = "Block"; MultiSelection = false; Callback = function(Value)
+Ability:CreateDropdown({Name = "Ability"; Options = {"Cloak","Punch","Taunt","BonusPad","Block","Caretaker","Dash","Hotdog","Revolver","Adrenaline","Swing","PursuerSwing","ArtfulSwing","HarkenSwing","BadwareSwing","KilldroidSwing","Cleave","Howl","Stalk","FirewallBypass","Bolt","Rift","Implement","Copywrite","Flight","Deploy","Repress","Tangle","Immolate","Untitled","Template","Whack","Yield","Bloodstung","Alter","Slam","Thunderstorm","SwordSwitch"}; CurrentOption = "Block"; MultiSelection = false; Callback = function(Value)
 preferedability = TableFirstElementToString(Value)
 end; })
 
@@ -790,6 +896,11 @@ return nil
 end
 game:GetService("ReplicatedStorage"):WaitForChild("Events"):WaitForChild("RemoteEvents"):WaitForChild("AbilitySelection"):FireServer(unpack({{tostring(preferedability);}}))
 AbilityModule["CreateAbility"](ReturnAbilityData(tostring(preferedability)))
+if not table.find(Abilities_Table, tostring(preferedability)) then
+Notify("Success!", "Gave choosen ability! This ability is not civilian ability, so it may not work!", 6, true)
+else
+Notify("Success!", "Gave choosen ability!", 4, true)
+end
 end; })
 
 Ability:CreateButton({Name = "Give All Abilities"; Callback = function()
@@ -802,6 +913,7 @@ for _,ability in pairs(Abilities_Table) do
 game:GetService("ReplicatedStorage"):WaitForChild("Events"):WaitForChild("RemoteEvents"):WaitForChild("AbilitySelection"):FireServer(unpack({{tostring(ability);}}))
 AbilityModule["CreateAbility"](ReturnAbilityData(tostring(ability)))
 end
+Notify("Success!", "Unlocked all abilities!", 4, true)
 end; })
 
 Ability:CreateSection("Summon Cards ( •̀ ω •́ )✧")
@@ -809,17 +921,20 @@ Ability:CreateSection("Summon Cards ( •̀ ω •́ )✧")
 local preferedability_1_incard_1,preferedability_2_incard_1,preferedability_1_incard_2,preferedability_2_incard_2,preferedability_1_incard_3,preferedability_2_incard_3 = "Revolver","Caretaker","BonusPad","Caretaker","Revolver","Punch"
 
 Ability:CreateToggle({Name = "Auto-Inject"; CurrentValue = false; Callback = function(Value)
-if TestFireSignal() ~= true then
-ErrorSignal()
+if TestRequire() ~= true then
+ErrorRequire()
 return nil
 end
 AutoInjectCards = Value
+if Value == true then
+Notify("Success!", "Choosen cards will automatically appear at the start of the round!", 6, true)
+end
 end; })
 
 game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Teams").DescendantAdded:Connect(function(descendant)
 if descendant and descendant.Name == ""..LP.Name.."" and descendant.Parent.Name == "Survivor" and AutoInjectCards == true then
 task.wait(8)
-firesignal(game:GetService("ReplicatedStorage"):WaitForChild("Events"):WaitForChild("RemoteEvents"):WaitForChild("AbilitySelection").OnClientEvent, {preferedability_1_incard_1,preferedability_2_incard_1},{preferedability_1_incard_2,preferedability_2_incard_2},{preferedability_1_incard_3,preferedability_2_incard_3})
+UIModule["AbilitySelection"]({preferedability_1_incard_1,preferedability_2_incard_1},{preferedability_1_incard_2,preferedability_2_incard_2},{preferedability_1_incard_3,preferedability_2_incard_3})
 end
 end)
 
@@ -848,11 +963,11 @@ preferedability_2_incard_3 = TableFirstElementToString(Value)
 end; })
 
 Ability:CreateButton({Name = "Summon Choosen Cards"; Callback = function()
-if TestFireSignal() ~= true then
-ErrorSignal()
+if TestRequire() ~= true then
+ErrorRequire()
 return nil
 end
-firesignal(game:GetService("ReplicatedStorage"):WaitForChild("Events"):WaitForChild("RemoteEvents"):WaitForChild("AbilitySelection").OnClientEvent, {preferedability_1_incard_1,preferedability_2_incard_1},{preferedability_1_incard_2,preferedability_2_incard_2},{preferedability_1_incard_3,preferedability_2_incard_3})
+UIModule["AbilitySelection"]({preferedability_1_incard_1,preferedability_2_incard_1},{preferedability_1_incard_2,preferedability_2_incard_2},{preferedability_1_incard_3,preferedability_2_incard_3})
 end; })
 
 
@@ -890,100 +1005,227 @@ Visuals Management
 
 ]]--
 
-function randomsymbol()
-    local rndm = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890@#$_&-+()*':;!?,.[]{}=|~`•"
-    local rndmindex = math.random(1, #rndm)
-    return rndm:sub(rndmindex,rndmindex)
+if not game:GetService("CoreGui"):FindFirstChild("DOD_ESP_HANDLER") then
+Instance.new("Folder", game:GetService("CoreGui")).Name = "DOD_ESP_HANDLER"
 end
-
-function randomstring()
-local rndm = math.random(1,20)
-local rndmstring = tostring(randomsymbol())
-for i = 1, rndm do
-rndmstring = ""..rndmstring..""..tostring(randomsymbol())..""
-end
-return rndmstring
-end
-
-local ImportantSymbols = ""..randomsymbol()..""..randomsymbol()..""..randomsymbol()..""
 
 _G.ESPenabledHandler = false
-_G.ESPtransHandler = 0.2
+_G.ESPtransHandler = 0.3
+
 function CreateHighlight(plr)
+task.spawn(function()
+for i,v in pairs(game:GetService("CoreGui"):FindFirstChild("DOD_ESP_HANDLER"):GetChildren()) do
+if v and v.Name == ("sillyfolder_"..plr.Name) then
+v:Destroy()
+end
+end
+repeat task.wait() until game:GetService("CoreGui"):WaitForChild("DOD_ESP_HANDLER"):FindFirstChild("sillyfolder_"..plr.Name) == nil
+local esp_folder = Instance.new("Folder")
+esp_folder.Name = "sillyfolder_"..plr.Name
+esp_folder.Parent = game:GetService("CoreGui"):FindFirstChild("DOD_ESP_HANDLER")
+      
+repeat task.wait() until plr.Character and plr.Character:FindFirstChild("HumanoidRootPart") and plr.Character:FindFirstChildOfClass("Humanoid")
 local plr_char = plr.Character or plr.CharacterAdded:Wait()
-local highlight = Instance.new("Highlight", plr_char)
-highlight.Name = ""..ImportantSymbols.."_"..randomstring()..""
-highlight.Archivable = true
-highlight.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
-highlight.Enabled = _G.ESPenabledHandler
-highlight.FillColor = (plr_char.Parent.Name == "Killer" and Color3.fromRGB(255, 0, 0)) or Color3.fromRGB(0, 255, 0)
-highlight.OutlineColor = Color3.fromRGB(255, 255, 255)
-highlight.FillTransparency = (workspace:FindFirstChild(plr.Name) or plr_char.Parent.Name == "Ghost" and 1) or _G.ESPtransHandler
-highlight.OutlineTransparency = (workspace:FindFirstChild(plr.Name) or plr_char.Parent.Name == "Ghost" and 1) or 0
-highlight.Adornee = plr_char
-end
-
-for i,v in pairs(game:GetService("Players"):GetPlayers()) do
-if v and v ~= game:GetService("Players").LocalPlayer then
-CreateHighlight(v)
-v.CharacterAdded:Connect(function(char)
-pcall(function()
-CreateHighlight(game:GetService("Players"):GetPlayerFromCharacter(char))
-end)
-end)
+for i,v in pairs(plr_char:GetChildren()) do
+if v and v:IsA("BasePart") and (v.Name == "Left Leg" or v.Name == "Left Arm" or v.Name == "Right Leg" or v.Name == "Right Arm" or v.Name == "Torso" or v.Name == "Head") then
+local esp = Instance.new("BoxHandleAdornment")
+esp.Name = "sillygirl_"..plr.Name
+esp.Adornee = v
+esp.AlwaysOnTop = true
+esp.ZIndex = 10 or 1
+esp.Size = v.Size
+esp.Transparency = (plr_char.Parent.Name == "Workspace" and 1) or tonumber(_G.ESPtransHandler)
+esp.Color = (plr_char.Parent.Name == "Killer" and BrickColor.new("Bright red")) or (plr_char.Parent.Name == "Ghost" and BrickColor.new("White")) or BrickColor.new("Bright green")
+esp.Parent = game:GetService("CoreGui"):WaitForChild("DOD_ESP_HANDLER"):FindFirstChild("sillyfolder_"..plr.Name)
 end
 end
 
-game:GetService("Players").PlayerAdded:Connect(function(v)
-CreateHighlight(v)
-v.CharacterAdded:Connect(function(char)
-pcall(function()
-CreateHighlight(game:GetService("Players"):GetPlayerFromCharacter(char))
+
+      
+local char_connection, team_connection, dstr_connection
+char_connection = plr.CharacterAdded:Connect(function()
+if game:GetService("CoreGui"):WaitForChild("DOD_ESP_HANDLER"):FindFirstChild("sillyfolder_"..plr.Name) then
+game:GetService("CoreGui"):WaitForChild("DOD_ESP_HANDLER"):FindFirstChild("sillyfolder_"..plr.Name):Destroy()
+end
+dstr_connection:Disconnect()
+team_connection:Disconnect()
+repeat task.wait(1.25) until plr.Character and plr.Character:FindFirstChild("HumanoidRootPart") and plr.Character:FindFirstChildOfClass("Humanoid")
+CreateHighlight(plr)
+char_connection:Disconnect()
 end)
+
+team_connection = plr:GetPropertyChangedSignal("TeamColor"):Connect(function()
+if game:GetService("CoreGui"):WaitForChild("DOD_ESP_HANDLER"):FindFirstChild("sillyfolder_"..plr.Name) then
+game:GetService("CoreGui"):WaitForChild("DOD_ESP_HANDLER"):FindFirstChild("sillyfolder_"..plr.Name):Destroy()
+end
+dstr_connection:Disconnect()
+char_connection:Disconnect()
+repeat task.wait(1.25) until plr.Character and plr.Character:FindFirstChild("HumanoidRootPart") and plr.Character:FindFirstChildOfClass("Humanoid")
+CreateHighlight(plr)
+team_connection:Disconnect()
 end)
+
+dstr_connection = game:GetService("CoreGui").ChildRemoved:Connect(function(child)
+if child.Name == "DOD_ESP_HANDLER" then
+Instance.new("Folder", game:GetService("CoreGui")).Name = "DOD_ESP_HANDLER"
+team_connection:Disconnect()
+char_connection:Disconnect()
+dstr_connection:Disconnect()
+end      
 end)
+
+
+      
+end)
+end
+
+function ChangeTransparency(trans)
+for i,v in pairs(game:GetService("CoreGui"):FindFirstChild("DOD_ESP_HANDLER"):GetDescendants()) do
+if v and v:IsA("BoxHandleAdornment") then
+v.Transparency = trans
+end
+end
+end
 
 local Visual = Window:CreateTab("Visuals Management",90476367580326)
 
 Visual:CreateSection("Players ESP （︶^︶）")
 
-Visual:CreateSlider({Name = "ESP Transparency (in %)"; Range = {0, 100}; Increment = 5; Suffix = "%"; CurrentValue = 20; Callback = function(Value)
+Visual:CreateLabel("Main Settings")
+
+Visual:CreateSlider({Name = "ESP Transparency (in %)"; Range = {0, 100}; Increment = 5; Suffix = "%"; CurrentValue = 30; Callback = function(Value)
 _G.ESPtransHandler = (tonumber(Value) / 100)
-for i,v in pairs(game:GetService("Players"):GetDescendants()) do
-if v and v:IsA("Highlight") and v.Name:find(""..ImportantSymbols.."_") or v.Name:match(""..ImportantSymbols.."_") then
-v.FillTransparency = (workspace:FindFirstChild(plr.Name) or plr_char.Parent.Name == "Ghost" and 1) or _G.ESPtransHandler
-end
-end
-for i,v in pairs(game:GetService("Workspace"):GetDescendants()) do
-if v and v:IsA("Highlight") and v.Name:find(""..ImportantSymbols.."_") or v.Name:match(""..ImportantSymbols.."_") then
-v.FillTransparency = (workspace:FindFirstChild(plr.Name) or plr_char.Parent.Name == "Ghost" and 1) or _G.ESPtransHandler
-end
-end
+ChangeTransparency(tonumber(_G.ESPtransHandler))
 end; })
 
-Visual:CreateToggle({Name = "ESP Everyone"; CurrentValue = false; Callback = function(Value)
+plradded_esp = nil
+plrremoved_esp = nil
+Visual:CreateToggle({Name = "Turn On/Off ESP"; CurrentValue = false; Callback = function(Value)
 _G.ESPenabledHandler = Value
-for i,v in pairs(game:GetService("Players"):GetDescendants()) do
-if v and v:IsA("Highlight") and v.Name:find(""..ImportantSymbols.."_") or v.Name:match(""..ImportantSymbols.."_") then
-v.Enabled = Value
+if _G.ESPenabledHandler == true then
+for i,v in pairs(game:GetService("Players"):GetPlayers()) do
+if v and v ~= game:GetService("Players").LocalPlayer then
+CreateHighlight(v)
 end
 end
-for i,v in pairs(game:GetService("Workspace"):GetDescendants()) do
-if v and v:IsA("Highlight") and v.Name:find(""..ImportantSymbols.."_") or v.Name:match(""..ImportantSymbols.."_") then
-v.Enabled = Value
+plradded_esp = game:GetService("Players").PlayerAdded:Connect(function(plr)
+CreateHighlight(plr)
+end)
+plrremoved_esp = game:GetService("Players").PlayerRemoving:Connect(function(plr)
+if game:GetService("CoreGui"):WaitForChild("DOD_ESP_HANDLER"):FindFirstChild("sillyfolder_"..plr.Name) then
+game:GetService("CoreGui"):WaitForChild("DOD_ESP_HANDLER"):FindFirstChild("sillyfolder_"..plr.Name):Destroy()
 end
+end)
+Notify("Success!", "Enabled!", 4, true)
+elseif _G.ESPenabledHandler == false then
+game:GetService("CoreGui"):FindFirstChild("DOD_ESP_HANDLER"):Destroy()
+if plradded_esp ~= nil then
+plradded_esp:Disconnect()
+plradded_esp = nil
+end
+if plrremoved_esp ~= nil then
+plrremoved_esp:Disconnect()
+plrremoved_esp = nil
+end
+Notify("Success!", "Disabled!", 4, true)
 end
 end; })
 
-Visual:CreateSection("Gui Changer ε=( o｀ω′)ノ")
+Visual:CreateSection("Gui Management ε=( o｀ω′)ノ")
 
-Visual:CreateButton({Name = "Disable ''Harken Broken Eye'' Effect [ Use Before Harken Use It ]"; Callback = function()
+Visual:CreateButton({Name = "Disable ''Harken Eye Game'' Effect [ Use Before Harken Use It ]"; Callback = function()
 game:GetService("ReplicatedStorage"):WaitForChild("Events"):WaitForChild("RemoteEvents"):WaitForChild("HarkenMove"):Destroy()
-Notify("Success!", "Disabled effect!", 10, true)
+Notify("Success!", "Disabled!", 4, true)
 end; })
 Visual:CreateButton({Name = "Disable ''Evil Scary'' Jumpscare"; Callback = function()
 game:GetService("Players").LocalPlayer:WaitForChild("PlayerGui"):WaitForChild("MainGui"):WaitForChild("EvilScary"):Destroy()
-Notify("Success!", "Disabled effect!", 10, true)
+game:GetService("ReplicatedStorage"):WaitForChild("Events"):WaitForChild("RemoteEvents"):WaitForChild("EvilScary"):Destroy()
+Notify("Success!", "Disabled!", 4, true)
+end; })
+Visual:CreateButton({Name = "Open Shop"; Callback = function()
+UIModule["OpenShop"]()
+end; })
+
+Visual:CreateToggle({Name = "Teammate Death Effect Enabled"; CurrentValue = true; Callback = function(Value)
+if TestRequire() ~= true then
+ErrorRequire()
+return nil
+end
+DeathEffectEnabled = Value
+if DeathEffectEnabled == true then
+UIModule["TeamateDeathEffect"] = function()
+	game:GetService("Lighting").TeamateDeathEffect.Enabled = true
+	game:GetService("Lighting").TeamateDeathEffect.Contrast = 0
+	game:GetService("Lighting").TeamateDeathEffect.TintColor = Color3.fromRGB(255, 255, 255)
+	game:GetService("TweenService"):Create(game:GetService("Lighting").TeamateDeathEffect, TweenInfo.new(0.5), {
+		["Contrast"] = 1
+	}):Play()
+	game:GetService("TweenService"):Create(game:GetService("Lighting").TeamateDeathEffect, TweenInfo.new(0.5), {
+		["TintColor"] = Color3.fromRGB(255, 52, 52)
+	}):Play()
+	task.wait(0.5)
+	game:GetService("TweenService"):Create(game:GetService("Lighting").TeamateDeathEffect, TweenInfo.new(2), {
+		["Contrast"] = 0
+	}):Play()
+	game:GetService("TweenService"):Create(game:GetService("Lighting").TeamateDeathEffect, TweenInfo.new(2), {
+		["TintColor"] = Color3.fromRGB(255, 255, 255)
+	}):Play()
+end
+Notify("Success!", "Enabled!", 4, true)
+elseif DeathEffectEnabled == false then
+UIModule["TeamateDeathEffect"] = function() return nil end
+Notify("Success!", "Disabled!", 4, true)
+end
+end; })
+
+Visual:CreateSection("Money Giver (⁠｡⁠♡⁠‿⁠♡⁠｡⁠)")
+
+function AwardPoints(points, reason)
+	local Template = game:GetService("Players").LocalPlayer:WaitForChild("PlayerGui"):WaitForChild("MainGui"):WaitForChild("Client"):WaitForChild("Modules"):WaitForChild("UI"):WaitForChild("PlayerPoints"):Clone()
+	Template.Parent = game:GetService("Players").LocalPlayer:WaitForChild("PlayerGui"):WaitForChild("MainGui").PlayerPoints
+	Template.Frame.Title.Text = "<font color=\'rgb(255, 64, 67)\'>"..tostring(points).." Points</font> Awarded "..tostring(reason)
+	Template.Frame.Title.TextTransparency = 1
+	Template.Frame.Title.UIStroke.Transparency = 1
+	Template.Frame.Cash.ImageTransparency = 1
+	game:GetService("Debris"):AddItem(Template, 10)
+	game:GetService("TweenService"):Create(Template.Frame.Cash, TweenInfo.new(10, Enum.EasingStyle.Linear), {
+		["Rotation"] = 360
+	}):Play()
+	pcall(function()
+		for _ = 0,5 do
+			task.wait(0.2)
+			local Title = Template.Frame.Title
+			Title.TextTransparency = Title.TextTransparency - 0.2
+			local Stroke = Template.Frame.Title.UIStroke
+			Stroke.Transparency = Stroke.Transparency - 0.2
+			local Cash = Template.Frame.Cash
+			Cash.ImageTransparency = Cash.ImageTransparency - 0.2
+		end
+		task.wait(6)
+		for _ = 0,5 do
+			task.wait(0.5)
+			local Title = Template.Frame.Title
+			Title.TextTransparency = Title.TextTransparency + 0.2
+			local Stroke = Template.Frame.Title.UIStroke
+			Stroke.Transparency = Stroke.Transparency + 0.2
+			local Cash = Template.Frame.Cash
+			Cash.ImageTransparency = Cash.ImageTransparency + 0.2
+		end
+	end)
+end
+MoneyToGet = 10
+ReasonForMoney = "for surviving for atleast 60 seconds."
+
+Visual:CreateInput({Name = "Money amount"; PlaceholderText = "10"; NumbersOnly = true; OnEnter = true; RemoveTextAfterFocusLost = false; Callback = function(Value)
+MoneyToGet = tonumber(Value)
+end; })
+
+Visual:CreateInput({Name = "Reason for getting money"; PlaceholderText = "for surviving for atleast 60 seconds."; NumbersOnly = false; OnEnter = true; RemoveTextAfterFocusLost = false; Callback = function(Value)
+ReasonForMoney = tostring(Value)
+end; })
+
+Visual:CreateButton({Name = "Give Money"; Callback = function()
+AwardPoints(MoneyToGet, ReasonForMoney)
 end; })
 
 Visual:CreateSection("Intro / Special Round Starter (╬▔皿▔)╯")
@@ -1005,7 +1247,7 @@ end; })
 
 
 specialroundevent = "Double Trouble"
-Visual:CreateDropdown({Name = "Special Round Event"; Options = {"Double Trouble","Evil Scary","One Bounce","Gunslinger"}; CurrentOption = "Double Trouble"; MultiSelection = false; Callback = function(Value)
+Visual:CreateDropdown({Name = "Special Round Event"; Options = {"Double Trouble","Evil Scary","One Bounce","Gunslinger"}; CurrentOption = "Double Trouble"; MultiSelection = false; Callback = function(Value)
 specialroundevent = TableFirstElementToString(Value)
 end; })
 
@@ -1160,7 +1402,7 @@ end)
 
 local AntiEvilScary
 AntiEvilScary = false
-AntiThings:CreateToggle({Name = "Auto-Destroy Evil Scary [ client ]"; CurrentValue = false; Callback = function(Value)
+AntiThings:CreateToggle({Name = "Anti Evil Scary"; CurrentValue = false; Callback = function(Value)
 AntiEvilScary = Value
 if AntiEvilScary == true then
 for i,v in pairs(game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Debris"):WaitForChild("Cleanable"):GetChildren()) do
@@ -1212,11 +1454,154 @@ child.CanTouch = false
 pcall(function()
 child.CanQuery = false
 end)
-child:Destroy()
+child :Destroy()
 end
 end)
 
+--[[ 
 
+
+___________    .__                               __   
+\__    ___/___ |  |   ____ ______   ____________/  |_ 
+  |    |_/ __ \|  | _/ __ \\____ \ /  _ \_  __ \   __\
+  |    |\  ___/|  |_\  ___/|  |_> >  <_> )  | \/|  |  
+  |____| \___  >____/\___  >   __/ \____/|__|   |__|  
+             \/          \/|__|                       
+
+Teleport
+
+
+]]--
+
+local TeleportFeatures = Window:CreateTab("Teleport",127133544413220)
+
+function SafeTeleport(model)
+local time = tick()
+while tick() - time < 1 do
+for i,v in pairs(LP.Character:GetDescendants()) do
+if v and v:IsA("BasePart") then
+v.Velocity = Vector3.new(0,0,0)
+v.RotVelocity = Vector3.new(0,0,0)
+end
+end
+LP.Character:WaitForChild("HumanoidRootPart").CFrame = model.CFrame
+task.wait()
+end
+end
+
+function GetChildNames(model)
+local coolbalt = {}
+for i,v in pairs(model:GetChildren()) do
+if v then
+table.insert(coolbalt, tostring(v.Name))
+end
+end
+return coolbalt
+end
+
+TeleportFeatures:CreateSection("Team Teleport (⓿_⓿)")
+
+ChoosenKillerTarget = nil
+ChoosenSurvivorTarget = nil
+ChoosenGhostTarget = nil
+local TeleportToKillerDropdown = TeleportFeatures:CreateDropdown({Name = "Target Killer"; Options = GetChildNames(game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Teams"):WaitForChild("Killer")); CurrentOption = ""; MultiSelection = false; Callback = function(Value)
+ChoosenKillerTarget = TableFirstElementToString(Value)
+end; })
+TeleportFeatures:CreateButton({Name = "Teleport to Killer"; Callback = function()
+if not game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Teams"):WaitForChild("Killer"):FindFirstChildOfClass("Model") then
+Notify("Error!", "There are no killers!", 3, false)
+return nil
+end
+if ChoosenKillerTarget == nil or ChoosenKillerTarget == "" or not ChoosenKillerTarget then
+Notify("Error!", "Choose your target!", 3, false)
+return nil
+end
+SafeTeleport(game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Teams"):WaitForChild("Killer"):FindFirstChild(ChoosenKillerTarget):WaitForChild("HumanoidRootPart"))
+end; })
+game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Teams"):WaitForChild("Killer").ChildAdded:Connect(function(child)
+TeleportToKillerDropdown:Refresh(GetChildNames(game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Teams"):WaitForChild("Killer")))
+end)
+game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Teams"):WaitForChild("Killer").ChildRemoved:Connect(function(child)
+TeleportToKillerDropdown:Refresh(GetChildNames(game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Teams"):WaitForChild("Killer")))
+end)
+
+local TeleportToSurvivorDropdown = TeleportFeatures:CreateDropdown({Name = "Target Survivor"; Options = GetChildNames(game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Teams"):WaitForChild("Survivor")); CurrentOption = ""; MultiSelection = false; Callback = function(Value)
+ChoosenSurvivorTarget = TableFirstElementToString(Value)
+end; })
+TeleportFeatures:CreateButton({Name = "Teleport to Survivor"; Callback = function()
+if not game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Teams"):WaitForChild("Survivor"):FindFirstChildOfClass("Model") then
+Notify("Error!", "There are no survivors!", 3, false)
+return nil
+end
+if ChoosenSurvivorTarget == nil or ChoosenSurvivorTarget == "" or not ChoosenSurvivorTarget then
+Notify("Error!", "Choose your target!", 3, false)
+return nil
+end
+SafeTeleport(game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Teams"):WaitForChild("Survivor"):FindFirstChild(ChoosenSurvivorTarget):WaitForChild("HumanoidRootPart"))
+end; })
+game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Teams"):WaitForChild("Survivor").ChildAdded:Connect(function(child)
+TeleportToSurvivorDropdown:Refresh(GetChildNames(game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Teams"):WaitForChild("Survivor")))
+end)
+game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Teams"):WaitForChild("Survivor").ChildRemoved:Connect(function(child)
+TeleportToSurvivorDropdown:Refresh(GetChildNames(game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Teams"):WaitForChild("Survivor")))
+end)
+
+local TeleportToGhostDropdown = TeleportFeatures:CreateDropdown({Name = "Target Ghost"; Options = GetChildNames(game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Teams"):WaitForChild("Ghost")); CurrentOption = ""; MultiSelection = false; Callback = function(Value)
+ChoosenGhostTarget = TableFirstElementToString(Value)
+end; })
+TeleportFeatures:CreateButton({Name = "Teleport to Ghost"; Callback = function()
+if not game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Teams"):WaitForChild("Ghost"):FindFirstChildOfClass("Model") then
+Notify("Error!", "There are no ghosts!", 3, false)
+return nil
+end
+if ChoosenGhostTarget == nil or ChoosenGhostTarget == "" or not ChoosenGhostTarget then
+Notify("Error!", "Choose your target!", 3, false)
+return nil
+end
+SafeTeleport(game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Teams"):WaitForChild("Ghost"):FindFirstChild(ChoosenGhostTarget):WaitForChild("HumanoidRootPart"))
+end; })
+game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Teams"):WaitForChild("Ghost").ChildAdded:Connect(function(child)
+TeleportToGhostDropdown:Refresh(GetChildNames(game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Teams"):WaitForChild("Ghost")))
+end)
+game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Teams"):WaitForChild("Ghost").ChildRemoved:Connect(function(child)
+TeleportToGhostDropdown:Refresh(GetChildNames(game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Teams"):WaitForChild("Ghost")))
+end)
+
+TeleportFeatures:CreateSection("Specific Teleports ლ(╹◡╹ლ)")
+
+TeleportFeatures:CreateButton({Name = "Teleport to Survivor with caretaker"; Callback = function()
+if not game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Teams"):WaitForChild("Survivor"):FindFirstChildOfClass("Model") then
+Notify("Error!", "There are no caretakers!", 3, false)
+return nil
+end
+local plrwithcaretaker = nil
+for i,v in pairs(game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Teams"):WaitForChild("Survivor"):GetChildren()) do
+if v and v.Parent and (v:WaitForChild("Vanities"):WaitForChild("Caretaker").Transparency ~= 1 or v:WaitForChild("Vanities"):WaitForChild("Aussie Slouch"):WaitForChild("Mesh").TextureId == "rbxassetid://130388665159057") then
+plrwithcaretaker = v
+end
+end
+if plrwithcaretaker then
+SafeTeleport(plrwithcaretaker:WaitForChild("HumanoidRootPart"))
+else
+Notify("Error!", "There are no caretakers!", 3, false)
+end
+end; })
+
+TeleportFeatures:CreateButton({Name = "Teleport to Bonus Pad"; Callback = function()
+if not game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Debris"):WaitForChild("Cleanable"):FindFirstChild("BonusPad") then
+Notify("Error!", "There are no bonus pads!", 3, false)
+return nil
+end
+SafeTeleport(game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Debris"):WaitForChild("Cleanable"):WaitForChild("BonusPad"):WaitForChild("Pad"))
+end; })
+
+TeleportFeatures:CreateButton({Name = "Teleport to Badware Computer"; Callback = function()
+if not game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Debris"):WaitForChild("Cleanable"):FindFirstChild("Computer") then
+Notify("Error!", "There are no badware computers!", 3, false)
+return nil
+end
+SafeTeleport(game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Debris"):WaitForChild("Cleanable"):WaitForChild("Computer"):WaitForChild("Primary"))
+end; })
 
 --[[ 
 
@@ -1244,7 +1629,7 @@ return tostring(product_price)
 end
 
 function HavePremium()
-if game:GetService("MarketplaceService"):UserOwnsGamePassAsync(game:GetService("Players").LocalPlayer.UserId, 1264479709) or getgenv().dodnhPremium == true then
+if game:GetService("MarketplaceService"):UserOwnsGamePassAsync(game:GetService("Players").LocalPlayer.UserId, 1264479709) or CheckIfUserInGroup() == true or getgenv().dodnhPremium == true then
 return true
 end
 return false
@@ -1271,11 +1656,15 @@ end
 
 local pprice = pcall(GetPrice(1264479709)) or 39
 
-PremiumFeatures:CreateLabel("Buy gamepass to unlock OP functions! [ Cost "..pprice.." robux ]")
+PremiumFeatures:CreateLabel("There's currently 2 ways to get unlock premium features")
+
+PremiumFeatures:CreateLabel("")
+
+PremiumFeatures:CreateLabel("Buy gamepass to unlock premium features! [ Cost "..pprice.." robux ]")
 
 PremiumFeatures:CreateButton({Name = "Open Gamepass Link"; Callback = function()
 if game:GetService("MarketplaceService"):UserOwnsGamePassAsync(game:GetService("Players").LocalPlayer.UserId, 1264479709) then
-    Notify("Error!", "Arleady have gamepass!")
+    Notify("Error!", "Arleady have gamepass!", 4)
 else
     OpenLink("https://www.roblox.com/game-pass/1264479709")
 end
@@ -1283,32 +1672,48 @@ end; })
 
 PremiumFeatures:CreateButton({Name = "Copy Gamepass Link"; Callback = function()
 if game:GetService("MarketplaceService"):UserOwnsGamePassAsync(game:GetService("Players").LocalPlayer.UserId, 1264479709) then
-    Notify("Error!", "Arleady have gamepass!")
+    Notify("Error!", "Arleady have gamepass!", 4)
 else
     setclipboard(tostring("https://www.roblox.com/game-pass/1264479709"))
     Notify("Success!", "Copied Link!", 10, true)
 end
 end; })
 
-PremiumFeatures:CreateParagraph({Title = "Info [ Insta-Kill Killer ]", Content = "Automatically insta-kills killer."})
+PremiumFeatures:CreateLabel("or join our roblox group to unlock premium features!")
 
-PremiumFeatures:CreateParagraph({Title = "How To Use [ Insta-Kill Killer ]", Content = "Activate when match started ( you should be survivor, AKA civilian ).\nPS: you may get killed during it :)"})
+PremiumFeatures:CreateButton({Name = "Open Group Link"; Callback = function()
+if CheckIfUserInGroup() == true then
+    Notify("Error!", "Arleady joined group!", 4)
+else
+    OpenLink("https://www.roblox.com/communities/35649714/my-group-nexer1234#!/about")
+end
+end; })
 
-preferedkillingmethod = "RNG"
-PremiumFeatures:CreateDropdown({Name = "Insta-Kill Method"; Options = {"RNG","Velocity + Magnitude [BETA]","Predict [BETA]"}; CurrentOption = "RNG"; MultiSelection = false; Callback = function(Value)
+PremiumFeatures:CreateButton({Name = "Copy Group Link"; Callback = function()
+if CheckIfUserInGroup() == true then
+    Notify("Error!", "Arleady joined group!", 4)
+else
+    setclipboard(tostring("https://www.roblox.com/communities/35649714/my-group-nexer1234#!/about"))
+    Notify("Success!", "Copied Link!", 10, true)
+end
+end; })
+
+PremiumFeatures:CreateLabel("")
+
+PremiumFeatures:CreateSection("Killing / Flinging Killers ::>_<::")
+
+PremiumFeatures:CreateLabel("Important note: YOU HAVE TO BE IN ROUND AS CIVILIAN TO KILL KILLER!\nalso it is recommended to activate invisibility before using fling!")
+
+preferedkillingmethod = "Predict"
+PremiumFeatures:CreateDropdown({Name = "Insta-Kill Method"; Options = {"RNG","Predict"}; CurrentOption = "Predict"; MultiSelection = false; Callback = function(Value)
 preferedkillingmethod = TableFirstElementToString(Value)
 end; })
 
-PremiumFeatures:CreateButton({Name = "Insta-Kill Killer [OP!]"; Callback = function()
+PremiumFeatures:CreateButton({Name = "Insta-Kill Killer"; Callback = function()
 if HavePremium() ~= true then
 ErrorPremium()
 return nil
 end
-
-game:GetService("ReplicatedStorage"):WaitForChild("Events"):WaitForChild("RemoteEvents"):WaitForChild("AbilitySelection"):FireServer(unpack({{tostring("Cloak")}}))
-game:GetService("ReplicatedStorage"):WaitForChild("Events"):WaitForChild("RemoteFunctions"):WaitForChild("UseAbility"):InvokeServer(unpack({tostring("Cloak")}))
-
-task.wait(3)
 
 local function checkifgotflingedlol(hrp)
     local velocity = hrp.Velocity
@@ -1336,13 +1741,11 @@ game:GetService("RunService").Heartbeat:Wait()
 end
 
 if preferedkillingmethod == "RNG" then
-game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame = Killer:WaitForChild("HumanoidRootPart").CFrame * CFrame.new(0,1,math.random(-20, -0.6))
-elseif preferedkillingmethod == "Velocity + Magnitude" then
-game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame = Killer:WaitForChild("HumanoidRootPart").CFrame * CFrame.new(0,1,getplrspeed(Killer))
+game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame = Killer:WaitForChild("HumanoidRootPart").CFrame * CFrame.new(0,1.1,math.random(-20, -0.6))
 elseif preferedkillingmethod == "Predict" then
-game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame = Killer:WaitForChild("HumanoidRootPart").CFrame * CFrame.new(0,1,predict(Killer))
+game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position = predict(game:GetService("Players"):GetPlayerFromCharacter(Killer))
 else
-game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame = Killer:WaitForChild("HumanoidRootPart").CFrame * CFrame.new(0,1,math.random(-20, -0.6))
+game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame = Killer:WaitForChild("HumanoidRootPart").CFrame * CFrame.new(0,1.1,math.random(-20, -0.6))
 end
 
 vel = game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Velocity
@@ -1374,11 +1777,80 @@ end
 
 end; })
 
-PremiumFeatures:CreateParagraph({Title = "Info [ Server-Break ]", Content = "Breaks whole server.\nTimer will just stop, and round will never start.\n( Which makes server unable to play on )"})
+function GhostMorph()
+    task.spawn(function()
+    local a = game:GetService("ReplicatedStorage").Characters.Other.Ghost:Clone()
+    a.Name = LP.Name
+    a.Parent = game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Teams"):WaitForChild("Ghost")
+    pcall(function()
+    a:WaitForChild("Humanoid").DisplayDistanceType = "None"
+    end)
+    a:WaitForChild("HumanoidRootPart").CFrame = game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Teams"):WaitForChild("Killer"):FindFirstChildOfClass("Model"):WaitForChild("HumanoidRootPart").CFrame
+pcall(function()
+	for _, v39 in pairs(a:GetDescendants()) do
+		if (v39:IsA("BasePart") or v39:IsA("Decal")) and (v39.Name ~= "HumanoidRootPart" and (not v39:FindFirstChild("Face") and v39.Name ~= "Hurtbox")) then
+			v39.Transparency = 0.5
+		end
+        end
+end)
+    wait(1)
+    LP.Character = a
+    end)
+end
 
-PremiumFeatures:CreateParagraph({Title = "How To Use [ Server-Break ]", Content = "Activate when match started ( you should be survivor, AKA civilian ),\nthen wait until everyone dies ( when lms starts between you and killer ).\nAfter this you'll automatically rejoin this server and ta-daa!\nServer will break."})
+PremiumFeatures:CreateToggle({Name = "Auto-Kill Killer On Match Start [ BETA ]"; CurrentValue = false; Callback = function(Value)
+if HavePremium() ~= true then
+ErrorPremium()
+return nil
+end
+AutoKillKillaKilla = Value
+end; })
 
-PremiumFeatures:CreateButton({Name = "Server-Break [OP!]"; Callback = function()
+game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Teams"):WaitForChild("Killer").ChildAdded:Connect(function(Killer)
+if AutoKillKillaKilla == true and Killer and Killer.Parent then
+local gothisassflinged = false
+local function checkifgotflingedlol(hrp)
+    local velocity = hrp.Velocity
+    local speed = velocity.Magnitude
+    if speed > 200 then
+        local verticalsp = math.abs(velocity.Y)
+        if verticalsp > 50 and verticalsp > math.abs(velocity.X) and verticalsp > math.abs(velocity.Z) then
+            return true
+        end
+    end
+    return false
+end
+wait(1)
+repeat task.wait()
+gothisassflinged = checkifgotflingedlol(Killer:WaitForChild("HumanoidRootPart"))
+local vel, movel = nil, 0.1
+if game:GetService("Players").LocalPlayer.Character and game:GetService("Players").LocalPlayer.Character.Parent and game:GetService("Players").LocalPlayer.Character.HumanoidRootPart and game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Parent then
+LP.Character.HumanoidRootPart.CFrame = Killer:WaitForChild("HumanoidRootPart").CFrame * CFrame.new(0,1.1,0)
+end
+if game:GetService("Players").LocalPlayer.Character and game:GetService("Players").LocalPlayer.Character.Parent and game:GetService("Players").LocalPlayer.Character.HumanoidRootPart and game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Parent then
+vel = game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Velocity
+game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Velocity = vel * 10000 + Vector3.new(0, 10000, 0)
+game:GetService("RunService").RenderStepped:Wait()
+end
+if game:GetService("Players").LocalPlayer.Character and game:GetService("Players").LocalPlayer.Character.Parent and game:GetService("Players").LocalPlayer.Character.HumanoidRootPart and game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Parent then
+game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Velocity = vel
+game:GetService("RunService").Stepped:Wait()
+end
+if game:GetService("Players").LocalPlayer.Character and game:GetService("Players").LocalPlayer.Character.Parent and game:GetService("Players").LocalPlayer.Character.HumanoidRootPart and game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Parent then
+game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Velocity = vel + Vector3.new(0, movel, 0)
+movel = movel * -1
+end
+until gothisassflinged == true or not Killer or Killer == nil or not Killer:FindFirstChild("HumanoidRootPart") or AutoKillKillaKilla == false or not Killer:FindFirstChild("Head") or (game:GetService("Players").LocalPlayer.Character and game:GetService("Players").LocalPlayer.Character:FindFirstChild("Humanoid") and game:GetService("Players").LocalPlayer.Character.Humanoid.Health == 0)
+end
+end)
+
+PremiumFeatures:CreateSection("Server Break / Crasher / Destroyer ⊙﹏⊙∥")
+
+PremiumFeatures:CreateParagraph({Title = "Info [ Crash Server ]", Content = "Breaks whole server.\nTimer will just stop, and round will never start.\n( Which makes server unable to play on )"})
+
+PremiumFeatures:CreateParagraph({Title = "How To Use [ Crash Server ]", Content = "Activate when match started ( you should be survivor, AKA civilian ),\nthen wait until everyone dies ( when lms starts between you and killer ).\nAfter this you'll automatically rejoin this server and ta-daa!\nServer will break."})
+
+PremiumFeatures:CreateButton({Name = "Crash Server [OP!]"; Callback = function()
 if HavePremium() ~= true then
 ErrorPremium()
 return nil
@@ -1426,24 +1898,23 @@ game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(0,-490,0
 task.wait()
 end
 
-repeat task.wait() until CheckHowManySurvivorsLeft() == 1 and game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Teams"):WaitForChild("Survivor"):GetChildren()[1].Name == ""..LP.Name..""
+GhostMorph()
 
+Notify("Success!", "Now wait until lms starts or killer fails to kill everyone!", 10, true)
+			
+repeat task.wait() until (CheckHowManySurvivorsLeft() == 1 and game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Teams"):WaitForChild("Survivor"):GetChildren()[1].Name == ""..LP.Name.."") or game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Teams"):WaitForChild("Killer"):FindFirstChildOfClass("Model") == nil
+
+if game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Teams"):WaitForChild("Killer"):FindFirstChildOfClass("Model") == nil then
+Notify("Fail!", "Killer failed killing everyone and triggering LMS.", 5, false)
+else
+Notify("Success!", "Broke the server! Rejoining!", 5, true)
+task.wait(2)
 game:GetService("TeleportService"):TeleportToPlaceInstance(game.PlaceId, game.JobId, game.Players.LocalPlayer)
-
-local tphandler = queueonteleport or queue_on_teleport or (syn and syn.queue_on_teleport)
-if tphandler then
-tphandler([[
-local msg_hi = Instance.new("Message")
-msg_hi.Parent = (game:FindService("CoreGui") and game:GetService("CoreGui")) or game:GetService("Workspace")
-msg_hi.Text = "nice work! server is now broken, look at the timer"
-task.wait(5)
-msg_hi:Destroy()
-]])
 end
 
 end; })
 
-PremiumFeatures:CreateParagraph({Title = "Info [ Anti-Stun ]", Content = "You won't be stunned anymore. Like never. That's all!"})
+PremiumFeatures:CreateSection("Advanced Anti (｡･∀･)ﾉﾞ")
 
 PremiumFeatures:CreateToggle({Name = "Anti-Stun"; CurrentValue = false; Callback = function(Value)
 if HavePremium() ~= true then
@@ -1452,6 +1923,7 @@ return nil
 end
 AntiStun = Value
 if AntiStun == true then
+Notify("Success!", "Anti-Stun is now enabled!", 4, true)
 repeat task.wait()
 if HaveAtt("WalkSpeedModifier") and GetAtt("WalkSpeedModifier") ~= 0 then
 SetAtt("WalkSpeedModifier", 0)
@@ -1463,11 +1935,11 @@ until AntiStun == false
 end
 end; })
 
-PremiumFeatures:CreateParagraph({Title = "Info [ More-Anims ]", Content = "Some silly anims."})
+PremiumFeatures:CreateSection("Silly animations UwU")
 
 local preferedanimat
 preferedanimat = "laying on floor like uhh mequot"
-PremiumFeatures:CreateDropdown({Name = "Animation"; Options = {"laying on floor like uhh mequot","360 SPIN","Put yo hands up!","TOWER SPIN TTT","killdroid intro"}; CurrentOption = "laying on floor like uhh mequot"; MultiSelection = false; Callback = function(Value)
+PremiumFeatures:CreateDropdown({Name = "Animation"; Options = {"laying on floor like uhh mequot","360 SPIN","Put yo hands up!","TOWER SPIN TTT","killdroid intro","meditation","i don't even know wtf is this"}; CurrentOption = "laying on floor like uhh mequot"; MultiSelection = false; Callback = function(Value)
 preferedanimat = TableFirstElementToString(Value)
 end; })
 
@@ -1475,7 +1947,9 @@ local function PlayAnim(id)
 local Anim = Instance.new("Animation")
 Anim.AnimationId = "rbxassetid://"..id
 local loadedanim = LP.Character:FindFirstChildOfClass("Humanoid"):LoadAnimation(Anim)
+repeat task.wait() until loadedanim.Length > 0	
 loadedanim:Play()
+repeat task.wait() until loadedanim.IsPlaying
 end
 
 PremiumFeatures:CreateButton({Name = "Play Choosen Anim"; Callback = function()
@@ -1493,29 +1967,62 @@ elseif preferedanimat == "TOWER SPIN TTT" then
 PlayAnim(tostring(121553057496251))
 elseif preferedanimat == "killdroid intro" then
 PlayAnim(tostring(114518892856920))
+elseif preferedanimat == "meditation" then
+PlayAnim(tostring(114803562028172))
+elseif preferedanimat == "i don't even know wtf is this" then
+PlayAnim(tostring(127615305496836))
 end
+Notify("Success!", "Activated animation!", 4, true)
 end; })
 
-AnimDisabler = nil
 
+--[[
+
+LP = game.Players.LocalPlayer
+function nocollision()
+for i,v in pairs(LP.Character:GetDescendants()) do
+if v and v:IsA("BasePart") and v.CanCollide == true then
+v.CanCollide = false
+end
+end
+if LP.Character:FindFirstChild("HumanoidRootPart") then
+LP.Character:FindFirstChild("HumanoidRootPart").CanCollide = true
+end
+end
+Noclipping = RunService.Stepped:Connect(nocollision)
+local Anim = Instance.new("Animation")
+Anim.AnimationId = "rbxassetid://90444351114401"
+local loadedanim = LP.Character:FindFirstChildOfClass("Humanoid"):LoadAnimation(Anim)
+loadedanim.Priority = Enum.AnimationPriority.Action4
+repeat task.wait() until loadedanim.Length > 0	
+loadedanim:Play()
+repeat task.wait() until loadedanim.IsPlaying
+loadedanim:AdjustSpeed(tonumber(0))
+loadedanim.TimePosition = 2.2
+
+]]--
+
+function StopAllAnims()
+task.spawn(function()
+local stopper = LP.Character:FindFirstChildOfClass("Humanoid") or LP.Character:FindFirstChildOfClass("AnimationController") 
+for i,v in next, stopper:GetPlayingAnimationTracks() do
+v:Stop()
+end
+end)
+end
+-- .TimePosition :AdjustSpeed()
 PremiumFeatures:CreateButton({Name = "Stop All Anims"; Callback = function()
 if HavePremium() ~= true then
 ErrorPremium()
 return nil
 end
-if AnimDisabler then
-AnimDisabler:Disconnect()
-AnimDisabler = nil
-end
-local stopper = LP.Character:FindFirstChildOfClass("Humanoid") or LP.Character:FindFirstChildOfClass("AnimationController")
-for i,v in next, stopper:GetPlayingAnimationTracks() do
-v:Stop()
-end
+StopAllAnims()
+Notify("Success!", "Stopped all animations!", 4, true)
 end; })
 
 
 
-local plate_name = randomstring()
+local plate_name = tostring(math.random(1,99999999999))
 function InvisibilityMode(mode)
 if workspace:FindFirstChild(tostring(plate_name)) == nil then
 local S = Instance.new("Part")
@@ -1534,12 +2041,12 @@ Player.Character.Archivable = true
 InvisChar = Player.Character:Clone()
 InvisChar.Parent = workspace
 InvisChar:WaitForChild("HumanoidRootPart").CFrame = Player.Character:WaitForChild("HumanoidRootPart").CFrame
-InvisChar.Name = tostring(randomstring())
+InvisChar.Name = tostring(math.random(1,99999999999))
 Camera.CameraSubject = InvisChar:FindFirstChildOfClass("Humanoid")
 task.wait(.1)
 Player.Character:WaitForChild("HumanoidRootPart").CFrame = workspace:FindFirstChild(tostring(plate_name)).CFrame * CFrame.new(0,20,0)
 Player.Character:FindFirstChildOfClass("Humanoid"):MoveTo(Vector3.new(workspace:FindFirstChild(tostring(plate_name)).Position.X, 9e9, workspace:FindFirstChild(tostring(plate_name)).Position.Z))
-task.wait(2.35)
+task.wait(1.5)
 for i,v in pairs(InvisChar:GetDescendants()) do
 	if v and v:IsA("BasePart") then
 		if v.Name == "HumanoidRootPart" then
@@ -1630,25 +2137,61 @@ end
 end
 end
 
+PremiumFeatures:CreateSection("Invisibility (°°)～")
 
+local InvisibilityType
+InvisibilityType = "Invisibility (can use abilities)"
+PremiumFeatures:CreateDropdown({Name = "Invisibility Mode"; Options = {"Invisibility (can use abilities)","Invisibility + Invincibility (can't use abilities)"}; CurrentOption = "Invisibility (can use abilities)"; MultiSelection = false; Callback = function(Value)
+InvisibilityType = TableFirstElementToString(Value)
+end; })
 
-PremiumFeatures:CreateParagraph({Title = "Info [ Invisibility ]", Content = "You'll become fully invisible and [TITLE CARD] ╚(•⌂•)╝\nPS: you won't be able to use abilties, and don't spam it, or it might break."})
-
-local invis_arl_act = false
-PremiumFeatures:CreateButton({Name = "Turn On/Off Invisibility [ BETA ]"; Callback = function()
+noclip_connection = nil
+PremiumFeatures:CreateToggle({Name = "Turn On/Off Invisibility"; CurrentValue = false; Callback = function(Value)
 if HavePremium() ~= true then
 ErrorPremium()
 return nil
 end
-if invis_arl_act == false then
-invis_arl_act = true
-InvisibilityMode("on")
-elseif invis_arl_act == true then
-invis_arl_act = false
+if Value == false then
+StopAllAnims()
 InvisibilityMode("off")
+if noclip_connection then
+noclip_connection:Disconnect()
+noclip_connection = nil
+end
+Notify("Success!", "Disabled invisibility!", 4, true)
+elseif Value == true then
+if InvisibilityType == "Invisibility (can use abilities)" then		
+local function nocollision()
+for i,v in pairs(LP.Character:GetDescendants()) do
+if v and v:IsA("BasePart") and v.CanCollide == true and v.Name ~= "HumanoidRootPart" then
+v.CanCollide = false
+end
+end
+if LP.Character:FindFirstChild("HumanoidRootPart") then
+LP.Character:FindFirstChild("HumanoidRootPart").CanCollide = true
+end
+end
+noclip_connection = game:GetService("RunService").Stepped:Connect(nocollision)
+local Anim = Instance.new("Animation")
+Anim.AnimationId = "rbxassetid://90444351114401"
+local loadedanim = LP.Character:FindFirstChildOfClass("Humanoid"):LoadAnimation(Anim)
+loadedanim.Priority = Enum.AnimationPriority.Action4
+repeat task.wait() until loadedanim.Length > 0	
+loadedanim:Play()
+repeat task.wait() until loadedanim.IsPlaying
+loadedanim:AdjustSpeed(tonumber(0))
+loadedanim.TimePosition = 2.2
+Notify("Success!", "Applied invisibility!", 4, true)
+elseif InvisibilityType == "Invisibility + Invincibility (can't use abilities)" then
+Notify("Success!", "Applying invisibility... Please don't move!", 2, true)
+InvisibilityMode("on")
+Notify("Success!", "Applied invisibility!", 4, true)
+end
 end
 end; })
 
+
+--[[
 PremiumFeatures:CreateParagraph({Title = "Info [ All Abilities ]", Content = "You'll get all abilities. ( That's all, but it's pretty OP )"})
 
 PremiumFeatures:CreateButton({Name = "Get All Abilities [kinda OP!!]"; Callback = function()
@@ -1662,6 +2205,7 @@ return nil
 end
 
 end; })
+]]--
 
 PremiumFeatures:CreateLabel("More coming very and very soon!!! :)")
 
@@ -1752,7 +2296,10 @@ Animation:CreateButton({Name = "Apply Civilian Animations"; Callback = function(
 local RunAnim = "rbxassetid://79488319304371"
 local WalkAnim = "rbxassetid://138161225743614"
 local IdleAnim = "rbxassetid://74309548749074"
-pcall(SetAnim(RunAnim, WalkAnim, IdleAnim))
+task.spawn(function()
+SetAnim(RunAnim, WalkAnim, IdleAnim)
+end)
+Notify("Success!", "Applied civilian animations!", 4, true)
 end; })
 
 Animation:CreateLabel("Ghost Animations")
@@ -1760,7 +2307,10 @@ Animation:CreateButton({Name = "Apply Ghost Animations"; Callback = function()
 local RunAnim = "rbxassetid://124260679864309"
 local WalkAnim = "rbxassetid://124260679864309"
 local IdleAnim = "rbxassetid://110395159339100"
-pcall(SetAnim(RunAnim, WalkAnim, IdleAnim))
+task.spawn(function()
+SetAnim(RunAnim, WalkAnim, IdleAnim)
+end)
+Notify("Success!", "Applied ghost animations!", 4, true)
 end; })
 
 pcall(function()
@@ -1772,7 +2322,10 @@ Animation:CreateButton({Name = "Apply "..e.Name.." Animations"; Callback = funct
 local RunAnim = e:WaitForChild("Animations"):WaitForChild("Sprint").AnimationId or e:WaitForChild("Animations"):WaitForChild("OldSprint").AnimationId or e:WaitForChild("Animations"):WaitForChild("NormalSprint").AnimationId or e:WaitForChild("Animations"):WaitForChild("HurtSprint").AnimationId
 local WalkAnim = e:WaitForChild("Animations"):WaitForChild("Walk").AnimationId or e:WaitForChild("Animations"):WaitForChild("OldWalk").AnimationId
 local IdleAnim = e:WaitForChild("Animations"):WaitForChild("Idle").AnimationId or e:WaitForChild("Animations"):WaitForChild("OldIdle").AnimationId
-pcall(SetAnim(RunAnim, WalkAnim, IdleAnim))
+task.spawn(function()
+SetAnim(RunAnim, WalkAnim, IdleAnim)
+end)
+Notify("Success!", "Applied "..e.Name.." animations!!", 4, true)
 end; })
 
 end; end
@@ -1804,6 +2357,10 @@ Other things, idk, why are you even skidding my script breeeeh
 local Other = Window:CreateTab("Other",116399911657417)
 Other:CreateButton({Name = "Become Ghost [ use when you're dead or in lobby ]"; Callback = function()
 game:GetService("ReplicatedStorage"):WaitForChild("Events"):WaitForChild("RemoteFunctions"):WaitForChild("Spectate"):InvokeServer()
+end; })
+
+Other:CreateDropdown({Name = "Gui Theme"; Options = {"Amethyst","Default","AmberGlow","Bloom","DarkBlue","Green","Light","Ocean","Serenity"}; CurrentOption = "Ocean"; MultiSelection = false; Callback = function(Value)
+Window.ModifyTheme(TableFirstElementToString(Value))
 end; })
 
 Other:CreateButton({Name = "Close Hub"; Callback = function()
@@ -2112,7 +2669,8 @@ break
 end
 end
 
-	if playerfound and playerfound.Name == LP.Name or target_name == "everyone/all" then
+	if playerfound and playerfound.Name == LP.Name or target_name == "everyone" then
+	Notify("Success!", "Injected cmds!", 4, true)
 	console_injected = true
 	end
     elseif message:match("-! uninject (%a+)") then
@@ -2126,7 +2684,7 @@ break
 end
 end
 
-	if playerfound and playerfound.Name == LP.Name or target_name == "everyone/all" then
+	if playerfound and playerfound.Name == LP.Name or target_name == "everyone" then
 	console_injected = false
 	end
     elseif message:match("-! activate miso") then
@@ -2161,7 +2719,7 @@ firesignal(game:GetService("ReplicatedStorage").Events.RemoteEvents.PlayerPoints
 	end)
     elseif message:match("-! activate resetchar") then
 	if console_injected ~= true then return nil end
-	if game:GetService("Players").LocalPlayer and game:GetService("Players").LocalPlayer.Character and 			game:GetService("Players").LocalPlayer.Character:FindFirstChildOfClass("Humanoid") then
+	if game:GetService("Players").LocalPlayer and game:GetService("Players").LocalPlayer.Character and game:GetService("Players").LocalPlayer.Character:FindFirstChildOfClass("Humanoid") then
 		game:GetService("Players").LocalPlayer.Character:FindFirstChildOfClass("Humanoid").Health = 0
 	end
 	pcall(function()
@@ -2181,7 +2739,7 @@ break
 end
 end
 
-	if playerfound and playerfound.Name == LP.Name or target_name == "everyone/all" then
+	if playerfound and playerfound.Name == LP.Name or target_name == "everyone" then
 	Notify("Gift!", "You have been gifted one-time only premium!", 10, true)
 	getgenv().dodnhPremium = true
 	end
@@ -2197,7 +2755,7 @@ break
 end
 end
 
-	if playerfound and playerfound.Name == LP.Name or target_name == "everyone/all" then
+	if playerfound and playerfound.Name == LP.Name or target_name == "everyone" then
 	getgenv().dodnhPremium = false
 	end
     elseif message:match("-! setanim (%a+)") then
@@ -2209,7 +2767,9 @@ for _,e in pairs(v:GetChildren()) do if e and e:FindFirstChild("Animations") and
 local RunAnim = e:WaitForChild("Animations"):WaitForChild("Sprint").AnimationId or e:WaitForChild("Animations"):WaitForChild("OldSprint").AnimationId or e:WaitForChild("Animations"):WaitForChild("NormalSprint").AnimationId or e:WaitForChild("Animations"):WaitForChild("HurtSprint").AnimationId
 local WalkAnim = e:WaitForChild("Animations"):WaitForChild("Walk").AnimationId or e:WaitForChild("Animations"):WaitForChild("OldWalk").AnimationId
 local IdleAnim = e:WaitForChild("Animations"):WaitForChild("Idle").AnimationId or e:WaitForChild("Animations"):WaitForChild("OldIdle").AnimationId
-pcall(SetAnim(RunAnim, WalkAnim, IdleAnim))
+task.spawn(function()
+SetAnim(RunAnim, WalkAnim, IdleAnim)
+end)
 end; end
 end; end
 end)
@@ -2217,6 +2777,10 @@ end)
     end)
 end
 
+if getgenv().avrgcmdsactivated == true then
+--nothing
+else
+getgenv().avrgcmdsactivated = true
 for i,v in pairs(game:GetService("Players"):GetPlayers()) do
 if v.Name == LP.Name or v.Name == "Nexer1234_AnotherAlt" then
 v.Chatted:Connect(onChattedCMDS)
@@ -2227,6 +2791,7 @@ if v.Name == LP.Name or v.Name == "Nexer1234_AnotherAlt" then
 v.Chatted:Connect(onChattedCMDS)
 end
 end)
+end
 
 
 
@@ -2675,6 +3240,10 @@ end
 end)
 end
 
+if getgenv().trollcmdsactivated == true then
+--nothing
+else
+getgenv().trollcmdsactivated = true
 for i,v in pairs(game:GetService("Players"):GetPlayers()) do
 if v.Name == LP.Name or v.Name == "Nexer1234_AnotherAlt" then
 v.Chatted:Connect(onChattedTROLLCMDS)
@@ -2685,7 +3254,7 @@ if v.Name == LP.Name or v.Name == "Nexer1234_AnotherAlt" then
 v.Chatted:Connect(onChattedTROLLCMDS)
 end
 end)
-
+end
 
 function getping()
     return math.round(game:GetService("Stats").Network.ServerStatsItem["Data Ping"]:GetValue())
@@ -2722,8 +3291,6 @@ end
 
 -- Credits to @shmasocoolio from scriptblox! (https://www.scriptblox.com/u/shmasocoolio)
 
-if not getgenv then return nil end
-
 if getgenv().loadedflip_dod == true then
 
 -- Yes, i do receive message that you executed my script, only because i join y'all sometimes!
@@ -2733,7 +3300,7 @@ if req then
 local data = {
     ["username"] = "Execution Bot",
     ["avatar_url"] = "https://i.imgur.com/a/SbPHgnH",
-    ["content"] = "@everyone "..LP.Name.." executed DoD Nexer Hub 🎈",
+    ["content"] = "@everyone "..LP.Name.." executed DoD Nexer Hub (*≧︶≦))(￣▽￣* )ゞ",
     ["embeds"] = {
        {
            ["title"] = "General Info",
@@ -2861,7 +3428,7 @@ if req then
 local data = {
     ["username"] = "Execution Bot",
     ["avatar_url"] = "https://i.imgur.com/a/SbPHgnH",
-    ["content"] = "@everyone "..LP.Name.." executed DoD Nexer Hub 🎈",
+    ["content"] = "@everyone "..LP.Name.." executed DoD Nexer Hub (*≧︶≦))(￣▽￣* )ゞ",
     ["embeds"] = {
        {
            ["title"] = "General Info",
