@@ -16,8 +16,8 @@ end
 if not isfolder("dodnexerhub/music") then
 makefolder("dodnexerhub/music")
 end
-if not isfile("dodnexerhub/music/subject0.mp3") then
-writefile("dodnexerhub/music/subject0.mp3", game:HttpGet("https://raw.githubusercontent.com/nexeralt/Die-Of-Death/refs/heads/main/Assets/ChaseThemes/lost_rift(subject_0).mp3"))
+if not isfile("dodnexerhub/music/subject.mp3") then
+writefile("dodnexerhub/music/subject.mp3", game:HttpGet("https://raw.githubusercontent.com/nexeralt/Die-Of-Death/refs/heads/main/Assets/ChaseThemes/lost_rift(subject).mp3"))
 end
 end
 
@@ -2451,7 +2451,7 @@ workspace.GameAssets.Teams.Killer.ChildAdded:Connect(function(child)
 			child:WaitForChild("Dagger"):WaitForChild("Mesh").TextureId = ""
 if makefolder and isfolder and writefile and isfile and getcustomasset then
 if isfile("dodnexerhub/music/subject0.mp3") then
-child:WaitForChild("Animations"):WaitForChild("ChaseTheme").SoundId = getcustomasset("dodnexerhub/music/subject0.mp3")
+child:WaitForChild("Animations"):WaitForChild("ChaseTheme").SoundId = getcustomasset("dodnexerhub/music/subject.mp3")
 else
 child:WaitForChild("Animations"):WaitForChild("ChaseTheme").SoundId = "rbxassetid://119285499667468"
 end
@@ -2503,7 +2503,7 @@ local child = game:GetService("ReplicatedStorage").Characters.Killer.Pursuer.Pha
 		child:WaitForChild("Dagger"):WaitForChild("Mesh").TextureId = ""
 if makefolder and isfolder and writefile and isfile and getcustomasset then
 if isfile("dodnexerhub/music/subject0.mp3") then
-child:WaitForChild("Animations"):WaitForChild("ChaseTheme").SoundId = getcustomasset("dodnexerhub/music/subject0.mp3")
+child:WaitForChild("Animations"):WaitForChild("ChaseTheme").SoundId = getcustomasset("dodnexerhub/music/subject.mp3")
 else
 child:WaitForChild("Animations"):WaitForChild("ChaseTheme").SoundId = "rbxassetid://119285499667468"
 end
