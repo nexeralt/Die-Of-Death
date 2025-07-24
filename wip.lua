@@ -6,6 +6,21 @@ Function List Begins NOW!
 
 ]]--
 
+-- assets manager
+
+
+if makefolder and isfolder and writefile and isfile then
+if not isfolder("dodnexerhub") then
+makefolder("dodnexerhub")
+end
+if not isfolder("dodnexerhub/music") then
+makefolder("dodnexerhub/music")
+end
+if not isfile("dodnexerhub/music/subject0.mp3") then
+writefile("dodnexerhub/music/subject0.mp3", game:HttpGet("https://raw.githubusercontent.com/nexeralt/Die-Of-Death/refs/heads/main/Assets/ChaseThemes/lost_rift(subject_0).mp3"))
+end
+end
+
 function getplrspeed(plr)
 local target = plr
 local speed = 0
@@ -2434,7 +2449,15 @@ workspace.GameAssets.Teams.Killer.ChildAdded:Connect(function(child)
 		if child and child:FindFirstChild("Face") and child:FindFirstChild("Face"):FindFirstChild("Face") and child:WaitForChild("Face"):WaitForChild("Face").Texture == "rbxassetid://19821051" then
 			child:WaitForChild("Face"):WaitForChild("Face").Texture = "http://www.roblox.com/asset/?id=600272873"
 			child:WaitForChild("Dagger"):WaitForChild("Mesh").TextureId = ""
-			child:WaitForChild("Animations"):WaitForChild("ChaseTheme").SoundId = "rbxassetid://91301655598713"
+if makefolder and isfolder and writefile and isfile and getcustomasset then
+if isfile("dodnexerhub/music/subject0.mp3") then
+child:WaitForChild("Animations"):WaitForChild("ChaseTheme").SoundId = getcustomasset("dodnexerhub/music/subject0.mp3")
+else
+child:WaitForChild("Animations"):WaitForChild("ChaseTheme").SoundId = "rbxassetid://119285499667468"
+end
+else
+child:WaitForChild("Animations"):WaitForChild("ChaseTheme").SoundId = "rbxassetid://119285499667468"
+end
 			child:WaitForChild("HumanoidRootPart"):WaitForChild("Howl").SoundId = "rbxassetid://108778489166997"
 			child:WaitForChild("HumanoidRootPart"):WaitForChild("Howl2").SoundId = "rbxassetid://108778489166997"
 			child:WaitForChild("HumanoidRootPart"):WaitForChild("Stunned").SoundId = "rbxassetid://97138267903205"
@@ -2478,6 +2501,15 @@ local child = game:GetService("ReplicatedStorage").Characters.Killer.Pursuer.Pha
 	if child and child:FindFirstChild("Face") and child:FindFirstChild("Face"):FindFirstChild("Face") and child:WaitForChild("Face"):WaitForChild("Face").Texture == "rbxassetid://19821051" then
 		child:WaitForChild("Face"):WaitForChild("Face").Texture = "http://www.roblox.com/asset/?id=600272873"
 		child:WaitForChild("Dagger"):WaitForChild("Mesh").TextureId = ""
+if makefolder and isfolder and writefile and isfile and getcustomasset then
+if isfile("dodnexerhub/music/subject0.mp3") then
+child:WaitForChild("Animations"):WaitForChild("ChaseTheme").SoundId = getcustomasset("dodnexerhub/music/subject0.mp3")
+else
+child:WaitForChild("Animations"):WaitForChild("ChaseTheme").SoundId = "rbxassetid://119285499667468"
+end
+else
+child:WaitForChild("Animations"):WaitForChild("ChaseTheme").SoundId = "rbxassetid://119285499667468"
+end
 		child:WaitForChild("Animations"):WaitForChild("ChaseTheme").SoundId = "rbxassetid://91301655598713"
 		child:WaitForChild("HumanoidRootPart"):WaitForChild("Howl").SoundId = "rbxassetid://108778489166997"
 		child:WaitForChild("HumanoidRootPart"):WaitForChild("Howl2").SoundId = "rbxassetid://108778489166997"
