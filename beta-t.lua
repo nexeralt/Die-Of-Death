@@ -2442,6 +2442,7 @@ workspace.GameAssets.Teams.Killer.ChildAdded:Connect(function(child)
 			child:WaitForChild("Animations"):WaitForChild("Idle").AnimationId = "rbxassetid://116882648985413"
 			child:WaitForChild("Animations"):WaitForChild("Sprint").AnimationId = "rbxassetid://99710523608673"
 			child:WaitForChild("Animations"):WaitForChild("Walk").AnimationId = "rbxassetid://116619914860672"
+			child:WaitForChild("Animations"):WaitForChild("ChaseTheme").Volume = 2.2
 		end
 	end)
 	if not suc then
@@ -2485,6 +2486,7 @@ local child = game:GetService("ReplicatedStorage").Characters.Killer.Pursuer.Pha
 		child:WaitForChild("Animations"):WaitForChild("Idle").AnimationId = "rbxassetid://116882648985413"
 		child:WaitForChild("Animations"):WaitForChild("Sprint").AnimationId = "rbxassetid://99710523608673"
 		child:WaitForChild("Animations"):WaitForChild("Walk").AnimationId = "rbxassetid://116619914860672"
+		child:WaitForChild("Animations"):WaitForChild("ChaseTheme").Volume = 2.2
 	end
 
 -- UI shop handler
