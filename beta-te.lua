@@ -2450,6 +2450,43 @@ workspace.GameAssets.Teams.Killer.ChildAdded:Connect(function(child)
 	end
 end)
 
+-- Intro Handlers
+local child = game:GetService("ReplicatedStorage").Characters.Killer.Artful.VeryRetro
+	if child and child:FindFirstChild("CloneTool") and child:WaitForChild("CloneTool"):WaitForChild("Sparkles").Enabled == false then
+		child:WaitForChild("Accessories"):WaitForChild("Cape").Transparency = 0
+		if child:WaitForChild("Accessories"):FindFirstChild("Mask") then
+		child:WaitForChild("Accessories"):WaitForChild("Mask"):Destroy()
+		end
+		if child:FindFirstChild("TShirt") then
+		child:WaitForChild("TShirt"):Destroy()
+		end
+		child:WaitForChild("Accessories"):WaitForChild("Hat"):WaitForChild("SpecialMesh").MeshId = "rbxassetid://10550906266"
+		child:WaitForChild("Face"):WaitForChild("Face").Texture = "http://www.roblox.com/asset/?id=22587893"
+		if child:FindFirstChildOfClass("Shirt") == nil then
+		Instance.new("Shirt", child).ShirtTemplate = "http://www.roblox.com/asset/?id=11781931570"
+		end
+		if child:FindFirstChildOfClass("Pants") == nil then
+		Instance.new("Pants", child).PantsTemplate = "http://www.roblox.com/asset/?id=12198890151"
+		end
+		child:WaitForChild("CloneTool"):WaitForChild("Sparkles").Enabled = true
+		child:WaitForChild("CloneTool"):WaitForChild("Sparkles").Texture = "rbxassetid://9099782826"
+		child:WaitForChild("Animations"):WaitForChild("ChaseTheme").SoundId = "rbxassetid://122304523836872"
+		child:WaitForChild("Animations"):WaitForChild("ChaseTheme").Volume = 2.2
+	end
+local child = game:GetService("ReplicatedStorage").Characters.Killer.Pursuer.Phantasm
+	if child and child:FindFirstChild("Face") and child:FindFirstChild("Face"):FindFirstChild("Face") and child:WaitForChild("Face"):WaitForChild("Face").Texture == "rbxassetid://19821051" then
+		child:WaitForChild("Face"):WaitForChild("Face").Texture = "http://www.roblox.com/asset/?id=600272873"
+		child:WaitForChild("Dagger"):WaitForChild("Mesh").TextureId = ""
+		child:WaitForChild("Animations"):WaitForChild("ChaseTheme").SoundId = "rbxassetid://91301655598713"
+		child:WaitForChild("HumanoidRootPart"):WaitForChild("Howl").SoundId = "rbxassetid://108778489166997"
+		child:WaitForChild("HumanoidRootPart"):WaitForChild("Howl2").SoundId = "rbxassetid://108778489166997"
+		child:WaitForChild("HumanoidRootPart"):WaitForChild("Stunned").SoundId = "rbxassetid://97138267903205"
+		child:WaitForChild("Animations"):WaitForChild("Stunned").AnimationId = "rbxassetid://71254066167629"
+		child:WaitForChild("Animations"):WaitForChild("Idle").AnimationId = "rbxassetid://116882648985413"
+		child:WaitForChild("Animations"):WaitForChild("Sprint").AnimationId = "rbxassetid://99710523608673"
+		child:WaitForChild("Animations"):WaitForChild("Walk").AnimationId = "rbxassetid://116619914860672"
+	end
+
 -- UI shop handler
 game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Shop.KillerSkins.SkinInfo.Bio:GetPropertyChangedSignal("Text"):Connect(function()
 if game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Shop.KillerSkins.SkinInfo.Bio.Text == '"I miss old ROBLOX so much man... Pet Simulator X was a blast!"' then
