@@ -1813,7 +1813,6 @@ end
 end; })
 
 function GhostMorph()
-    task.spawn(function()
     local a = game:GetService("ReplicatedStorage").Characters.Other.Ghost:Clone()
     a.Name = LP.Name
     a.Parent = game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Teams"):WaitForChild("Ghost")
@@ -1830,7 +1829,7 @@ pcall(function()
 end)
     wait(1)
     LP.Character = a
-    end)
+    wait(1)
 end
 
 PremiumFeatures:CreateToggle({Name = "Auto-Kill Killer On Match Start [ BETA ]"; CurrentValue = false; Callback = function(Value)
@@ -1892,7 +1891,7 @@ PremiumFeatures:CreateParagraph({Title = "Info [ Server Glitcher ]", Content = "
 PremiumFeatures:CreateParagraph({Title = "How To Use [ Server Glitcher ]", Content = "Activate when match started ( you should be survivor, AKA civilian )\nWARNING! You will become ghost upon activating this feature."})
 
 autoresetwhenlms = false
-PremiumFeatures:CreateToggle({Name = "Auto-Reset when LMS starts."; CurrentValue = false; Callback = function(Value)
+PremiumFeatures:CreateToggle({Name = "Auto-Rejoin when LMS starts."; CurrentValue = false; Callback = function(Value)
 if HavePremium() ~= true then
 ErrorPremium()
 return nil
@@ -1956,36 +1955,17 @@ GhostMorph()
 
 Notify("Success!", "I really hope the current killer is harken, bcuz it the most funniest.", 5, true)
 
-if autoresetwhenlms == true then
-			
+if autoresetwhenlms == true then	
 repeat task.wait() until (CheckHowManySurvivorsLeft() == 1 and game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Teams"):WaitForChild("Survivor"):GetChildren()[1].Name == ""..LP.Name.."") or game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Teams"):WaitForChild("Killer"):FindFirstChildOfClass("Model") == nil
-Notify("Success!", "Trying to respawn... ( it'll auto rejoin if failed )", 5, true)
-task.delay(0,function()
-task.spawn(function()
-pcall(function()
-local gh = gethiddenproperty or get_hidden_property or get_hidden_prop
-if replicatesignal and gh and gh(workspace, "RejectCharacterDeletions") ~= Enum.RejectCharacterDeletions.Disabled then
-replicatesignal(LP.ConnectDiedSignalBackend)
-task.wait(game.Players.RespawnTime - 0.1)
-replicatesignal(LP.Kill)
-end
-end)
-end)
-end)
-task.wait(10)
-if game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Teams"):WaitForChild("Ghost"):FindFirstChild(tostring(LP.Name)) then
-game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Teams"):WaitForChild("Ghost"):FindFirstChild(tostring(LP.Name)):Destroy()
-end
+Notify("Success!", "Trying to rejoin...", 10, true)
 if game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Teams"):WaitForChild("Survivor"):FindFirstChildOfClass("Model") and game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Teams"):WaitForChild("Survivor"):GetChildren()[1].Name == ""..LP.Name.."" then
 game:GetService("TeleportService"):TeleportToPlaceInstance(game.PlaceId, game.JobId, game.Players.LocalPlayer)
 end
-				
 else			
 LP.CharacterAdded:Wait()
 if game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Teams"):WaitForChild("Ghost"):FindFirstChild(tostring(LP.Name)) then
 game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Teams"):WaitForChild("Ghost"):FindFirstChild(tostring(LP.Name)):Destroy()
-end
-				
+end			
 end
 end; })
 
