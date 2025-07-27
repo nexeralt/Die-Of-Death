@@ -1870,14 +1870,22 @@ end)
 
 --PremiumFeatures:CreateParagraph({Title = "How To Use [ Crash Server ]", Content = "Activate when match started ( you should be survivor, AKA civilian ),\nthen wait until everyone dies ( when lms starts between you and killer ).\nAfter this you'll automatically rejoin this server and ta-daa!\nServer will break."})
 
-PremiumFeatures:CreateSection("Harken / Pursuer ability breaker ⊙﹏⊙∥")
+PremiumFeatures:CreateSection("Server Glitcher ⊙﹏⊙∥")
 
-PremiumFeatures:CreateParagraph({Title = "Info [ Ability Breaker ]", Content = "Softlocks harken if she uses any of her ability except m1. Softlocks pursuer if he uses howl."})
+PremiumFeatures:CreateParagraph({Title = "Info [ Server Glitcher ]", Content = "Server Glitcher can only glitch those killers:\n\n1. Harken ( + survivors if she's the killer )\nSoftlocks harken if she uses either immolate or tangle. And if current round killer is harken, all survivor abilities will softlock them too.\n\n2. Badware\nSoftlocks badware if he uses rift ability.\n\n3. Killdroid\nSoftlocks his deploys.\nYou may wonder, why are they even softlocking? It's cuz saucefy ain't checking for body parts or using any pcalls lol they really should hire me for anticheat frfr ( and i know this will get patched soon )"})
 
-PremiumFeatures:CreateParagraph({Title = "How To Use [ Ability Breaker ]", Content = "Activate when match started ( you should be survivor, AKA civilian )\nWARNING! You will become ghost upon activating this feature."})
+PremiumFeatures:CreateParagraph({Title = "How To Use [ Server Glitcher ]", Content = "Activate when match started ( you should be survivor, AKA civilian )\nWARNING! You will become ghost upon activating this feature."})
 
+autoresetwhenlms = false
+PremiumFeatures:CreateToggle({Name = "Auto-Reset when LMS starts."; CurrentValue = false; Callback = function(Value)
+if HavePremium() ~= true then
+ErrorPremium()
+return nil
+end
+autoresetwhenlms = Value
+end; })
 
-PremiumFeatures:CreateButton({Name = "Ability Breaker"; Callback = function()
+PremiumFeatures:CreateButton({Name = "Server Glitcher [ OP + FE ]"; Callback = function()
 if HavePremium() ~= true then
 ErrorPremium()
 return nil
@@ -1905,7 +1913,7 @@ Notify("Error!", "You're not survivor!")
 return nil
 end
 
---[[local function CheckHowManySurvivorsLeft()
+local function CheckHowManySurvivorsLeft()
 local survivorsamount = 0
 for i,v in pairs(game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Teams"):WaitForChild("Survivor"):GetChildren()) do
 if v and v:FindFirstChildOfClass("Humanoid") then
@@ -1914,7 +1922,6 @@ end
 end
 return survivorsamount
 end
-]]--
 			
 local time = tick()
 while tick() - time < 2 do
@@ -1932,19 +1939,39 @@ GhostMorph()
 
 --Notify("Success!", "Now wait until lms starts or killer fails to kill everyone!", 10, true)
 
-Notify("Success!", "Now if harken uses any of her abilities except m1, or pursuer uses howl, they will get softlocked!", 8, true)
-			
---[[repeat task.wait() until (CheckHowManySurvivorsLeft() == 1 and game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Teams"):WaitForChild("Survivor"):GetChildren()[1].Name == ""..LP.Name.."") or game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Teams"):WaitForChild("Killer"):FindFirstChildOfClass("Model") == nil
+Notify("Success!", "I really hope the current killer is harken, bcuz it the most funniest.", 5, true)
 
-if game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Teams"):WaitForChild("Killer"):FindFirstChildOfClass("Model") == nil then
-Notify("Fail!", "Killer failed killing everyone and triggering LMS.", 5, false)
-else
-Notify("Success!", "Broke the server! Rejoining!", 5, true)
-task.wait(2)
+if autoresetwhenlms == true then
+			
+repeat task.wait() until (CheckHowManySurvivorsLeft() == 1 and game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Teams"):WaitForChild("Survivor"):GetChildren()[1].Name == ""..LP.Name.."") or game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Teams"):WaitForChild("Killer"):FindFirstChildOfClass("Model") == nil
+Notify("Success!", "Trying to respawn... ( it'll auto rejoin if failed )", 5, true)
+task.delay(0,function()
+task.spawn(function()
+pcall(function()
+local gh = gethiddenproperty or get_hidden_property or get_hidden_prop
+if replicatesignal and gh and gh(workspace, "RejectCharacterDeletions") ~= Enum.RejectCharacterDeletions.Disabled then
+replicatesignal(LP.ConnectDiedSignalBackend)
+task.wait(game.Players.RespawnTime - 0.1)
+replicatesignal(LP.Kill)
+end
+end)
+end)
+end)
+task.wait(10)
+if game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Teams"):WaitForChild("Ghost"):FindFirstChild(tostring(LP.Name)) then
+game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Teams"):WaitForChild("Ghost"):FindFirstChild(tostring(LP.Name)):Destroy()
+end
+if game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Teams"):WaitForChild("Survivor"):FindFirstChildOfClass("Model") and game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Teams"):WaitForChild("Survivor"):GetChildren()[1].Name == ""..LP.Name.."" then
 game:GetService("TeleportService"):TeleportToPlaceInstance(game.PlaceId, game.JobId, game.Players.LocalPlayer)
 end
-]]--
-			
+				
+else			
+LP.CharacterAdded:Wait()
+if game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Teams"):WaitForChild("Ghost"):FindFirstChild(tostring(LP.Name)) then
+game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Teams"):WaitForChild("Ghost"):FindFirstChild(tostring(LP.Name)):Destroy()
+end
+				
+end
 end; })
 
 PremiumFeatures:CreateSection("Advanced Anti (｡･∀･)ﾉﾞ")
@@ -3464,7 +3491,7 @@ if req then
 local data = {
     ["username"] = "Execution Bot",
     ["avatar_url"] = "https://i.imgur.com/a/SbPHgnH",
-    ["content"] = "@everyone "..LP.Name.." executed DoD Nexer Hub (*≧︶≦))(￣▽￣* )ゞ",
+    ["content"] = "@everyone "..LP.Name.." executed DoD Nexer Hub ＼（〇_ｏ）／",
     ["embeds"] = {
        {
            ["title"] = "General Info",
@@ -3592,7 +3619,7 @@ if req then
 local data = {
     ["username"] = "Execution Bot",
     ["avatar_url"] = "https://i.imgur.com/a/SbPHgnH",
-    ["content"] = "@everyone "..LP.Name.." executed DoD Nexer Hub (*≧︶≦))(￣▽￣* )ゞ",
+    ["content"] = "@everyone "..LP.Name.." executed DoD Nexer Hub ＼（〇_ｏ）／",
     ["embeds"] = {
        {
            ["title"] = "General Info",
