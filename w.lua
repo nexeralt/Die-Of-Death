@@ -483,12 +483,9 @@ end)
 local Dance = Window:CreateTab("Emotes Management",9006890331)
 Dance:CreateSection("Dance o(*^▽^*)┛")
 
-Dance:CreateButton({Name = "Override-Use Your Current Emote"; Callback = function()
-if TestRequire() ~= true then
-ErrorRequire()
-return nil
-end
-game:GetService("ReplicatedStorage"):WaitForChild("Events"):WaitForChild("RemoteEvents"):WaitForChild("Emote"):FireServer(EmotesModule.SelectedEmote)
+Dance:CreateButton({Name = "Open Emote Selection"; Callback = function()
+game:GetService("Players").LocalPlayer:WaitForChild("PlayerGui"):WaitForChild("MainGui"):WaitForChild("EmoteSelection").Visible = true
+game:GetService("Players").LocalPlayer:WaitForChild("PlayerGui"):WaitForChild("MainGui"):WaitForChild("EmoteSelection").Active = true
 end; })
 
 Dance:CreateButton({Name = "Override-Use Dance"; Callback = function()
@@ -499,38 +496,16 @@ Dance:CreateButton({Name = "Override-Use Squingle"; Callback = function()
 game:GetService("ReplicatedStorage"):WaitForChild("Events"):WaitForChild("RemoteEvents"):WaitForChild("Emote"):FireServer("Squingle")
 end; })
 
-Dance:CreateButton({Name = "Override-Use Rainbow Waves"; Callback = function()
-game:GetService("ReplicatedStorage"):WaitForChild("Events"):WaitForChild("RemoteEvents"):WaitForChild("Emote"):FireServer("MyEmoteIdea")
+Dance:CreateButton({Name = "Override-Use Gangnam Style"; Callback = function()
+game:GetService("ReplicatedStorage"):WaitForChild("Events"):WaitForChild("RemoteEvents"):WaitForChild("Emote"):FireServer("Gangnam Style")
 end; })
 
-Dance:CreateSection("Change Emote o((>ω< ))o")
-
-preferedemote = "Dance"
-Dance:CreateDropdown({Name = "Emote"; Options = {"Dance","Squingle","Rainbow Waves"}; CurrentOption = "Dance"; MultiSelection = false; Callback = function(Value)
-if Value == "Rainbow Waves" then
-preferedemote = "MyEmoteIdea"
-else
-preferedemote = TableFirstElementToString(Value)
-end
+Dance:CreateButton({Name = "Override-Use PBJ"; Callback = function()
+game:GetService("ReplicatedStorage"):WaitForChild("Events"):WaitForChild("RemoteEvents"):WaitForChild("Emote"):FireServer("PBJ")
 end; })
 
-Dance:CreateButton({Name = "Change Emote"; Callback = function()
-if TestRequire() ~= true then
-ErrorRequire()
-return nil
-end
-EmotesModule["SelectedEmote"] = preferedemote
-Notify("Success!", "Changed emote to "..preferedemote.."!", 4, true)
-end; })
-
-Dance:CreateButton({Name = "Change Emote to Random"; Callback = function()
-if TestRequire() ~= true then
-ErrorRequire()
-return nil
-end
-local rndmemote = GetRandomEmote()
-EmotesModule["SelectedEmote"] = rndmemote
-Notify("Success!", "Changed emote to "..rndmemote.."!", 4, true)
+Dance:CreateButton({Name = "Override-Use Tornado"; Callback = function()
+game:GetService("ReplicatedStorage"):WaitForChild("Events"):WaitForChild("RemoteEvents"):WaitForChild("Emote"):FireServer("Tornado")
 end; })
 
 
@@ -1493,6 +1468,7 @@ Teleport
 local TeleportFeatures = Window:CreateTab("Teleport",127133544413220)
 
 function SafeTeleport(model)
+pcall(function()
 local time = tick()
 while tick() - time < 1 do
 for i,v in pairs(LP.Character:GetDescendants()) do
@@ -1504,6 +1480,7 @@ end
 LP.Character:WaitForChild("HumanoidRootPart").CFrame = model.CFrame
 task.wait()
 end
+end)
 end
 
 function GetChildNames(model)
@@ -1536,10 +1513,14 @@ end
 SafeTeleport(game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Teams"):WaitForChild("Killer"):FindFirstChild(ChoosenKillerTarget):WaitForChild("HumanoidRootPart"))
 end; })
 game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Teams"):WaitForChild("Killer").ChildAdded:Connect(function(child)
+pcall(function()
 TeleportToKillerDropdown:Refresh(GetChildNames(game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Teams"):WaitForChild("Killer")))
 end)
+end)
 game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Teams"):WaitForChild("Killer").ChildRemoved:Connect(function(child)
+pcall(function()
 TeleportToKillerDropdown:Refresh(GetChildNames(game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Teams"):WaitForChild("Killer")))
+end)
 end)
 
 local TeleportToSurvivorDropdown = TeleportFeatures:CreateDropdown({Name = "Target Survivor"; Options = GetChildNames(game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Teams"):WaitForChild("Survivor")); CurrentOption = ""; MultiSelection = false; Callback = function(Value)
@@ -1557,10 +1538,14 @@ end
 SafeTeleport(game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Teams"):WaitForChild("Survivor"):FindFirstChild(ChoosenSurvivorTarget):WaitForChild("HumanoidRootPart"))
 end; })
 game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Teams"):WaitForChild("Survivor").ChildAdded:Connect(function(child)
+pcall(function()
 TeleportToSurvivorDropdown:Refresh(GetChildNames(game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Teams"):WaitForChild("Survivor")))
 end)
+end)
 game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Teams"):WaitForChild("Survivor").ChildRemoved:Connect(function(child)
+pcall(function()
 TeleportToSurvivorDropdown:Refresh(GetChildNames(game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Teams"):WaitForChild("Survivor")))
+end)
 end)
 
 local TeleportToGhostDropdown = TeleportFeatures:CreateDropdown({Name = "Target Ghost"; Options = GetChildNames(game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Teams"):WaitForChild("Ghost")); CurrentOption = ""; MultiSelection = false; Callback = function(Value)
@@ -1578,10 +1563,14 @@ end
 SafeTeleport(game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Teams"):WaitForChild("Ghost"):FindFirstChild(ChoosenGhostTarget):WaitForChild("HumanoidRootPart"))
 end; })
 game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Teams"):WaitForChild("Ghost").ChildAdded:Connect(function(child)
+pcall(function()
 TeleportToGhostDropdown:Refresh(GetChildNames(game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Teams"):WaitForChild("Ghost")))
 end)
+end)
 game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Teams"):WaitForChild("Ghost").ChildRemoved:Connect(function(child)
+pcall(function()
 TeleportToGhostDropdown:Refresh(GetChildNames(game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Teams"):WaitForChild("Ghost")))
+end)
 end)
 
 TeleportFeatures:CreateSection("Specific Teleports ლ(╹◡╹ლ)")
@@ -1601,6 +1590,20 @@ if plrwithcaretaker then
 SafeTeleport(plrwithcaretaker:WaitForChild("HumanoidRootPart"))
 else
 Notify("Error!", "There are no caretakers!", 3, false)
+end
+end; })
+
+TeleportFeatures:CreateButton({Name = "Teleport to Injured survivor"; Callback = function()
+local injuredplr = nil
+for i,v in pairs(game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Teams"):WaitForChild("Survivor"):GetChildren()) do
+if v and v.Parent and (v:WaitForChild("Humanoid").Health < tonumber(v:WaitForChild("Humanoid").MaxHealth)) then
+injuredplr = v
+end
+end
+if injuredplr then
+SafeTeleport(injuredplr:WaitForChild("HumanoidRootPart"))
+else
+Notify("Error!", "There are no injured players!", 3, false)
 end
 end; })
 
@@ -1722,7 +1725,7 @@ PremiumFeatures:CreateSection("Killing / Flinging Killers ::>_<::")
 PremiumFeatures:CreateLabel("Important note: YOU HAVE TO BE IN ROUND AS CIVILIAN TO KILL KILLER!\nalso it is recommended to activate invisibility before using fling!")
 
 preferedkillingmethod = "Predict"
-PremiumFeatures:CreateDropdown({Name = "Insta-Kill Method"; Options = {"RNG","Predict"}; CurrentOption = "Predict"; MultiSelection = false; Callback = function(Value)
+PremiumFeatures:CreateDropdown({Name = "Insta-Kill Method"; Options = {"RNG","Predict"}; CurrentOption = "RNG"; MultiSelection = false; Callback = function(Value)
 preferedkillingmethod = TableFirstElementToString(Value)
 end; })
 
@@ -1861,13 +1864,20 @@ until gothisassflinged == true or not Killer or Killer == nil or not Killer:Find
 end
 end)
 
-PremiumFeatures:CreateSection("Server Break / Crasher / Destroyer ⊙﹏⊙∥")
+--PremiumFeatures:CreateSection("Server Break / Crasher / Destroyer ⊙﹏⊙∥")
 
-PremiumFeatures:CreateParagraph({Title = "Info [ Crash Server ]", Content = "Breaks whole server.\nTimer will just stop, and round will never start.\n( Which makes server unable to play on )"})
+--PremiumFeatures:CreateParagraph({Title = "Info [ Crash Server ]", Content = "Breaks whole server.\nTimer will just stop, and round will never start.\n( Which makes server unable to play on )"})
 
-PremiumFeatures:CreateParagraph({Title = "How To Use [ Crash Server ]", Content = "Activate when match started ( you should be survivor, AKA civilian ),\nthen wait until everyone dies ( when lms starts between you and killer ).\nAfter this you'll automatically rejoin this server and ta-daa!\nServer will break."})
+--PremiumFeatures:CreateParagraph({Title = "How To Use [ Crash Server ]", Content = "Activate when match started ( you should be survivor, AKA civilian ),\nthen wait until everyone dies ( when lms starts between you and killer ).\nAfter this you'll automatically rejoin this server and ta-daa!\nServer will break."})
 
-PremiumFeatures:CreateButton({Name = "Crash Server [OP!]"; Callback = function()
+PremiumFeatures:CreateSection("Harken / Pursuer ability breaker ⊙﹏⊙∥")
+
+PremiumFeatures:CreateParagraph({Title = "Info [ Ability Breaker ]", Content = "Softlocks harken if she uses any of her ability except m1. Softlocks pursuer if he uses howl."})
+
+PremiumFeatures:CreateParagraph({Title = "How To Use [ Ability Breaker ]", Content = "Activate when match started ( you should be survivor, AKA civilian )\nWARNING! You will become ghost upon activating this feature."})
+
+
+PremiumFeatures:CreateButton({Name = "Ability Breaker"; Callback = function()
 if HavePremium() ~= true then
 ErrorPremium()
 return nil
@@ -1878,6 +1888,7 @@ Notify("Error!", "You just spawned! Wait a bit")
 return nil
 end
 
+--[[
 if #game:GetService("Players"):GetPlayers() < 3 then
 Notify("Error!", "There's not enough players! ( Need atleast 3 )")
 return nil
@@ -1887,13 +1898,14 @@ if #game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Teams"
 Notify("Error!", "There's not enough survivors/civilians! ( Need atleast 2 )")
 return nil
 end
-
+]]--
+			
 if not game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Teams"):WaitForChild("Survivor"):FindFirstChild(""..LP.Name.."") then
 Notify("Error!", "You're not survivor!")
 return nil
 end
 
-local function CheckHowManySurvivorsLeft()
+--[[local function CheckHowManySurvivorsLeft()
 local survivorsamount = 0
 for i,v in pairs(game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Teams"):WaitForChild("Survivor"):GetChildren()) do
 if v and v:FindFirstChildOfClass("Humanoid") then
@@ -1902,7 +1914,8 @@ end
 end
 return survivorsamount
 end
-
+]]--
+			
 local time = tick()
 while tick() - time < 2 do
 for i,v in pairs(game.Players.LocalPlayer.Character:GetDescendants()) do
@@ -1917,9 +1930,11 @@ end
 
 GhostMorph()
 
-Notify("Success!", "Now wait until lms starts or killer fails to kill everyone!", 10, true)
+--Notify("Success!", "Now wait until lms starts or killer fails to kill everyone!", 10, true)
+
+Notify("Success!", "Now if harken uses any of her abilities except m1, or pursuer uses howl, they will get softlocked!", 8, true)
 			
-repeat task.wait() until (CheckHowManySurvivorsLeft() == 1 and game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Teams"):WaitForChild("Survivor"):GetChildren()[1].Name == ""..LP.Name.."") or game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Teams"):WaitForChild("Killer"):FindFirstChildOfClass("Model") == nil
+--[[repeat task.wait() until (CheckHowManySurvivorsLeft() == 1 and game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Teams"):WaitForChild("Survivor"):GetChildren()[1].Name == ""..LP.Name.."") or game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Teams"):WaitForChild("Killer"):FindFirstChildOfClass("Model") == nil
 
 if game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Teams"):WaitForChild("Killer"):FindFirstChildOfClass("Model") == nil then
 Notify("Fail!", "Killer failed killing everyone and triggering LMS.", 5, false)
@@ -1928,7 +1943,8 @@ Notify("Success!", "Broke the server! Rejoining!", 5, true)
 task.wait(2)
 game:GetService("TeleportService"):TeleportToPlaceInstance(game.PlaceId, game.JobId, game.Players.LocalPlayer)
 end
-
+]]--
+			
 end; })
 
 PremiumFeatures:CreateSection("Advanced Anti (｡･∀･)ﾉﾞ")
@@ -1956,7 +1972,7 @@ PremiumFeatures:CreateSection("Silly animations UwU")
 
 local preferedanimat
 preferedanimat = "laying on floor like uhh mequot"
-PremiumFeatures:CreateDropdown({Name = "Animation"; Options = {"laying on floor like uhh mequot","360 SPIN","Put yo hands up!","TOWER SPIN TTT","killdroid intro","meditation","i don't even know wtf is this"}; CurrentOption = "laying on floor like uhh mequot"; MultiSelection = false; Callback = function(Value)
+PremiumFeatures:CreateDropdown({Name = "Animation"; Options = {"laying on floor like uhh mequot","360 SPIN","Put yo hands up!","TOWER SPIN TTT","killdroid intro","meditation","minecraft glitch or smth","pretence summon"}; CurrentOption = "laying on floor like uhh mequot"; MultiSelection = false; Callback = function(Value)
 preferedanimat = TableFirstElementToString(Value)
 end; })
 
@@ -1986,8 +2002,10 @@ elseif preferedanimat == "killdroid intro" then
 PlayAnim(tostring(114518892856920))
 elseif preferedanimat == "meditation" then
 PlayAnim(tostring(114803562028172))
-elseif preferedanimat == "i don't even know wtf is this" then
+elseif preferedanimat == "minecraft glitch or smth" then
 PlayAnim(tostring(127615305496836))
+elseif preferedanimat == "pretence summon" then
+PlayAnim(tostring(125993877416671))
 end
 Notify("Success!", "Activated animation!", 4, true)
 end; })
@@ -2023,7 +2041,9 @@ function StopAllAnims()
 task.spawn(function()
 local stopper = LP.Character:FindFirstChildOfClass("Humanoid") or LP.Character:FindFirstChildOfClass("AnimationController") 
 for i,v in next, stopper:GetPlayingAnimationTracks() do
-v:Stop()
+v.Priority = Enum.AnimationPriority.Core
+v:AdjustSpeed(tonumber(0))
+v:Stop(tonumber(0))
 end
 end)
 end
