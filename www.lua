@@ -252,7 +252,23 @@ end
 
 local info = Window:CreateTab("Updates",0)
 info:CreateSection("(DD/MM/YYYY)")
-info:CreateParagraph({Title = "19/07/2025 update", Content = [[this is pretty big update i would say
+
+info:CreateParagraph({Title = "27/07/2025 update", Content = [[mid update mid mia
+
+Changelogs:
+1. Crash Server got patched :[ ( Premium Tab )
+2. Glitch Server have been added :] ( Premium Tab )
+
+3. Added, removed and fixed abilities to give. ( and now you can spawn cards with them or spam them )
+
+4. Uhhh fixed esp
+
+5. Re-edited whole emote tab
+
+6-∞. Small fixes of bugs, and other minor changes...
+(psst... there's still no auto-block...)]]})
+
+info:CreateParagraph({Title = "19/07/2025 update", Content = [[i would like to say that this is pretty big update
 
 Changelogs:
 1. Added new tab: ''Teleport''
@@ -283,7 +299,6 @@ Changelogs:
 		
 19-∞. And a lot of more very cool features and fixes, go check them by yourself!
 (psst... there's still no auto-block...)]]})
-
 
 --[[ 
 
@@ -1872,7 +1887,7 @@ end)
 
 PremiumFeatures:CreateSection("Server Glitcher ⊙﹏⊙∥")
 
-PremiumFeatures:CreateParagraph({Title = "Info [ Server Glitcher ]", Content = "Server Glitcher can only glitch those killers:\n\n1. Harken ( + survivors if she's the killer )\nSoftlocks harken if she uses either immolate or tangle. And if current round killer is harken, all survivor abilities will softlock them too.\n\n2. Badware\nSoftlocks badware if he uses rift ability.\n\n3. Killdroid\nSoftlocks his deploys.\nYou may wonder, why are they even softlocking? It's cuz saucefy ain't checking for body parts or using any pcalls lol they really should hire me for anticheat frfr ( and i know this will get patched soon )"})
+PremiumFeatures:CreateParagraph({Title = "Info [ Server Glitcher ]", Content = "Server Glitcher can only glitch those killers:\n\n1. Harken ( + survivors if she's the killer )\nSoftlocks harken if she uses either immolate or tangle. And if current round killer is harken, all survivor abilities will softlock them too.\n\n2. Badware\nSoftlocks badware if he uses rift ability.\n\n3. Killdroid\nSoftlocks his deploys.\n\nYou may wonder, why are they even softlocking? It's cuz saucefy ain't checking for body parts or using any pcalls lol they really should hire me for anticheat frfr ( and i know this will get patched soon )"})
 
 PremiumFeatures:CreateParagraph({Title = "How To Use [ Server Glitcher ]", Content = "Activate when match started ( you should be survivor, AKA civilian )\nWARNING! You will become ghost upon activating this feature."})
 
