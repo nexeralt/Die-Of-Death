@@ -816,7 +816,8 @@ local Abilities_Table = {
 	[7] = "Dash",
 	[8] = "Hotdog",
 	[9] = "Revolver",
-	[10] = "Adrenaline"
+	[10] = "Adrenaline",
+	[11] = "Banana",
 }
 function GetRandomAbility()
 return Abilities_Table[math.random(1, #Abilities_Table)]
@@ -915,7 +916,7 @@ if TestRequire() ~= true then
 ErrorRequire()
 return nil
 end
-game:GetService("ReplicatedStorage"):WaitForChild("Events"):WaitForChild("RemoteEvents"):WaitForChild("AbilitySelection"):FireServer(unpack({{tostring("Adrenaline");tostring("Adrenaline");}}))
+game:GetService("ReplicatedStorage"):WaitForChild("Events"):WaitForChild("RemoteEvents"):WaitForChild("AbilitySelection"):FireServer(unpack({{tostring(GetRandomAbility());tostring(GetRandomAbility());}}))
 for _,ability in pairs(Abilities_Table) do
 game:GetService("ReplicatedStorage"):WaitForChild("Events"):WaitForChild("RemoteEvents"):WaitForChild("AbilitySelection"):FireServer(unpack({{tostring(ability);}}))
 AbilityModule["CreateAbility"](ReturnAbilityData(tostring(ability)))
