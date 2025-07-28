@@ -2611,7 +2611,7 @@ end
 
 -- UI shop handler
 game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Shop.Skins.Info.Bio:GetPropertyChangedSignal("Text"):Connect(function()
-if game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Shop.Skins.Info.Bio.Text == '"I miss old ROBLOX so much man... Pet Simulator X was a blast!"' then
+if game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Shop.Skins.Info.Bio.Text == '"I miss old ROBLOX so much, Pet Simulator X was a blast!"' then
 game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Shop.Skins.Info.Bio.Text = '"yay i added myself to DOD!"'
 game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Shop.Skins.Info.Title.Text = "Nexer"
 elseif game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Shop.Skins.Info.Bio.Text == 'Survive Your Horrors!' then
@@ -2621,10 +2621,10 @@ end
 end)
 game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Shop.Skins.Frame.ScrollingFrame.DescendantAdded:Connect(function(desc)
 repeat task.wait() until desc and desc.Parent
-if desc and desc.Parent and desc:IsA("ImageLabel") and desc.Name == "Icon" and desc.Parent.Name == "#SoRetro" then
+if desc and desc.Parent and desc:IsA("ImageLabel") and desc.Name == "#SoRetro" then
 desc.Image = "rbxassetid://97878538420410"
 desc:WaitForChild("Frame"):WaitForChild("Title").Text = "Nexer"
-elseif desc and desc.Parent and desc:IsA("ImageLabel") and desc.Name == "Icon" and desc.Parent.Name == "Phantasm" then
+elseif desc and desc.Parent and desc:IsA("ImageLabel") and desc.Name == "Phantasm" then
 desc.Image = "rbxassetid://114517442964757"
 desc:WaitForChild("Frame"):WaitForChild("Title").Text = "Subject_0"
 end
@@ -2633,7 +2633,7 @@ end)
 -- Fartful handlers
 workspace.GameAssets.Debris.Cleanable.ChildAdded:Connect(function(child)
 pcall(function()
-if workspace.GameAssets.Teams.Killer:FindFirstChildOfClass("Model") and workspace.GameAssets.Teams.Killer:FindFirstChildOfClass("Model"):FindFirstChild("CloneTool") and workspace.GameAssets.Teams.Killer:FindFirstChildOfClass("Model"):WaitForChild("CloneTool"):WaitForChild("Sparkles").Texture == "rbxassetid://9099782826" then
+if workspace.GameAssets.Teams.Killer:FindFirstChildOfClass("Model") and workspace.GameAssets.Teams.Killer:FindFirstChildOfClass("Model"):FindFirstChild("CloneTool") and workspace.GameAssets.Teams.Killer:FindFirstChildOfClass("Model"):WaitForChild("CloneTool"):FindFirstChild("Sparkles") and workspace.GameAssets.Teams.Killer:FindFirstChildOfClass("Model"):WaitForChild("CloneTool"):WaitForChild("Sparkles").Texture == "rbxassetid://9099782826" then
 if child and child.Parent and child.Name == "MusicBox" then
 child:WaitForChild("Song").Volume = 10
 child:WaitForChild("Song").SoundId = "rbxassetid://714583842"
@@ -2655,7 +2655,7 @@ end)
 end)
 workspace.GameAssets.Teams.Other.ChildAdded:Connect(function(child)
 pcall(function()
-if workspace.GameAssets.Teams.Killer:FindFirstChildOfClass("Model") and workspace.GameAssets.Teams.Killer:FindFirstChildOfClass("Model"):FindFirstChild("CloneTool") and workspace.GameAssets.Teams.Killer:FindFirstChildOfClass("Model"):WaitForChild("CloneTool"):WaitForChild("Sparkles").Texture == "rbxassetid://9099782826" then
+if workspace.GameAssets.Teams.Killer:FindFirstChildOfClass("Model") and workspace.GameAssets.Teams.Killer:FindFirstChildOfClass("Model"):FindFirstChild("CloneTool") and workspace.GameAssets.Teams.Killer:FindFirstChildOfClass("Model"):WaitForChild("CloneTool"):FindFirstChild("Sparkles") and workspace.GameAssets.Teams.Killer:FindFirstChildOfClass("Model"):WaitForChild("CloneTool"):WaitForChild("Sparkles").Texture == "rbxassetid://9099782826" then
 if child and child.Parent and child.Name == "Wall" then
 child:WaitForChild("HumanoidRootPart").Size = Vector3.new(10,6,1)
 local front = Instance.new("Decal")
