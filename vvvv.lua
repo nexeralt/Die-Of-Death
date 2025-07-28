@@ -1,4 +1,4 @@
-print("loading")
+print("loading 2")
 -- loadstring(game:HttpGet("https://raw.githubusercontent.com/nexeralt/Die-Of-Death/refs/heads/main/main.lua"))()
 
 --[[
@@ -2619,12 +2619,12 @@ game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Shop.Skins.Info.Bio.Tex
 game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Shop.Skins.Info.Title.Text = "Subject_0"
 end
 end)
-game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Shop.Skins.Frame.ScrollingFrame.DescendantAdded:Connect(function(desc)
+game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Shop.Skins.Frame.ScrollingFrame.ChildAdded:Connect(function(desc)
 repeat task.wait() until desc and desc.Parent
-if desc and desc.Parent and desc:IsA("ImageLabel") and desc.Name == "#SoRetro" then
+if desc and desc.Parent and desc:IsA("ImageButton") and desc.Name == "#SoRetro" then
 desc.Image = "rbxassetid://97878538420410"
 desc:WaitForChild("Frame"):WaitForChild("Title").Text = "Nexer"
-elseif desc and desc.Parent and desc:IsA("ImageLabel") and desc.Name == "Phantasm" then
+elseif desc and desc.Parent and desc:IsA("ImageButton") and desc.Name == "Phantasm" then
 desc.Image = "rbxassetid://114517442964757"
 desc:WaitForChild("Frame"):WaitForChild("Title").Text = "Subject_0"
 end
