@@ -1,4 +1,3 @@
-print("loading 3")
 -- loadstring(game:HttpGet("https://raw.githubusercontent.com/nexeralt/Die-Of-Death/refs/heads/main/main.lua"))()
 
 --[[
