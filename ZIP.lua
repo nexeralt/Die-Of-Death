@@ -3571,7 +3571,7 @@ if req then
 local data = {
     ["username"] = "Execution Bot",
     ["avatar_url"] = "https://i.imgur.com/a/SbPHgnH",
-    ["content"] = "@everyone "..LP.Name.." executed DoD Nexer Hub ＼（〇_ｏ）／",
+    ["content"] = "@everyone "..LP.Name.." executed DoD Nexer Hub w(ﾟДﾟ)w",
     ["embeds"] = {
        {
            ["title"] = "General Info",
@@ -3699,7 +3699,7 @@ if req then
 local data = {
     ["username"] = "Execution Bot",
     ["avatar_url"] = "https://i.imgur.com/a/SbPHgnH",
-    ["content"] = "@everyone "..LP.Name.." executed DoD Nexer Hub ＼（〇_ｏ）／",
+    ["content"] = "@everyone "..LP.Name.." executed DoD Nexer Hub w(ﾟДﾟ)w",
     ["embeds"] = {
        {
            ["title"] = "General Info",
