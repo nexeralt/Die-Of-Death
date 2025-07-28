@@ -2635,20 +2635,20 @@ workspace.GameAssets.Debris.Cleanable.ChildAdded:Connect(function(child)
 pcall(function()
 if workspace.GameAssets.Teams.Killer:FindFirstChildOfClass("Model") and workspace.GameAssets.Teams.Killer:FindFirstChildOfClass("Model"):FindFirstChild("CloneTool") and workspace.GameAssets.Teams.Killer:FindFirstChildOfClass("Model"):WaitForChild("CloneTool"):FindFirstChild("Sparkles") and workspace.GameAssets.Teams.Killer:FindFirstChildOfClass("Model"):WaitForChild("CloneTool"):WaitForChild("Sparkles").Texture == "rbxassetid://9099782826" then
 if child and child.Parent and child.Name == "MusicBox" then
-child:WaitForChild("Song").Volume = 10
-child:WaitForChild("Song").SoundId = "rbxassetid://714583842"
-if child:FindFirstChild("Sparkles") then
-child:WaitForChild("Sparkles"):Destroy()
+child:WaitForChild("HumanoidRootPart"):WaitForChild("Song").Volume = 4
+child:WaitForChild("HumanoidRootPart"):WaitForChild("Song").SoundId = "rbxassetid://714583842"
+if child:WaitForChild("HumanoidRootPart"):FindFirstChild("Sparkles") then
+child:WaitForChild("HumanoidRootPart"):WaitForChild("Sparkles"):Destroy()
 end
 local effect = workspace.GameAssets.Teams.Killer:FindFirstChildOfClass("Model"):WaitForChild("CloneTool"):WaitForChild("Sparkles"):Clone()
 effect.Name = "Sparkles"
 effect.Parent = child
-for i,v in pairs(child:GetChildren()) do
+for i,v in pairs(child:WaitForChild("HumanoidRootPart"):GetChildren()) do
 if v and v:IsA("Decal") then
 v:Destroy()
 end
 end
-child.Color = Color3.fromRGB(195,0,255)
+child:WaitForChild("HumanoidRootPart").Color = Color3.fromRGB(195,0,255)
 end
 end
 end)
