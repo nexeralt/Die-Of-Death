@@ -3405,7 +3405,7 @@ fuckingscream.Parent = game.LogService
 fuckingscream:Play()
 game:GetService("Players").LocalPlayer:WaitForChild("PlayerGui"):WaitForChild("MainGui"):WaitForChild("EvilScary").Visible = true
 game:GetService("ReplicatedStorage").Sounds.SFX.KillSound:Play()
-task.wait(2)
+task.wait(3.25)
 game:GetService("Players").LocalPlayer:WaitForChild("PlayerGui"):WaitForChild("MainGui"):WaitForChild("EvilScary").Visible = false
 task.spawn(function()
 Jumpscare(4)
