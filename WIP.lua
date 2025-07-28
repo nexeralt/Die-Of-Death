@@ -1153,7 +1153,17 @@ end; })
 Visual:CreateButton({Name = "Open Shop"; Callback = function()
 UIModule["OpenShop"]()
 end; })
-
+Visual:CreateButton({Name = "Disable Custom-Skins"; Callback = function()
+task.spawn(function()
+if CS_Connections and CS_Connections[1] then
+for i,v in pairs(CS_Connections) do
+if i and v then
+i:Disconnect()
+end
+end
+end
+end)
+end; })
 Visual:CreateToggle({Name = "Teammate Death Effect Enabled"; CurrentValue = true; Callback = function(Value)
 if TestRequire() ~= true then
 ErrorRequire()
@@ -2496,15 +2506,17 @@ cmdbar:CreateButton({Name = "or click me to copy pastebin link with all cmds!"; 
 setclipboard(tostring("https://pastebin.com/raw/3VZyG7iD"))
 end; })
 
-
---[[ Fartful skin myself and subject_0 handler ]]--
+--[[  custom skins handlers ]]--
 pcall(function()
+
+CS_Connections = {}
+
 function RemoveThingy(username)
     return string.sub(username, 1, 1) == "@" and string.sub(username, 2) or username
 end
 
 -- Main killerchange handler
-workspace.GameAssets.Teams.Killer.ChildAdded:Connect(function(child)
+CS_Connections["MapSpawnKillerHandler"] = workspace.GameAssets.Teams.Killer.ChildAdded:Connect(function(child)
 	task.wait(1)
 	local suc, err = pcall(function()
 		if child and child:FindFirstChild("CloneTool") and child:WaitForChild("CloneTool"):FindFirstChild("Sparkles") and child:WaitForChild("CloneTool"):WaitForChild("Sparkles").Enabled == false then
@@ -2610,7 +2622,7 @@ end
 	end
 
 -- UI shop handler
-game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Shop.Skins.Info.Bio:GetPropertyChangedSignal("Text"):Connect(function()
+CS_Connections["BioAndTitleHandlers"] = game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Shop.Skins.Info.Bio:GetPropertyChangedSignal("Text"):Connect(function()
 if game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Shop.Skins.Info.Bio.Text == '"I miss old ROBLOX so much, Pet Simulator X was a blast!"' then
 game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Shop.Skins.Info.Bio.Text = '"yay i added myself to DOD!"'
 game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Shop.Skins.Info.Title.Text = "Nexer"
@@ -2619,7 +2631,7 @@ game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Shop.Skins.Info.Bio.Tex
 game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Shop.Skins.Info.Title.Text = "Subject_0"
 end
 end)
-game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Shop.Skins.Frame.ScrollingFrame.ChildAdded:Connect(function(desc)
+CS_Connections["IconAndTitleHandlers"] = game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Shop.Skins.Frame.ScrollingFrame.ChildAdded:Connect(function(desc)
 repeat task.wait() until desc and desc.Parent
 if desc and desc.Parent and desc:IsA("ImageButton") and desc.Name == "#SoRetro" then
 desc:WaitForChild("Frame"):WaitForChild("Icon").Image = "rbxassetid://97878538420410"
@@ -2631,7 +2643,7 @@ end
 end)
 
 -- Fartful handlers
-workspace.GameAssets.Debris.Cleanable.ChildAdded:Connect(function(child)
+CS_Connections["FartfulMusicBoxHandler"] = workspace.GameAssets.Debris.Cleanable.ChildAdded:Connect(function(child)
 pcall(function()
 if workspace.GameAssets.Teams.Killer:FindFirstChildOfClass("Model") and workspace.GameAssets.Teams.Killer:FindFirstChildOfClass("Model"):FindFirstChild("CloneTool") and workspace.GameAssets.Teams.Killer:FindFirstChildOfClass("Model"):WaitForChild("CloneTool"):FindFirstChild("Sparkles") and workspace.GameAssets.Teams.Killer:FindFirstChildOfClass("Model"):WaitForChild("CloneTool"):WaitForChild("Sparkles").Texture == "rbxassetid://9099782826" then
 if child and child.Parent and child.Name == "MusicBox" then
@@ -2653,7 +2665,7 @@ end
 end
 end)
 end)
-workspace.GameAssets.Teams.Other.ChildAdded:Connect(function(child)
+CS_Connections["FartfulWallHandler"] = workspace.GameAssets.Teams.Other.ChildAdded:Connect(function(child)
 pcall(function()
 if workspace.GameAssets.Teams.Killer:FindFirstChildOfClass("Model") and workspace.GameAssets.Teams.Killer:FindFirstChildOfClass("Model"):FindFirstChild("CloneTool") and workspace.GameAssets.Teams.Killer:FindFirstChildOfClass("Model"):WaitForChild("CloneTool"):FindFirstChild("Sparkles") and workspace.GameAssets.Teams.Killer:FindFirstChildOfClass("Model"):WaitForChild("CloneTool"):WaitForChild("Sparkles").Texture == "rbxassetid://9099782826" then
 if child and child.Parent and child.Name == "Wall" then
@@ -2679,7 +2691,7 @@ end
 return false
 end
 		
-game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Leaderstats.List.Info:GetPropertyChangedSignal("Visible"):Connect(function()
+CS_Connections["Subject0VisLeaderboard"] = game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Leaderstats.List.Info:GetPropertyChangedSignal("Visible"):Connect(function()
 local username = tostring(RemoveThingy(tostring(game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Leaderstats.List.Info.Title.Text)))
 if game.Players[username].Stats.EquippedKiller.Value == "Pursuer" and game.Players[username].Stats.Skins:FindFirstChild("Phantasm") and game.Players[username].Stats.Killers:FindFirstChild("Pursuer") and game.Players[username].Stats.Killers.Pursuer:GetAttribute("EquippedSkin") == "Phantasm" and checkframe() == true then
 local overlay = game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Leaderstats.List.Info.Killer:Clone()
@@ -2693,7 +2705,7 @@ overlay:Destroy()
 end
 end)
 
-game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Leaderstats.List.Info.Title:GetPropertyChangedSignal("Text"):Connect(function()
+CS_Connections["Subject0TextLeaderboard"] = game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Leaderstats.List.Info.Title:GetPropertyChangedSignal("Text"):Connect(function()
 local username = tostring(RemoveThingy(tostring(game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Leaderstats.List.Info.Title.Text)))
 if game.Players[username].Stats.EquippedKiller.Value == "Pursuer" and game.Players[username].Stats.Skins:FindFirstChild("Phantasm") and game.Players[username].Stats.Killers:FindFirstChild("Pursuer") and game.Players[username].Stats.Killers.Pursuer:GetAttribute("EquippedSkin") == "Phantasm" and checkframe() == true then
 local overlay = game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Leaderstats.List.Info.Killer:Clone()
@@ -2707,7 +2719,7 @@ overlay:Destroy()
 end
 end)
 		
-game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Leaderstats.List.Info:GetPropertyChangedSignal("Visible"):Connect(function()
+CS_Connections["FartfulVisLeaderboard"] = game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Leaderstats.List.Info:GetPropertyChangedSignal("Visible"):Connect(function()
 local username = tostring(RemoveThingy(tostring(game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Leaderstats.List.Info.Title.Text)))
 if game.Players[username].Stats.EquippedKiller.Value == "Artful" and game.Players[username].Stats.Skins:FindFirstChild("#SoRetro") and game.Players[username].Stats.Killers:FindFirstChild("Artful") and game.Players[username].Stats.Killers.Artful:GetAttribute("EquippedSkin") == "#SoRetro" and checkframe() == true then
 local overlay = game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Leaderstats.List.Info.Killer:Clone()
@@ -2721,7 +2733,7 @@ overlay:Destroy()
 end
 end)
 		
-game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Leaderstats.List.Info.Title:GetPropertyChangedSignal("Text"):Connect(function()
+CS_Connections["FartfulTextLeaderboard"] = game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Leaderstats.List.Info.Title:GetPropertyChangedSignal("Text"):Connect(function()
 local username = tostring(RemoveThingy(tostring(game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Leaderstats.List.Info.Title.Text)))
 if game.Players[username].Stats.EquippedKiller.Value == "Artful" and game.Players[username].Stats.Skins:FindFirstChild("#SoRetro") and game.Players[username].Stats.Killers:FindFirstChild("Artful") and game.Players[username].Stats.Killers.Artful:GetAttribute("EquippedSkin") == "#SoRetro" and checkframe() == true then
 local overlay = game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Leaderstats.List.Info.Killer:Clone()
@@ -2737,6 +2749,7 @@ end)
 		
 end)
 
+Notify("Notification", "This script includes several custom skins for killers, if you want to turn them off, go to ''Visual Management'' tab and find button that says ''Disable Custom-Skins''", 10, true)
 
 local function CreateMISO(plr)
 local target = plr
