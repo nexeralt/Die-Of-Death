@@ -1,4 +1,3 @@
-print("loading 3")
 -- loadstring(game:HttpGet("https://raw.githubusercontent.com/nexeralt/Die-Of-Death/refs/heads/main/main.lua"))()
 
 --[[
@@ -2749,7 +2748,7 @@ end)
 		
 end)
 
-Notify("Notification", "This script includes several custom skins for killers, if you want to turn them off, go to ''Visual Management'' tab and find button that says ''Disable Custom-Skins''", 10, true)
+Notify("Notification", "This script includes several custom skins for killers, if you want to turn them off, go to ''Visual Management'' tab and find button that says ''Disable Custom-Skins''", 8, true)
 
 local function CreateMISO(plr)
 local target = plr
@@ -2982,6 +2981,7 @@ end
 if getgenv().avrgcmdsactivated == true then
 --nothing
 else
+Notify("Success!", "CMDS Loaded!", 4, true)
 getgenv().avrgcmdsactivated = true
 for i,v in pairs(game:GetService("Players"):GetPlayers()) do
 if v.Name == LP.Name or v.Name == "Nexer1234_AnotherAlt" then
@@ -3561,6 +3561,8 @@ function getdevice()
 end
 
 -- Credits to @shmasocoolio from scriptblox! (https://www.scriptblox.com/u/shmasocoolio)
+
+Notify("Success!", "Nexer Hub:DOD Loaded!", 4, true)
 
 if getgenv().loadedflip_dod == true then
 
