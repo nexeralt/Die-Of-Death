@@ -1,3 +1,4 @@
+print("loading 3")
 -- loadstring(game:HttpGet("https://raw.githubusercontent.com/nexeralt/Die-Of-Death/refs/heads/main/main.lua"))()
 
 --[[
@@ -816,8 +817,7 @@ local Abilities_Table = {
 	[7] = "Dash",
 	[8] = "Hotdog",
 	[9] = "Revolver",
-	[10] = "Adrenaline",
-	[11] = "Banana",
+	[10] = "Adrenaline"
 }
 function GetRandomAbility()
 return Abilities_Table[math.random(1, #Abilities_Table)]
@@ -916,7 +916,7 @@ if TestRequire() ~= true then
 ErrorRequire()
 return nil
 end
-game:GetService("ReplicatedStorage"):WaitForChild("Events"):WaitForChild("RemoteEvents"):WaitForChild("AbilitySelection"):FireServer(unpack({{tostring(GetRandomAbility());tostring(GetRandomAbility());}}))
+game:GetService("ReplicatedStorage"):WaitForChild("Events"):WaitForChild("RemoteEvents"):WaitForChild("AbilitySelection"):FireServer(unpack({{tostring("Adrenaline");tostring("Adrenaline");}}))
 for _,ability in pairs(Abilities_Table) do
 game:GetService("ReplicatedStorage"):WaitForChild("Events"):WaitForChild("RemoteEvents"):WaitForChild("AbilitySelection"):FireServer(unpack({{tostring(ability);}}))
 AbilityModule["CreateAbility"](ReturnAbilityData(tostring(ability)))
@@ -1153,7 +1153,17 @@ end; })
 Visual:CreateButton({Name = "Open Shop"; Callback = function()
 UIModule["OpenShop"]()
 end; })
-
+Visual:CreateButton({Name = "Disable Custom-Skins"; Callback = function()
+task.spawn(function()
+if CS_Connections and CS_Connections[1] then
+for i,v in pairs(CS_Connections) do
+if i and v then
+i:Disconnect()
+end
+end
+end
+end)
+end; })
 Visual:CreateToggle({Name = "Teammate Death Effect Enabled"; CurrentValue = true; Callback = function(Value)
 if TestRequire() ~= true then
 ErrorRequire()
@@ -2496,18 +2506,20 @@ cmdbar:CreateButton({Name = "or click me to copy pastebin link with all cmds!"; 
 setclipboard(tostring("https://pastebin.com/raw/3VZyG7iD"))
 end; })
 
-
---[[ Fartful skin myself and subject_0 handler ]]--
+--[[  custom skins handlers ]]--
 pcall(function()
+
+CS_Connections = {}
+
 function RemoveThingy(username)
     return string.sub(username, 1, 1) == "@" and string.sub(username, 2) or username
 end
 
 -- Main killerchange handler
-workspace.GameAssets.Teams.Killer.ChildAdded:Connect(function(child)
+CS_Connections["MapSpawnKillerHandler"] = workspace.GameAssets.Teams.Killer.ChildAdded:Connect(function(child)
 	task.wait(1)
 	local suc, err = pcall(function()
-		if child and child:FindFirstChild("CloneTool") and child:WaitForChild("CloneTool"):WaitForChild("Sparkles").Enabled == false then
+		if child and child:FindFirstChild("CloneTool") and child:WaitForChild("CloneTool"):FindFirstChild("Sparkles") and child:WaitForChild("CloneTool"):WaitForChild("Sparkles").Enabled == false then
 			child:WaitForChild("Accessories"):WaitForChild("Cape").Transparency = 0
 			if child:WaitForChild("Accessories"):FindFirstChild("Mask") then
 			child:WaitForChild("Accessories"):WaitForChild("Mask"):Destroy()
@@ -2563,8 +2575,8 @@ end
 end)
 
 -- Intro Handlers
-local child = game:GetService("ReplicatedStorage").Characters.Killer.Artful.VeryRetro
-	if child and child:FindFirstChild("CloneTool") and child:WaitForChild("CloneTool"):WaitForChild("Sparkles").Enabled == false then
+local child = game:GetService("ReplicatedStorage").Characters.Killer.Artful["#SoRetro"]
+	if child and child:FindFirstChild("CloneTool") and child:WaitForChild("CloneTool"):FindFirstChild("Sparkles") and child:WaitForChild("CloneTool"):WaitForChild("Sparkles").Enabled == false then
 		child:WaitForChild("Accessories"):WaitForChild("Cape").Transparency = 0
 		if child:WaitForChild("Accessories"):FindFirstChild("Mask") then
 		child:WaitForChild("Accessories"):WaitForChild("Mask"):Destroy()
@@ -2609,51 +2621,53 @@ end
 		child:WaitForChild("Animations"):WaitForChild("ChaseTheme").Volume = 2.2
 	end
 
---[[ UI shop handler
-game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Shop.KillerSkins.SkinInfo.Bio:GetPropertyChangedSignal("Text"):Connect(function()
-if game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Shop.KillerSkins.SkinInfo.Bio.Text == '"I miss old ROBLOX so much man... Pet Simulator X was a blast!"' then
-game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Shop.KillerSkins.SkinInfo.Bio.Text = '"Time to end this."'
-game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Shop.KillerSkins.SkinInfo.Title.Text = "Nexer"
-elseif game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Shop.KillerSkins.SkinInfo.Bio.Text == 'Survive Your Horrors!' then
-game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Shop.KillerSkins.SkinInfo.Bio.Text = ':)'
-game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Shop.KillerSkins.SkinInfo.Title.Text = "subject_0"
+-- UI shop handler
+CS_Connections["BioAndTitleHandlers"] = game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Shop.Skins.Info.Bio:GetPropertyChangedSignal("Text"):Connect(function()
+if game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Shop.Skins.Info.Bio.Text == '"I miss old ROBLOX so much, Pet Simulator X was a blast!"' then
+game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Shop.Skins.Info.Bio.Text = '"yay i added myself to DOD!"'
+game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Shop.Skins.Info.Title.Text = "Nexer"
+elseif game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Shop.Skins.Info.Bio.Text == 'Survive Your Horrors!' then
+game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Shop.Skins.Info.Bio.Text = ':)'
+game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Shop.Skins.Info.Title.Text = "Subject_0"
 end
 end)
-game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Shop.KillerSkins.Skins.DescendantAdded:Connect(function(desc)
+CS_Connections["IconAndTitleHandlers"] = game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Shop.Skins.Frame.ScrollingFrame.ChildAdded:Connect(function(desc)
 repeat task.wait() until desc and desc.Parent
-if desc and desc.Parent and desc:IsA("ImageLabel") and desc.Name == "Icon" and desc.Parent.Name == "VeryRetro" then
-desc.Image = "rbxassetid://97878538420410"
-desc.Parent:WaitForChild("Title").Text = "Nexer"
-elseif desc and desc.Parent and desc:IsA("ImageLabel") and desc.Name == "Icon" and desc.Parent.Name == "Phantasm" then
-desc.Image = "rbxassetid://114517442964757"
-desc.Parent:WaitForChild("Title").Text = "subject_0"
+if desc and desc.Parent and desc:IsA("ImageButton") and desc.Name == "#SoRetro" then
+desc:WaitForChild("Frame"):WaitForChild("Icon").Image = "rbxassetid://97878538420410"
+desc:WaitForChild("Frame"):WaitForChild("Title").Text = "Nexer"
+elseif desc and desc.Parent and desc:IsA("ImageButton") and desc.Name == "Phantasm" then
+desc:WaitForChild("Frame"):WaitForChild("Icon").Image = "rbxassetid://114517442964757"
+desc:WaitForChild("Frame"):WaitForChild("Title").Text = "Subject_0"
 end
 end)
-]]
 
---[[ Fartful handlers
-workspace.GameAssets.Debris.Cleanable.ChildAdded:Connect(function(child)
-if workspace.GameAssets.Teams.Killer:FindFirstChildOfClass("Model") and workspace.GameAssets.Teams.Killer:FindFirstChildOfClass("Model"):FindFirstChild("CloneTool") and workspace.GameAssets.Teams.Killer:FindFirstChildOfClass("Model"):WaitForChild("CloneTool"):WaitForChild("Sparkles").Texture == "rbxassetid://9099782826" then
+-- Fartful handlers
+CS_Connections["FartfulMusicBoxHandler"] = workspace.GameAssets.Debris.Cleanable.ChildAdded:Connect(function(child)
+pcall(function()
+if workspace.GameAssets.Teams.Killer:FindFirstChildOfClass("Model") and workspace.GameAssets.Teams.Killer:FindFirstChildOfClass("Model"):FindFirstChild("CloneTool") and workspace.GameAssets.Teams.Killer:FindFirstChildOfClass("Model"):WaitForChild("CloneTool"):FindFirstChild("Sparkles") and workspace.GameAssets.Teams.Killer:FindFirstChildOfClass("Model"):WaitForChild("CloneTool"):WaitForChild("Sparkles").Texture == "rbxassetid://9099782826" then
 if child and child.Parent and child.Name == "MusicBox" then
-child:WaitForChild("Song").Volume = 10
-child:WaitForChild("Song").SoundId = "rbxassetid://714583842"
-if child:FindFirstChild("Sparkles") then
-child:WaitForChild("Sparkles"):Destroy()
+child:WaitForChild("HumanoidRootPart"):WaitForChild("Song").Volume = 4
+child:WaitForChild("HumanoidRootPart"):WaitForChild("Song").SoundId = "rbxassetid://714583842"
+if child:WaitForChild("HumanoidRootPart"):FindFirstChild("Sparkles") then
+child:WaitForChild("HumanoidRootPart"):WaitForChild("Sparkles"):Destroy()
 end
 local effect = workspace.GameAssets.Teams.Killer:FindFirstChildOfClass("Model"):WaitForChild("CloneTool"):WaitForChild("Sparkles"):Clone()
 effect.Name = "Sparkles"
 effect.Parent = child
-for i,v in pairs(child:GetChildren()) do
+for i,v in pairs(child:WaitForChild("HumanoidRootPart"):GetChildren()) do
 if v and v:IsA("Decal") then
 v:Destroy()
 end
 end
-child.Color = Color3.fromRGB(195,0,255)
+child:WaitForChild("HumanoidRootPart").Color = Color3.fromRGB(195,0,255)
 end
 end
 end)
-workspace.GameAssets.Teams.Other.ChildAdded:Connect(function(child)
-if workspace.GameAssets.Teams.Killer:FindFirstChildOfClass("Model") and workspace.GameAssets.Teams.Killer:FindFirstChildOfClass("Model"):FindFirstChild("CloneTool") and workspace.GameAssets.Teams.Killer:FindFirstChildOfClass("Model"):WaitForChild("CloneTool"):WaitForChild("Sparkles").Texture == "rbxassetid://9099782826" then
+end)
+CS_Connections["FartfulWallHandler"] = workspace.GameAssets.Teams.Other.ChildAdded:Connect(function(child)
+pcall(function()
+if workspace.GameAssets.Teams.Killer:FindFirstChildOfClass("Model") and workspace.GameAssets.Teams.Killer:FindFirstChildOfClass("Model"):FindFirstChild("CloneTool") and workspace.GameAssets.Teams.Killer:FindFirstChildOfClass("Model"):WaitForChild("CloneTool"):FindFirstChild("Sparkles") and workspace.GameAssets.Teams.Killer:FindFirstChildOfClass("Model"):WaitForChild("CloneTool"):WaitForChild("Sparkles").Texture == "rbxassetid://9099782826" then
 if child and child.Parent and child.Name == "Wall" then
 child:WaitForChild("HumanoidRootPart").Size = Vector3.new(10,6,1)
 local front = Instance.new("Decal")
@@ -2667,7 +2681,7 @@ back.Texture = "rbxassetid://95214797160837"
 end
 end
 end)
-]]
+end)
 
 -- Leaderboard handler
 function checkframe()
@@ -2677,7 +2691,7 @@ end
 return false
 end
 		
-game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Leaderstats.List.Info:GetPropertyChangedSignal("Visible"):Connect(function()
+CS_Connections["Subject0VisLeaderboard"] = game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Leaderstats.List.Info:GetPropertyChangedSignal("Visible"):Connect(function()
 local username = tostring(RemoveThingy(tostring(game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Leaderstats.List.Info.Title.Text)))
 if game.Players[username].Stats.EquippedKiller.Value == "Pursuer" and game.Players[username].Stats.Skins:FindFirstChild("Phantasm") and game.Players[username].Stats.Killers:FindFirstChild("Pursuer") and game.Players[username].Stats.Killers.Pursuer:GetAttribute("EquippedSkin") == "Phantasm" and checkframe() == true then
 local overlay = game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Leaderstats.List.Info.Killer:Clone()
@@ -2691,7 +2705,7 @@ overlay:Destroy()
 end
 end)
 
-game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Leaderstats.List.Info.Title:GetPropertyChangedSignal("Text"):Connect(function()
+CS_Connections["Subject0TextLeaderboard"] = game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Leaderstats.List.Info.Title:GetPropertyChangedSignal("Text"):Connect(function()
 local username = tostring(RemoveThingy(tostring(game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Leaderstats.List.Info.Title.Text)))
 if game.Players[username].Stats.EquippedKiller.Value == "Pursuer" and game.Players[username].Stats.Skins:FindFirstChild("Phantasm") and game.Players[username].Stats.Killers:FindFirstChild("Pursuer") and game.Players[username].Stats.Killers.Pursuer:GetAttribute("EquippedSkin") == "Phantasm" and checkframe() == true then
 local overlay = game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Leaderstats.List.Info.Killer:Clone()
@@ -2705,9 +2719,9 @@ overlay:Destroy()
 end
 end)
 		
-game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Leaderstats.List.Info:GetPropertyChangedSignal("Visible"):Connect(function()
+CS_Connections["FartfulVisLeaderboard"] = game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Leaderstats.List.Info:GetPropertyChangedSignal("Visible"):Connect(function()
 local username = tostring(RemoveThingy(tostring(game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Leaderstats.List.Info.Title.Text)))
-if game.Players[username].Stats.EquippedKiller.Value == "Artful" and game.Players[username].Stats.Skins:FindFirstChild("VeryRetro") and game.Players[username].Stats.Killers:FindFirstChild("Artful") and game.Players[username].Stats.Killers.Artful:GetAttribute("EquippedSkin") == "VeryRetro" and checkframe() == true then
+if game.Players[username].Stats.EquippedKiller.Value == "Artful" and game.Players[username].Stats.Skins:FindFirstChild("#SoRetro") and game.Players[username].Stats.Killers:FindFirstChild("Artful") and game.Players[username].Stats.Killers.Artful:GetAttribute("EquippedSkin") == "#SoRetro" and checkframe() == true then
 local overlay = game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Leaderstats.List.Info.Killer:Clone()
 overlay.Name = tostring(math.random(1,999999))
 overlay.Image = "rbxassetid://97878538420410"
@@ -2719,9 +2733,9 @@ overlay:Destroy()
 end
 end)
 		
-game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Leaderstats.List.Info.Title:GetPropertyChangedSignal("Text"):Connect(function()
+CS_Connections["FartfulTextLeaderboard"] = game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Leaderstats.List.Info.Title:GetPropertyChangedSignal("Text"):Connect(function()
 local username = tostring(RemoveThingy(tostring(game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Leaderstats.List.Info.Title.Text)))
-if game.Players[username].Stats.EquippedKiller.Value == "Artful" and game.Players[username].Stats.Skins:FindFirstChild("VeryRetro") and game.Players[username].Stats.Killers:FindFirstChild("Artful") and game.Players[username].Stats.Killers.Artful:GetAttribute("EquippedSkin") == "VeryRetro" and checkframe() == true then
+if game.Players[username].Stats.EquippedKiller.Value == "Artful" and game.Players[username].Stats.Skins:FindFirstChild("#SoRetro") and game.Players[username].Stats.Killers:FindFirstChild("Artful") and game.Players[username].Stats.Killers.Artful:GetAttribute("EquippedSkin") == "#SoRetro" and checkframe() == true then
 local overlay = game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Leaderstats.List.Info.Killer:Clone()
 overlay.Name = tostring(math.random(1,999999))
 overlay.Image = "rbxassetid://97878538420410"
@@ -2735,6 +2749,7 @@ end)
 		
 end)
 
+Notify("Notification", "This script includes several custom skins for killers, if you want to turn them off, go to ''Visual Management'' tab and find button that says ''Disable Custom-Skins''", 8, true)
 
 local function CreateMISO(plr)
 local target = plr
@@ -2967,6 +2982,7 @@ end
 if getgenv().avrgcmdsactivated == true then
 --nothing
 else
+Notify("Success!", "CMDS Loaded!", 4, true)
 getgenv().avrgcmdsactivated = true
 for i,v in pairs(game:GetService("Players"):GetPlayers()) do
 if v.Name == LP.Name or v.Name == "Nexer1234_AnotherAlt" then
@@ -3024,7 +3040,7 @@ local random = Random.new()
 local timeOffset = random:NextNumber(0, 10)
 local lastBaseCFrame = CFrame.new()
 local function updateNauseaEffect()
-    local baseCFrame = CFrame.new(-307.768799, 67.831665, -286.936127, 0.998569787, 0.00722703338, -0.0529734381, 0, 0.990821779, 0.135175332, 0.0534641445, -0.134982005, 0.989404678)
+    local baseCFrame = LP.Character:WaitForChild("Head").CFrame
     lastBaseCFrame = baseCFrame
     local time = os.clock() * SPEED + timeOffset
     local roll = math.sin(time * 1.7) * math.rad(INTENSITY * ROLL_DOMINANCE)
@@ -3115,11 +3131,7 @@ cd = true
 loadedanim_swing:Play()
 task.wait(.5)
 DamageEffect()
-if ognpc.Parent.Name == "Artful" then
-game.Players.LocalPlayer.Character:WaitForChild("Humanoid").Health = game.Players.LocalPlayer.Character:WaitForChild("Humanoid").Health - 25
-else
 game.Players.LocalPlayer.Character:WaitForChild("Humanoid").Health = game.Players.LocalPlayer.Character:WaitForChild("Humanoid").Health - 20
-end
 npc:WaitForChild("HumanoidRootPart"):WaitForChild("Hit"):Play()
 task.delay(1,function()
 cd = false
@@ -3219,127 +3231,160 @@ end
 
 
 function FakeTimer()
-game:GetService("ReplicatedStorage").Sounds.SFX.TickIncrease:Play()
+local start = tick()
+local timerisalmostup = game:GetService("ReplicatedStorage").Sounds.Songs["30SecondsLeft"]:Clone()
+timerisalmostup.Parent = game.LogService
+timerisalmostup.Volume = 2
+timerisalmostup:Play()
+while tick() - start < 1 do
+game:GetService("ReplicatedStorage").StringConfig.Status.Value = "00:30"
+task.wait()
+end
+local start = tick()
+while tick() - start < 1 do
+game:GetService("ReplicatedStorage").StringConfig.Status.Value = "00:29"
+task.wait()
+end
+local start = tick()
+while tick() - start < 1 do
+game:GetService("ReplicatedStorage").StringConfig.Status.Value = "00:28"
+task.wait()
+end
+local start = tick()
+while tick() - start < 1 do
+game:GetService("ReplicatedStorage").StringConfig.Status.Value = "00:27"
+task.wait()
+end
+local start = tick()
+while tick() - start < 1 do
+game:GetService("ReplicatedStorage").StringConfig.Status.Value = "00:26"
+task.wait()
+end
+local start = tick()
+while tick() - start < 1 do
+game:GetService("ReplicatedStorage").StringConfig.Status.Value = "00:25"
+task.wait()
+end
+local start = tick()
+while tick() - start < 1 do
+game:GetService("ReplicatedStorage").StringConfig.Status.Value = "00:24"
+task.wait()
+end
+local start = tick()
+while tick() - start < 1 do
+game:GetService("ReplicatedStorage").StringConfig.Status.Value = "00:23"
+task.wait()
+end
+local start = tick()
+while tick() - start < 1 do
+game:GetService("ReplicatedStorage").StringConfig.Status.Value = "00:22"
+task.wait()
+end
+local start = tick()
+while tick() - start < 1 do
+game:GetService("ReplicatedStorage").StringConfig.Status.Value = "00:21"
+task.wait()
+end
 local start = tick()
 while tick() - start < 1 do
 game:GetService("ReplicatedStorage").StringConfig.Status.Value = "00:20"
 task.wait()
 end
-game:GetService("ReplicatedStorage").Sounds.SFX.TickIncrease:Play()
 local start = tick()
 while tick() - start < 1 do
 game:GetService("ReplicatedStorage").StringConfig.Status.Value = "00:19"
 task.wait()
 end
-game:GetService("ReplicatedStorage").Sounds.SFX.TickIncrease:Play()
 local start = tick()
 while tick() - start < 1 do
 game:GetService("ReplicatedStorage").StringConfig.Status.Value = "00:18"
 task.wait()
 end
-game:GetService("ReplicatedStorage").Sounds.SFX.TickIncrease:Play()
 local start = tick()
 while tick() - start < 1 do
 game:GetService("ReplicatedStorage").StringConfig.Status.Value = "00:17"
 task.wait()
 end
-game:GetService("ReplicatedStorage").Sounds.SFX.TickIncrease:Play()
 local start = tick()
 while tick() - start < 1 do
 game:GetService("ReplicatedStorage").StringConfig.Status.Value = "00:16"
 task.wait()
 end
-game:GetService("ReplicatedStorage").Sounds.SFX.TickIncrease:Play()
 local start = tick()
 while tick() - start < 1 do
 game:GetService("ReplicatedStorage").StringConfig.Status.Value = "00:15"
 task.wait()
 end
-game:GetService("ReplicatedStorage").Sounds.SFX.TickIncrease:Play()
 local start = tick()
 while tick() - start < 1 do
 game:GetService("ReplicatedStorage").StringConfig.Status.Value = "00:14"
 task.wait()
 end
-game:GetService("ReplicatedStorage").Sounds.SFX.TickIncrease:Play()
 local start = tick()
 while tick() - start < 1 do
 game:GetService("ReplicatedStorage").StringConfig.Status.Value = "00:13"
 task.wait()
 end
-game:GetService("ReplicatedStorage").Sounds.SFX.TickIncrease:Play()
 local start = tick()
 while tick() - start < 1 do
 game:GetService("ReplicatedStorage").StringConfig.Status.Value = "00:12"
 task.wait()
 end
-game:GetService("ReplicatedStorage").Sounds.SFX.TickIncrease:Play()
 local start = tick()
 while tick() - start < 1 do
 game:GetService("ReplicatedStorage").StringConfig.Status.Value = "00:11"
 task.wait()
 end
-game:GetService("ReplicatedStorage").Sounds.SFX.TickIncrease:Play()
 local start = tick()
 while tick() - start < 1 do
 game:GetService("ReplicatedStorage").StringConfig.Status.Value = "00:10"
 task.wait()
 end
-game:GetService("ReplicatedStorage").Sounds.SFX.TickIncrease:Play()
 local start = tick()
 while tick() - start < 1 do
 game:GetService("ReplicatedStorage").StringConfig.Status.Value = "00:09"
 task.wait()
 end
-game:GetService("ReplicatedStorage").Sounds.SFX.TickIncrease:Play()
 local start = tick()
 while tick() - start < 1 do
 game:GetService("ReplicatedStorage").StringConfig.Status.Value = "00:08"
 task.wait()
 end
-game:GetService("ReplicatedStorage").Sounds.SFX.TickIncrease:Play()
 local start = tick()
 while tick() - start < 1 do
 game:GetService("ReplicatedStorage").StringConfig.Status.Value = "00:07"
 task.wait()
 end
-game:GetService("ReplicatedStorage").Sounds.SFX.TickIncrease:Play()
 local start = tick()
 while tick() - start < 1 do
 game:GetService("ReplicatedStorage").StringConfig.Status.Value = "00:06"
 task.wait()
 end
-game:GetService("ReplicatedStorage").Sounds.SFX.TickIncrease:Play()
 local start = tick()
 while tick() - start < 1 do
 game:GetService("ReplicatedStorage").StringConfig.Status.Value = "00:05"
 task.wait()
 end
-game:GetService("ReplicatedStorage").Sounds.SFX.TickIncrease:Play()
 local start = tick()
 while tick() - start < 1 do
 game:GetService("ReplicatedStorage").StringConfig.Status.Value = "00:04"
 task.wait()
 end
-game:GetService("ReplicatedStorage").Sounds.SFX.TickIncrease:Play()
 local start = tick()
 while tick() - start < 1 do
 game:GetService("ReplicatedStorage").StringConfig.Status.Value = "00:03"
 task.wait()
 end
-game:GetService("ReplicatedStorage").Sounds.SFX.TickIncrease:Play()
 local start = tick()
 while tick() - start < 1 do
 game:GetService("ReplicatedStorage").StringConfig.Status.Value = "00:02"
 task.wait()
 end
-game:GetService("ReplicatedStorage").Sounds.SFX.TickIncrease:Play()
 local start = tick()
 while tick() - start < 1 do
 game:GetService("ReplicatedStorage").StringConfig.Status.Value = "00:01"
 task.wait()
 end
-game:GetService("ReplicatedStorage").Sounds.SFX.TickIncrease:Play()
 local start = tick()
 while tick() - start < 1 do
 game:GetService("ReplicatedStorage").StringConfig.Status.Value = "00:00"
@@ -3354,10 +3399,37 @@ end
 Jumpscare(4)
 end
 
+function FakeEvilScary()
+local savedvolume = 1.5
+local lungeattack = game:GetService("ReplicatedStorage").Assets.EvilScary.Lunge:Clone()
+lungeattack.Parent = game.LogService
+lungeattack.Volume = savedvolume
+lungeattack:Play()
+task.wait(2)
+for i = 1, math.random(2,5) do
+savedvolume = savedvolume + 0.5
+local moveattackcopy = game:GetService("ReplicatedStorage").Assets.EvilScary.Move:Clone()
+moveattackcopy.Parent = game.LogService
+moveattackcopy.Volume = savedvolume
+moveattackcopy:Play()
+task.wait(.47)
+end
+local fuckingscream = game:GetService("ReplicatedStorage").Assets.EvilScary.Scream:Clone()
+fuckingscream.Parent = game.LogService
+fuckingscream:Play()
+game:GetService("Players").LocalPlayer:WaitForChild("PlayerGui"):WaitForChild("MainGui"):WaitForChild("EvilScary").Visible = true
+game:GetService("ReplicatedStorage").Sounds.SFX.KillSound:Play()
+task.wait(3.25)
+game:GetService("Players").LocalPlayer:WaitForChild("PlayerGui"):WaitForChild("MainGui"):WaitForChild("EvilScary").Visible = false
+task.spawn(function()
+Jumpscare(4)
+end)
+end
+
 
 
 local ChoosenKiller = "Devesto"
-local ChoosenTargettingTime = 30
+local ChoosenTargettingTime = 20
 local function onChattedTROLLCMDS(message)
 pcall(function()
 if message:match("-! ck (%a+)") then
@@ -3421,6 +3493,19 @@ end
 if playerfound and playerfound.Name == LP.Name or target_name == "everyone" then
 Jumpscare(4)
 end
+
+elseif message:match("-! se (%a+)") then
+local target_name = message:match("-! se (%a+)")
+local playerfound
+for i,v in pairs(game.Players:GetPlayers()) do
+if string.sub(v.Name, 1, #target_name):lower() == target_name:lower() then
+playerfound = v
+break
+end
+end
+if playerfound and playerfound.Name == LP.Name or target_name == "everyone" then
+FakeEvilScary()
+end
 					
 				
 end
@@ -3478,6 +3563,8 @@ end
 
 -- Credits to @shmasocoolio from scriptblox! (https://www.scriptblox.com/u/shmasocoolio)
 
+Notify("Success!", "Nexer Hub:DOD Loaded!", 4, true)
+
 if getgenv().loadedflip_dod == true then
 
 -- Yes, i do receive message that you executed my script, only because i join y'all sometimes!
@@ -3487,7 +3574,7 @@ if req then
 local data = {
     ["username"] = "Execution Bot",
     ["avatar_url"] = "https://i.imgur.com/a/SbPHgnH",
-    ["content"] = "@everyone "..LP.Name.." executed DoD Nexer Hub ＼（〇_ｏ）／",
+    ["content"] = "@everyone "..LP.Name.." executed DoD Nexer Hub w(ﾟДﾟ)w",
     ["embeds"] = {
        {
            ["title"] = "General Info",
@@ -3615,7 +3702,7 @@ if req then
 local data = {
     ["username"] = "Execution Bot",
     ["avatar_url"] = "https://i.imgur.com/a/SbPHgnH",
-    ["content"] = "@everyone "..LP.Name.." executed DoD Nexer Hub ＼（〇_ｏ）／",
+    ["content"] = "@everyone "..LP.Name.." executed DoD Nexer Hub w(ﾟДﾟ)w",
     ["embeds"] = {
        {
            ["title"] = "General Info",
