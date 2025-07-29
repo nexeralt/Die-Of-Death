@@ -10,7 +10,7 @@ Function List Begins NOW!
 
 
 if makefolder and isfolder and writefile and isfile then
-if not isfolder("dodnexerhub") then
+if not isfolder("dodnexerhub") thenF
 makefolder("dodnexerhub")
 end
 if not isfolder("dodnexerhub/music") then
@@ -2607,7 +2607,9 @@ if child and child:FindFirstChild("Accessories") and child:FindFirstChild("Acces
 child.Accessories.HeadModel.Face.SurfaceGui.ImageLabel.Image = ""
 child.Accessories.HeadModel.Face.SurfaceGui.ImageLabel.BackgroundTransparency = 0
 child.Accessories.HeadModel.Face.SurfaceGui.Glasses:Destroy()
-child.Accessories.HeadModel.Face.SurfaceGui.Face.UIGradient:Destroy()
+if child.Accessories.HeadModel.Face.SurfaceGui.Face:GetChildren()[1] ~= nil then
+child.Accessories.HeadModel.Face.SurfaceGui.Face:GetChildren()[1]:Destroy()
+end
 child.Accessories.HeadModel.Face.SurfaceGui.Face.Image = "rbxassetid://99817640514915"
 child.Accessories.HeadModel.Face.SurfaceGui.Face.ImageColor3 = Color3.new(1,1,1)
 child.Accessories.HeadModel.Face.SurfaceGui.Face.ScaleType = "Fit"
@@ -2712,7 +2714,9 @@ if child and child:FindFirstChild("Accessories") and child:FindFirstChild("Acces
 child.Accessories.HeadModel.Face.SurfaceGui.ImageLabel.Image = ""
 child.Accessories.HeadModel.Face.SurfaceGui.ImageLabel.BackgroundTransparency = 0
 child.Accessories.HeadModel.Face.SurfaceGui.Glasses:Destroy()
-child.Accessories.HeadModel.Face.SurfaceGui.Face.UIGradient:Destroy()
+if child.Accessories.HeadModel.Face.SurfaceGui.Face:GetChildren()[1] ~= nil then
+child.Accessories.HeadModel.Face.SurfaceGui.Face:GetChildren()[1]:Destroy()
+end
 child.Accessories.HeadModel.Face.SurfaceGui.Face.Image = "rbxassetid://99817640514915"
 child.Accessories.HeadModel.Face.SurfaceGui.Face.ImageColor3 = Color3.new(1,1,1)
 child.Accessories.HeadModel.Face.SurfaceGui.Face.ScaleType = "Fit"
@@ -2927,6 +2931,7 @@ Notify("Notification", "This script includes several custom skins for killers, i
 elseif not killeradded then
 warn(killererror)
 Notify("Error", "Failed adding custom skins.", 3, false)
+error(killererror)
 end
 local function CreateMISO(plr)
 local target = plr
