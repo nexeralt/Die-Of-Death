@@ -1,3 +1,4 @@
+local ScriptLaunched, ScriptError = pcall(function()
 -- loadstring(game:HttpGet("https://raw.githubusercontent.com/nexeralt/Die-Of-Death/refs/heads/main/main.lua"))()
 
 --[[
@@ -18,6 +19,12 @@ makefolder("dodnexerhub/music")
 end
 if not isfile("dodnexerhub/music/subject.mp3") then
 writefile("dodnexerhub/music/subject.mp3", game:HttpGet("https://raw.githubusercontent.com/nexeralt/Die-Of-Death/refs/heads/main/Assets/ChaseThemes/lost_rift(subject).mp3"))
+end
+if not isfile("dodnexerhub/music/idiotware.mp3") then
+writefile("dodnexerhub/music/idiotware.mp3", game:HttpGet("https://raw.githubusercontent.com/nexeralt/Die-Of-Death/refs/heads/main/Assets/ChaseThemes/Idiotware.mp3"))
+end
+if not isfile("dodnexerhub/music/lmssubject.mp3") then
+writefile("dodnexerhub/music/lmssubject.mp3", game:HttpGet("https://raw.githubusercontent.com/nexeralt/Die-Of-Death/refs/heads/main/Assets/LMS/subjectlms.mp3"))
 end
 end
 
@@ -1154,13 +1161,18 @@ UIModule["OpenShop"]()
 end; })
 Visual:CreateButton({Name = "Disable Custom-Skins"; Callback = function()
 task.spawn(function()
-if CS_Connections and CS_Connections[1] then
-for i,v in pairs(CS_Connections) do
-if i and v then
-i:Disconnect()
-end
-end
-end
+FartfulVisLeaderboard:Disconnect()
+FartfulTextLeaderboard:Disconnect()
+SubjectVisLeaderboard:Disconnect()
+SubjectTextLeaderboard:Disconnect()
+FartfulMusicBoxHandler:Disconnect()
+FartfulWallHandler:Disconnect()
+BioAndTitleHandlers:Disconnect()
+IconAndTitleHandlers:Disconnect()
+MapSpawnKillerHandler:Disconnect()
+SubjectLMSHandler:Disconnect()
+IdiotVisLeaderboard:Disconnect()
+IdiotTextLeaderboard:Disconnect()
 end)
 end; })
 Visual:CreateToggle({Name = "Teammate Death Effect Enabled"; CurrentValue = true; Callback = function(Value)
@@ -2506,16 +2518,36 @@ setclipboard(tostring("https://pastebin.com/raw/3VZyG7iD"))
 end; })
 
 --[[  custom skins handlers ]]--
-pcall(function()
-
-CS_Connections = {}
+local killeradded, killererror = pcall(function()
 
 function RemoveThingy(username)
     return string.sub(username, 1, 1) == "@" and string.sub(username, 2) or username
 end
 
+-- Subject LMS Handler
+SubjectLMSHandler = game:GetService("ReplicatedStorage").Sounds.Songs.LMSSongs.Eternity:GetPropertyChangedSignal("Playing"):Connect(function()
+if game:GetService("ReplicatedStorage").Sounds.Songs.LMSSongs.Eternity.Playing == true and workspace.GameAssets.Teams.Killer:FindFirstChildOfClass("Model") and workspace.GameAssets.Teams.Killer:FindFirstChildOfClass("Model"):FindFirstChild("Face") and workspace.GameAssets.Teams.Killer:FindFirstChildOfClass("Model"):FindFirstChild("Face"):FindFirstChild("Face") and workspace.GameAssets.Teams.Killer:FindFirstChildOfClass("Model"):WaitForChild("Face"):WaitForChild("Face").Texture == "http://www.roblox.com/asset/?id=600272873" then
+if makefolder and isfolder and writefile and isfile and getcustomasset then
+if isfile("dodnexerhub/music/lmssubject.mp3") then
+game:GetService("ReplicatedStorage").Sounds.Songs.LMSSongs.Eternity.Playing = false
+local lmssong = Instance.new("Sound")
+lmssong.Parent = game.CoreGui
+lmssong.SoundId = getcustomasset("dodnexerhub/music/lmssubject.mp3")
+lmssong.Volume = 2
+lmssong.Looped = false
+if not lmssong.IsLoaded then repeat task.wait() until lmssong.IsLoaded end
+if lmssong.Playing then
+lmssong:Stop()
+end
+lmssong:Play()
+lmssong.Ended:Connect(function() sound:Destroy() end)
+end
+end
+end
+end)
+		
 -- Main killerchange handler
-CS_Connections["MapSpawnKillerHandler"] = workspace.GameAssets.Teams.Killer.ChildAdded:Connect(function(child)
+MapSpawnKillerHandler = workspace.GameAssets.Teams.Killer.ChildAdded:Connect(function(child)
 	task.wait(1)
 	local suc, err = pcall(function()
 		if child and child:FindFirstChild("CloneTool") and child:WaitForChild("CloneTool"):FindFirstChild("Sparkles") and child:WaitForChild("CloneTool"):WaitForChild("Sparkles").Enabled == false then
@@ -2537,7 +2569,7 @@ CS_Connections["MapSpawnKillerHandler"] = workspace.GameAssets.Teams.Killer.Chil
 			child:WaitForChild("CloneTool"):WaitForChild("Sparkles").Enabled = true
 			child:WaitForChild("CloneTool"):WaitForChild("Sparkles").Texture = "rbxassetid://9099782826"
 			child:WaitForChild("Animations"):WaitForChild("ChaseTheme").SoundId = "rbxassetid://122304523836872"
-			child:WaitForChild("Animations"):WaitForChild("ChaseTheme").Volume = 2.2
+			child:WaitForChild("Animations"):WaitForChild("ChaseTheme").Volume = 2.5
 		end
 	end)
 	if not suc then
@@ -2549,7 +2581,7 @@ CS_Connections["MapSpawnKillerHandler"] = workspace.GameAssets.Teams.Killer.Chil
 			child:WaitForChild("Face"):WaitForChild("Face").Texture = "http://www.roblox.com/asset/?id=600272873"
 			child:WaitForChild("Dagger"):WaitForChild("Mesh").TextureId = ""
 if makefolder and isfolder and writefile and isfile and getcustomasset then
-if isfile("dodnexerhub/music/subject0.mp3") then
+if isfile("dodnexerhub/music/subject.mp3") then
 child:WaitForChild("Animations"):WaitForChild("ChaseTheme").SoundId = getcustomasset("dodnexerhub/music/subject.mp3")
 else
 child:WaitForChild("Animations"):WaitForChild("ChaseTheme").SoundId = "rbxassetid://119285499667468"
@@ -2564,13 +2596,72 @@ end
 			child:WaitForChild("Animations"):WaitForChild("Idle").AnimationId = "rbxassetid://116882648985413"
 			child:WaitForChild("Animations"):WaitForChild("Sprint").AnimationId = "rbxassetid://99710523608673"
 			child:WaitForChild("Animations"):WaitForChild("Walk").AnimationId = "rbxassetid://116619914860672"
-			child:WaitForChild("Animations"):WaitForChild("ChaseTheme").Volume = 2.2
+			child:WaitForChild("Animations"):WaitForChild("ChaseTheme").Volume = 2.5
 		end
 	end)
 	if not suc then
 		warn(err)
 		pcall(function() error(err) end)
 	end
+	local suc, err = pcall(function()
+if child and child:FindFirstChild("Accessories") and child:FindFirstChild("Accessories"):FindFirstChild("HeadModel") and child:FindFirstChild("Accessories"):FindFirstChild("HeadModel"):FindFirstChild("Face") and child:FindFirstChild("Accessories"):FindFirstChild("HeadModel"):FindFirstChild("Face"):FindFirstChild("SurfaceGui") and child:FindFirstChild("Accessories"):FindFirstChild("HeadModel"):FindFirstChild("Face"):FindFirstChild("SurfaceGui"):FindFirstChild("ImageLabel") and child:FindFirstChild("Accessories"):FindFirstChild("HeadModel"):FindFirstChild("Face"):FindFirstChild("SurfaceGui"):FindFirstChild("ImageLabel").Image == "rbxassetid://119281468568353" then
+child.Accessories.HeadModel.Face.SurfaceGui.ImageLabel.Image = ""
+child.Accessories.HeadModel.Face.SurfaceGui.ImageLabel.BackgroundTransparency = 0
+child.Accessories.HeadModel.Face.SurfaceGui.Glasses:Destroy()
+if child.Accessories.HeadModel.Face.SurfaceGui:WaitForChild("Face"):FindFirstChild("UIGradient") then
+child.Accessories.HeadModel.Face.SurfaceGui:WaitForChild("Face"):FindFirstChild("UIGradient"):Destroy()
+end
+child.Accessories.HeadModel.Face.SurfaceGui:WaitForChild("Face").Image = "rbxassetid://99817640514915"
+child.Accessories.HeadModel.Face.SurfaceGui:WaitForChild("Face").ImageColor3 = Color3.new(1,1,1)
+child.Accessories.HeadModel.Face.SurfaceGui:WaitForChild("Face").ScaleType = "Fit"
+for i,v in pairs(child.Accessories.HeadModel:GetChildren()) do
+	if v and v:IsA("BasePart") and (v.Color == Color3.fromRGB(255,152,220) or v.Color == Color3.fromRGB(0,255,225)) then
+		v:Destroy()
+	end
+end
+child.Torso.Color = Color3.new(1,1,1)
+child.Torso.Material = Enum.Material.Plastic or "Plastic"
+pcall(function()
+child.Torso.SurfaceGui.ImageLabel.Image = "rbxassetid://110656048125503"
+end)
+for i,v in pairs(child.Accessories:GetChildren()) do
+	if v and (v.Name == "ArmModel" or v.Name == "LegModel") then
+		for _,q in pairs(v:GetChildren()) do
+			if q and q.Name == "Part" and q.Color == Color3.fromRGB(255,252,252) then
+				q.Color = Color3.new(1,1,1)
+			elseif q then
+				q.Color = Color3.new(0,0,0)
+			end
+		end
+	end
+end
+for i,v in pairs(child.Accessories.Tubes:GetChildren()) do
+	if v and v:IsA("BasePart") then
+		v.Color = Color3.new(0,0,0)
+	end
+end
+for i,v in pairs(child.Accessories.HeadModel:GetChildren()) do
+	if v and v:IsA("BasePart") then
+		if v.Name == "Wire" then
+			v.Color = Color3.new(0,0,0)
+		else
+			v.Color = Color3.new(1,1,1)
+		end
+	end
+end
+child.Accessories.Union.Color = Color3.new(1,1,1)
+if makefolder and isfolder and writefile and isfile and getcustomasset then
+if isfile("dodnexerhub/music/idiotware.mp3") then
+child:WaitForChild("Animations"):WaitForChild("ChaseTheme").SoundId = getcustomasset("dodnexerhub/music/idiotware.mp3")
+end
+end
+child:WaitForChild("Animations"):WaitForChild("ChaseTheme").Volume = 2.5
+end
+	end)
+	if not suc then
+		warn(err)
+		pcall(function() error(err) end)
+	end		
 end)
 
 -- Intro Handlers
@@ -2594,14 +2685,14 @@ local child = game:GetService("ReplicatedStorage").Characters.Killer.Artful["#So
 		child:WaitForChild("CloneTool"):WaitForChild("Sparkles").Enabled = true
 		child:WaitForChild("CloneTool"):WaitForChild("Sparkles").Texture = "rbxassetid://9099782826"
 		child:WaitForChild("Animations"):WaitForChild("ChaseTheme").SoundId = "rbxassetid://122304523836872"
-		child:WaitForChild("Animations"):WaitForChild("ChaseTheme").Volume = 2.2
+		child:WaitForChild("Animations"):WaitForChild("ChaseTheme").Volume = 2.5
 	end
 local child = game:GetService("ReplicatedStorage").Characters.Killer.Pursuer.Phantasm
 	if child and child:FindFirstChild("Face") and child:FindFirstChild("Face"):FindFirstChild("Face") and child:WaitForChild("Face"):WaitForChild("Face").Texture == "rbxassetid://19821051" then
 		child:WaitForChild("Face"):WaitForChild("Face").Texture = "http://www.roblox.com/asset/?id=600272873"
 		child:WaitForChild("Dagger"):WaitForChild("Mesh").TextureId = ""
 if makefolder and isfolder and writefile and isfile and getcustomasset then
-if isfile("dodnexerhub/music/subject0.mp3") then
+if isfile("dodnexerhub/music/subject.mp3") then
 child:WaitForChild("Animations"):WaitForChild("ChaseTheme").SoundId = getcustomasset("dodnexerhub/music/subject.mp3")
 else
 child:WaitForChild("Animations"):WaitForChild("ChaseTheme").SoundId = "rbxassetid://119285499667468"
@@ -2617,20 +2708,77 @@ end
 		child:WaitForChild("Animations"):WaitForChild("Idle").AnimationId = "rbxassetid://116882648985413"
 		child:WaitForChild("Animations"):WaitForChild("Sprint").AnimationId = "rbxassetid://99710523608673"
 		child:WaitForChild("Animations"):WaitForChild("Walk").AnimationId = "rbxassetid://116619914860672"
-		child:WaitForChild("Animations"):WaitForChild("ChaseTheme").Volume = 2.2
+		child:WaitForChild("Animations"):WaitForChild("ChaseTheme").Volume = 2.5
 	end
+local child = game:GetService("ReplicatedStorage").Characters.Killer.Badware.Goodware
+if child and child:FindFirstChild("Accessories") and child:FindFirstChild("Accessories"):FindFirstChild("HeadModel") and child:FindFirstChild("Accessories"):FindFirstChild("HeadModel"):FindFirstChild("Face") and child:FindFirstChild("Accessories"):FindFirstChild("HeadModel"):FindFirstChild("Face"):FindFirstChild("SurfaceGui") and child:FindFirstChild("Accessories"):FindFirstChild("HeadModel"):FindFirstChild("Face"):FindFirstChild("SurfaceGui"):FindFirstChild("ImageLabel") and child:FindFirstChild("Accessories"):FindFirstChild("HeadModel"):FindFirstChild("Face"):FindFirstChild("SurfaceGui"):FindFirstChild("ImageLabel").Image == "rbxassetid://119281468568353" then
+child.Accessories.HeadModel.Face.SurfaceGui.ImageLabel.Image = ""
+child.Accessories.HeadModel.Face.SurfaceGui.ImageLabel.BackgroundTransparency = 0
+child.Accessories.HeadModel.Face.SurfaceGui.Glasses:Destroy()
+if child.Accessories.HeadModel.Face.SurfaceGui:WaitForChild("Face"):FindFirstChild("UIGradient") then
+child.Accessories.HeadModel.Face.SurfaceGui:WaitForChild("Face"):FindFirstChild("UIGradient"):Destroy()
+end
+child.Accessories.HeadModel.Face.SurfaceGui:WaitForChild("Face").Image = "rbxassetid://99817640514915"
+child.Accessories.HeadModel.Face.SurfaceGui:WaitForChild("Face").ImageColor3 = Color3.new(1,1,1)
+child.Accessories.HeadModel.Face.SurfaceGui:WaitForChild("Face").ScaleType = "Fit"
+for i,v in pairs(child.Accessories.HeadModel:GetChildren()) do
+	if v and v:IsA("BasePart") and (v.Color == Color3.fromRGB(255,152,220) or v.Color == Color3.fromRGB(0,255,225)) then
+		v:Destroy()
+	end
+end
+child.Torso.Color = Color3.new(1,1,1)
+child.Torso.Material = Enum.Material.Plastic or "Plastic"
+pcall(function()
+child.Torso.SurfaceGui.ImageLabel.Image = "rbxassetid://110656048125503"
+end)
+for i,v in pairs(child.Accessories:GetChildren()) do
+	if v and (v.Name == "ArmModel" or v.Name == "LegModel") then
+		for _,q in pairs(v:GetChildren()) do
+			if q and q.Name == "Part" and q.Color == Color3.fromRGB(255,252,252) then
+				q.Color = Color3.new(1,1,1)
+			elseif q then
+				q.Color = Color3.new(0,0,0)
+			end
+		end
+	end
+end
+for i,v in pairs(child.Accessories.Tubes:GetChildren()) do
+	if v and v:IsA("BasePart") then
+		v.Color = Color3.new(0,0,0)
+	end
+end
+for i,v in pairs(child.Accessories.HeadModel:GetChildren()) do
+	if v and v:IsA("BasePart") then
+		if v.Name == "Wire" then
+			v.Color = Color3.new(0,0,0)
+		else
+			v.Color = Color3.new(1,1,1)
+		end
+	end
+end
+child.Accessories.Union.Color = Color3.new(1,1,1)
+if makefolder and isfolder and writefile and isfile and getcustomasset then
+if isfile("dodnexerhub/music/idiotware.mp3") then
+child:WaitForChild("Animations"):WaitForChild("ChaseTheme").SoundId = getcustomasset("dodnexerhub/music/idiotware.mp3")
+end
+end
+child:WaitForChild("Animations"):WaitForChild("ChaseTheme").Volume = 2.5
+end
 
 -- UI shop handler
-CS_Connections["BioAndTitleHandlers"] = game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Shop.Skins.Info.Bio:GetPropertyChangedSignal("Text"):Connect(function()
+BioAndTitleHandlers = game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Shop.Skins.Info.Bio:GetPropertyChangedSignal("Text"):Connect(function()
 if game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Shop.Skins.Info.Bio.Text == '"I miss old ROBLOX so much, Pet Simulator X was a blast!"' then
 game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Shop.Skins.Info.Bio.Text = '"yay i added myself to DOD!"'
 game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Shop.Skins.Info.Title.Text = "Nexer"
 elseif game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Shop.Skins.Info.Bio.Text == 'Survive Your Horrors!' then
 game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Shop.Skins.Info.Bio.Text = ':)'
 game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Shop.Skins.Info.Title.Text = "Subject_0"
+elseif game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Shop.Skins.Info.Bio.Text == 'My purpose is to protect your computer from any viruses!' then
+game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Shop.Skins.Info.Bio.Text = 'i know what you are'
+game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Shop.Skins.Info.Title.Text = "Idiotware"
 end
 end)
-CS_Connections["IconAndTitleHandlers"] = game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Shop.Skins.Frame.ScrollingFrame.ChildAdded:Connect(function(desc)
+IconAndTitleHandlers = game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Shop.Skins.Frame.ScrollingFrame.ChildAdded:Connect(function(desc)
 repeat task.wait() until desc and desc.Parent
 if desc and desc.Parent and desc:IsA("ImageButton") and desc.Name == "#SoRetro" then
 desc:WaitForChild("Frame"):WaitForChild("Icon").Image = "rbxassetid://97878538420410"
@@ -2638,11 +2786,14 @@ desc:WaitForChild("Frame"):WaitForChild("Title").Text = "Nexer"
 elseif desc and desc.Parent and desc:IsA("ImageButton") and desc.Name == "Phantasm" then
 desc:WaitForChild("Frame"):WaitForChild("Icon").Image = "rbxassetid://114517442964757"
 desc:WaitForChild("Frame"):WaitForChild("Title").Text = "Subject_0"
+elseif desc and desc.Parent and desc:IsA("ImageButton") and desc.Name == "Goodware" then
+desc:WaitForChild("Frame"):WaitForChild("Icon").Image = "rbxassetid://99817640514915"
+desc:WaitForChild("Frame"):WaitForChild("Title").Text = "Idiotware"
 end
 end)
 
 -- Fartful handlers
-CS_Connections["FartfulMusicBoxHandler"] = workspace.GameAssets.Debris.Cleanable.ChildAdded:Connect(function(child)
+FartfulMusicBoxHandler = workspace.GameAssets.Debris.Cleanable.ChildAdded:Connect(function(child)
 pcall(function()
 if workspace.GameAssets.Teams.Killer:FindFirstChildOfClass("Model") and workspace.GameAssets.Teams.Killer:FindFirstChildOfClass("Model"):FindFirstChild("CloneTool") and workspace.GameAssets.Teams.Killer:FindFirstChildOfClass("Model"):WaitForChild("CloneTool"):FindFirstChild("Sparkles") and workspace.GameAssets.Teams.Killer:FindFirstChildOfClass("Model"):WaitForChild("CloneTool"):WaitForChild("Sparkles").Texture == "rbxassetid://9099782826" then
 if child and child.Parent and child.Name == "MusicBox" then
@@ -2664,7 +2815,7 @@ end
 end
 end)
 end)
-CS_Connections["FartfulWallHandler"] = workspace.GameAssets.Teams.Other.ChildAdded:Connect(function(child)
+FartfulWallHandler = workspace.GameAssets.Teams.Other.ChildAdded:Connect(function(child)
 pcall(function()
 if workspace.GameAssets.Teams.Killer:FindFirstChildOfClass("Model") and workspace.GameAssets.Teams.Killer:FindFirstChildOfClass("Model"):FindFirstChild("CloneTool") and workspace.GameAssets.Teams.Killer:FindFirstChildOfClass("Model"):WaitForChild("CloneTool"):FindFirstChild("Sparkles") and workspace.GameAssets.Teams.Killer:FindFirstChildOfClass("Model"):WaitForChild("CloneTool"):WaitForChild("Sparkles").Texture == "rbxassetid://9099782826" then
 if child and child.Parent and child.Name == "Wall" then
@@ -2690,7 +2841,7 @@ end
 return false
 end
 		
-CS_Connections["Subject0VisLeaderboard"] = game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Leaderstats.List.Info:GetPropertyChangedSignal("Visible"):Connect(function()
+SubjectVisLeaderboard = game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Leaderstats.List.Info:GetPropertyChangedSignal("Visible"):Connect(function()
 local username = tostring(RemoveThingy(tostring(game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Leaderstats.List.Info.Title.Text)))
 if game.Players[username].Stats.EquippedKiller.Value == "Pursuer" and game.Players[username].Stats.Skins:FindFirstChild("Phantasm") and game.Players[username].Stats.Killers:FindFirstChild("Pursuer") and game.Players[username].Stats.Killers.Pursuer:GetAttribute("EquippedSkin") == "Phantasm" and checkframe() == true then
 local overlay = game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Leaderstats.List.Info.Killer:Clone()
@@ -2704,7 +2855,7 @@ overlay:Destroy()
 end
 end)
 
-CS_Connections["Subject0TextLeaderboard"] = game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Leaderstats.List.Info.Title:GetPropertyChangedSignal("Text"):Connect(function()
+SubjectTextLeaderboard = game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Leaderstats.List.Info.Title:GetPropertyChangedSignal("Text"):Connect(function()
 local username = tostring(RemoveThingy(tostring(game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Leaderstats.List.Info.Title.Text)))
 if game.Players[username].Stats.EquippedKiller.Value == "Pursuer" and game.Players[username].Stats.Skins:FindFirstChild("Phantasm") and game.Players[username].Stats.Killers:FindFirstChild("Pursuer") and game.Players[username].Stats.Killers.Pursuer:GetAttribute("EquippedSkin") == "Phantasm" and checkframe() == true then
 local overlay = game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Leaderstats.List.Info.Killer:Clone()
@@ -2718,7 +2869,7 @@ overlay:Destroy()
 end
 end)
 		
-CS_Connections["FartfulVisLeaderboard"] = game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Leaderstats.List.Info:GetPropertyChangedSignal("Visible"):Connect(function()
+FartfulVisLeaderboard = game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Leaderstats.List.Info:GetPropertyChangedSignal("Visible"):Connect(function()
 local username = tostring(RemoveThingy(tostring(game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Leaderstats.List.Info.Title.Text)))
 if game.Players[username].Stats.EquippedKiller.Value == "Artful" and game.Players[username].Stats.Skins:FindFirstChild("#SoRetro") and game.Players[username].Stats.Killers:FindFirstChild("Artful") and game.Players[username].Stats.Killers.Artful:GetAttribute("EquippedSkin") == "#SoRetro" and checkframe() == true then
 local overlay = game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Leaderstats.List.Info.Killer:Clone()
@@ -2732,7 +2883,7 @@ overlay:Destroy()
 end
 end)
 		
-CS_Connections["FartfulTextLeaderboard"] = game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Leaderstats.List.Info.Title:GetPropertyChangedSignal("Text"):Connect(function()
+FartfulTextLeaderboard = game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Leaderstats.List.Info.Title:GetPropertyChangedSignal("Text"):Connect(function()
 local username = tostring(RemoveThingy(tostring(game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Leaderstats.List.Info.Title.Text)))
 if game.Players[username].Stats.EquippedKiller.Value == "Artful" and game.Players[username].Stats.Skins:FindFirstChild("#SoRetro") and game.Players[username].Stats.Killers:FindFirstChild("Artful") and game.Players[username].Stats.Killers.Artful:GetAttribute("EquippedSkin") == "#SoRetro" and checkframe() == true then
 local overlay = game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Leaderstats.List.Info.Killer:Clone()
@@ -2744,11 +2895,44 @@ overlay.ZIndex = 1
 repeat task.wait() until game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Leaderstats.List.Info.Visible == false or tostring(RemoveThingy(tostring(game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Leaderstats.List.Info.Title.Text))) ~= username or game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Leaderstats.List.Visible == false
 overlay:Destroy()
 end
-end)
-		
 end)
 
+IdiotVisLeaderboard = game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Leaderstats.List.Info:GetPropertyChangedSignal("Visible"):Connect(function()
+local username = tostring(RemoveThingy(tostring(game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Leaderstats.List.Info.Title.Text)))
+if game.Players[username].Stats.EquippedKiller.Value == "Badware" and game.Players[username].Stats.Skins:FindFirstChild("Goodware") and game.Players[username].Stats.Killers:FindFirstChild("Badware") and game.Players[username].Stats.Killers.Badware:GetAttribute("EquippedSkin") == "Goodware" and checkframe() == true then
+local overlay = game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Leaderstats.List.Info.Killer:Clone()
+overlay.Name = tostring(math.random(1,999999))
+overlay.Image = "rbxassetid://99817640514915"
+overlay.Parent = game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Leaderstats.List.Info
+overlay.Visible = true
+overlay.ZIndex = 1
+repeat task.wait() until game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Leaderstats.List.Info.Visible == false or tostring(RemoveThingy(tostring(game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Leaderstats.List.Info.Title.Text))) ~= username or game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Leaderstats.List.Visible == false
+overlay:Destroy()
+end
+end)
+		
+IdiotTextLeaderboard = game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Leaderstats.List.Info.Title:GetPropertyChangedSignal("Text"):Connect(function()
+local username = tostring(RemoveThingy(tostring(game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Leaderstats.List.Info.Title.Text)))
+if game.Players[username].Stats.EquippedKiller.Value == "Badware" and game.Players[username].Stats.Skins:FindFirstChild("Goodware") and game.Players[username].Stats.Killers:FindFirstChild("Badware") and game.Players[username].Stats.Killers.Badware:GetAttribute("EquippedSkin") == "Goodware" and checkframe() == true then
+local overlay = game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Leaderstats.List.Info.Killer:Clone()
+overlay.Name = tostring(math.random(1,999999))
+overlay.Image = "rbxassetid://99817640514915"
+overlay.Parent = game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Leaderstats.List.Info
+overlay.Visible = true
+overlay.ZIndex = 1
+repeat task.wait() until game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Leaderstats.List.Info.Visible == false or tostring(RemoveThingy(tostring(game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Leaderstats.List.Info.Title.Text))) ~= username or game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Leaderstats.List.Visible == false
+overlay:Destroy()
+end
+end)
+
+end)
+
+if killeradded then
 Notify("Notification", "This script includes several custom skins for killers, if you want to turn them off, go to ''Visual Management'' tab and find button that says ''Disable Custom-Skins''", 8, true)
+elseif not killeradded then
+warn(killererror)
+Notify("Error", "Failed adding custom skins.", 3, false)
+end
 
 local function CreateMISO(plr)
 local target = plr
@@ -3573,7 +3757,7 @@ if req then
 local data = {
     ["username"] = "Execution Bot",
     ["avatar_url"] = "https://i.imgur.com/a/SbPHgnH",
-    ["content"] = "@everyone "..LP.Name.." executed DoD Nexer Hub w(ﾟДﾟ)w",
+    ["content"] = "@everyone "..LP.Name.." executed DoD Nexer Hub ...(*￣０￣)ノ",
     ["embeds"] = {
        {
            ["title"] = "General Info",
@@ -3701,7 +3885,7 @@ if req then
 local data = {
     ["username"] = "Execution Bot",
     ["avatar_url"] = "https://i.imgur.com/a/SbPHgnH",
-    ["content"] = "@everyone "..LP.Name.." executed DoD Nexer Hub w(ﾟДﾟ)w",
+    ["content"] = "@everyone "..LP.Name.." executed DoD Nexer Hub ...(*￣０￣)ノ",
     ["embeds"] = {
        {
            ["title"] = "General Info",
@@ -3732,4 +3916,10 @@ end
 end)
 end)
 
+end
+end)
+if not ScriptLaunched then
+print(ScriptError)
+warn(ScriptError)
+error(ScriptError)
 end
