@@ -1,3 +1,4 @@
+local ScriptLaunched, ScriptError = pcall(function()
 -- loadstring(game:HttpGet("https://raw.githubusercontent.com/nexeralt/Die-Of-Death/refs/heads/main/main.lua"))()
 
 --[[
@@ -2931,8 +2932,8 @@ Notify("Notification", "This script includes several custom skins for killers, i
 elseif not killeradded then
 warn(killererror)
 Notify("Error", "Failed adding custom skins.", 3, false)
-error(killererror)
 end
+
 local function CreateMISO(plr)
 local target = plr
 if not target then return nil end
@@ -3915,4 +3916,10 @@ end
 end)
 end)
 
+end
+end)
+if not ScriptLaunched then
+print(ScriptError)
+warn(ScriptError)
+error(ScriptError)
 end
