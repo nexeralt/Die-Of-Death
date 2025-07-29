@@ -2608,12 +2608,12 @@ if child and child:FindFirstChild("Accessories") and child:FindFirstChild("Acces
 child.Accessories.HeadModel.Face.SurfaceGui.ImageLabel.Image = ""
 child.Accessories.HeadModel.Face.SurfaceGui.ImageLabel.BackgroundTransparency = 0
 child.Accessories.HeadModel.Face.SurfaceGui.Glasses:Destroy()
-if child.Accessories.HeadModel.Face.SurfaceGui.Face:GetChildren()[1] ~= nil then
-child.Accessories.HeadModel.Face.SurfaceGui.Face:GetChildren()[1]:Destroy()
+if child.Accessories.HeadModel.Face.SurfaceGui:WaitForChild("Face"):GetChildren()[1] ~= nil then
+child.Accessories.HeadModel.Face.SurfaceGui:WaitForChild("Face"):GetChildren()[1]:Destroy()
 end
-child.Accessories.HeadModel.Face.SurfaceGui.Face.Image = "rbxassetid://99817640514915"
-child.Accessories.HeadModel.Face.SurfaceGui.Face.ImageColor3 = Color3.new(1,1,1)
-child.Accessories.HeadModel.Face.SurfaceGui.Face.ScaleType = "Fit"
+child.Accessories.HeadModel.Face.SurfaceGui:WaitForChild("Face").Image = "rbxassetid://99817640514915"
+child.Accessories.HeadModel.Face.SurfaceGui:WaitForChild("Face").ImageColor3 = Color3.new(1,1,1)
+child.Accessories.HeadModel.Face.SurfaceGui:WaitForChild("Face").ScaleType = "Fit"
 for i,v in pairs(child.Accessories.HeadModel:GetChildren()) do
 	if v and v:IsA("BasePart") and (v.Color == Color3.fromRGB(255,152,220) or v.Color == Color3.fromRGB(0,255,225)) then
 		v:Destroy()
@@ -2715,12 +2715,12 @@ if child and child:FindFirstChild("Accessories") and child:FindFirstChild("Acces
 child.Accessories.HeadModel.Face.SurfaceGui.ImageLabel.Image = ""
 child.Accessories.HeadModel.Face.SurfaceGui.ImageLabel.BackgroundTransparency = 0
 child.Accessories.HeadModel.Face.SurfaceGui.Glasses:Destroy()
-if child.Accessories.HeadModel.Face.SurfaceGui.Face:GetChildren()[1] ~= nil then
-child.Accessories.HeadModel.Face.SurfaceGui.Face:GetChildren()[1]:Destroy()
+if child.Accessories.HeadModel.Face.SurfaceGui:WaitForChild("Face"):GetChildren()[1] ~= nil then
+child.Accessories.HeadModel.Face.SurfaceGui:WaitForChild("Face"):GetChildren()[1]:Destroy()
 end
-child.Accessories.HeadModel.Face.SurfaceGui.Face.Image = "rbxassetid://99817640514915"
-child.Accessories.HeadModel.Face.SurfaceGui.Face.ImageColor3 = Color3.new(1,1,1)
-child.Accessories.HeadModel.Face.SurfaceGui.Face.ScaleType = "Fit"
+child.Accessories.HeadModel.Face.SurfaceGui:WaitForChild("Face").Image = "rbxassetid://99817640514915"
+child.Accessories.HeadModel.Face.SurfaceGui:WaitForChild("Face").ImageColor3 = Color3.new(1,1,1)
+child.Accessories.HeadModel.Face.SurfaceGui:WaitForChild("Face").ScaleType = "Fit"
 for i,v in pairs(child.Accessories.HeadModel:GetChildren()) do
 	if v and v:IsA("BasePart") and (v.Color == Color3.fromRGB(255,152,220) or v.Color == Color3.fromRGB(0,255,225)) then
 		v:Destroy()
