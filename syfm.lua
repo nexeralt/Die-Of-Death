@@ -2523,15 +2523,18 @@ SubjectLMSHandler = game:GetService("ReplicatedStorage").Sounds.Songs.LMSSongs.E
 if game:GetService("ReplicatedStorage").Sounds.Songs.LMSSongs.Eternity.Playing == true and workspace.GameAssets.Teams.Killer:FindFirstChildOfClass("Model") and workspace.GameAssets.Teams.Killer:FindFirstChildOfClass("Model"):FindFirstChild("Face") and workspace.GameAssets.Teams.Killer:FindFirstChildOfClass("Model"):FindFirstChild("Face"):FindFirstChild("Face") and workspace.GameAssets.Teams.Killer:FindFirstChildOfClass("Model"):WaitForChild("Face"):WaitForChild("Face").Texture == "http://www.roblox.com/asset/?id=600272873" then
 if makefolder and isfolder and writefile and isfile and getcustomasset then
 if isfile("dodnexerhub/music/lmssubject.mp3") then
+game:GetService("ReplicatedStorage").Sounds.Songs.LMSSongs.Eternity.Playing = false
 local lmssong = Instance.new("Sound")
 lmssong.Parent = game.CoreGui
 lmssong.SoundId = getcustomasset("dodnexerhub/music/lmssubject.mp3")
 lmssong.Volume = 2
 lmssong.Looped = false
 if not lmssong.IsLoaded then repeat task.wait() until lmssong.IsLoaded end
+if lmssong.Playing then
+lmssong:Stop()
+end
 lmssong:Play()
 lmssong.Ended:Connect(function() sound:Destroy() end)
-game:GetService("ReplicatedStorage").Sounds.Songs.LMSSongs.Eternity.Playing = false
 end
 end
 end
@@ -2560,7 +2563,7 @@ MapSpawnKillerHandler = workspace.GameAssets.Teams.Killer.ChildAdded:Connect(fun
 			child:WaitForChild("CloneTool"):WaitForChild("Sparkles").Enabled = true
 			child:WaitForChild("CloneTool"):WaitForChild("Sparkles").Texture = "rbxassetid://9099782826"
 			child:WaitForChild("Animations"):WaitForChild("ChaseTheme").SoundId = "rbxassetid://122304523836872"
-			child:WaitForChild("Animations"):WaitForChild("ChaseTheme").Volume = 2.2
+			child:WaitForChild("Animations"):WaitForChild("ChaseTheme").Volume = 2.5
 		end
 	end)
 	if not suc then
@@ -2587,7 +2590,7 @@ end
 			child:WaitForChild("Animations"):WaitForChild("Idle").AnimationId = "rbxassetid://116882648985413"
 			child:WaitForChild("Animations"):WaitForChild("Sprint").AnimationId = "rbxassetid://99710523608673"
 			child:WaitForChild("Animations"):WaitForChild("Walk").AnimationId = "rbxassetid://116619914860672"
-			child:WaitForChild("Animations"):WaitForChild("ChaseTheme").Volume = 2.2
+			child:WaitForChild("Animations"):WaitForChild("ChaseTheme").Volume = 2.5
 		end
 	end)
 	if not suc then
@@ -2617,7 +2620,7 @@ local child = game:GetService("ReplicatedStorage").Characters.Killer.Artful["#So
 		child:WaitForChild("CloneTool"):WaitForChild("Sparkles").Enabled = true
 		child:WaitForChild("CloneTool"):WaitForChild("Sparkles").Texture = "rbxassetid://9099782826"
 		child:WaitForChild("Animations"):WaitForChild("ChaseTheme").SoundId = "rbxassetid://122304523836872"
-		child:WaitForChild("Animations"):WaitForChild("ChaseTheme").Volume = 2.2
+		child:WaitForChild("Animations"):WaitForChild("ChaseTheme").Volume = 2.5
 	end
 local child = game:GetService("ReplicatedStorage").Characters.Killer.Pursuer.Phantasm
 	if child and child:FindFirstChild("Face") and child:FindFirstChild("Face"):FindFirstChild("Face") and child:WaitForChild("Face"):WaitForChild("Face").Texture == "rbxassetid://19821051" then
@@ -2640,7 +2643,7 @@ end
 		child:WaitForChild("Animations"):WaitForChild("Idle").AnimationId = "rbxassetid://116882648985413"
 		child:WaitForChild("Animations"):WaitForChild("Sprint").AnimationId = "rbxassetid://99710523608673"
 		child:WaitForChild("Animations"):WaitForChild("Walk").AnimationId = "rbxassetid://116619914860672"
-		child:WaitForChild("Animations"):WaitForChild("ChaseTheme").Volume = 2.2
+		child:WaitForChild("Animations"):WaitForChild("ChaseTheme").Volume = 2.5
 	end
 
 -- UI shop handler
