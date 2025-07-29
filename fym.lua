@@ -2517,7 +2517,7 @@ setclipboard(tostring("https://pastebin.com/raw/3VZyG7iD"))
 end; })
 
 --[[  custom skins handlers ]]--
-pcall(function()
+local killeradded, killererror = pcall(function()
 
 function RemoveThingy(username)
     return string.sub(username, 1, 1) == "@" and string.sub(username, 2) or username
@@ -2926,8 +2926,12 @@ end)
 
 end)
 
+if killeradded then
 Notify("Notification", "This script includes several custom skins for killers, if you want to turn them off, go to ''Visual Management'' tab and find button that says ''Disable Custom-Skins''", 8, true)
-
+elseif not killeradded then
+warn(killererror)
+Notify("Error", "Failed adding custom skins.", 3, false)
+end
 local function CreateMISO(plr)
 local target = plr
 if not target then return nil end
