@@ -2608,8 +2608,8 @@ if child and child:FindFirstChild("Accessories") and child:FindFirstChild("Acces
 child.Accessories.HeadModel.Face.SurfaceGui.ImageLabel.Image = ""
 child.Accessories.HeadModel.Face.SurfaceGui.ImageLabel.BackgroundTransparency = 0
 child.Accessories.HeadModel.Face.SurfaceGui.Glasses:Destroy()
-if child.Accessories.HeadModel.Face.SurfaceGui:WaitForChild("Face"):GetChildren()[1] ~= nil then
-child.Accessories.HeadModel.Face.SurfaceGui:WaitForChild("Face"):GetChildren()[1]:Destroy()
+if child.Accessories.HeadModel.Face.SurfaceGui:WaitForChild("Face"):FindFirstChild("UIGradient") then
+child.Accessories.HeadModel.Face.SurfaceGui:WaitForChild("Face"):FindFirstChild("UIGradient"):Destroy()
 end
 child.Accessories.HeadModel.Face.SurfaceGui:WaitForChild("Face").Image = "rbxassetid://99817640514915"
 child.Accessories.HeadModel.Face.SurfaceGui:WaitForChild("Face").ImageColor3 = Color3.new(1,1,1)
@@ -2620,7 +2620,7 @@ for i,v in pairs(child.Accessories.HeadModel:GetChildren()) do
 	end
 end
 child.Torso.Color = Color3.new(1,1,1)
-child.Torso.Material = Enum.Material.Plastic
+child.Torso.Material = Enum.Material.Plastic or "Plastic"
 pcall(function()
 child.Torso.SurfaceGui.ImageLabel.Image = "rbxassetid://110656048125503"
 end)
@@ -2715,8 +2715,8 @@ if child and child:FindFirstChild("Accessories") and child:FindFirstChild("Acces
 child.Accessories.HeadModel.Face.SurfaceGui.ImageLabel.Image = ""
 child.Accessories.HeadModel.Face.SurfaceGui.ImageLabel.BackgroundTransparency = 0
 child.Accessories.HeadModel.Face.SurfaceGui.Glasses:Destroy()
-if child.Accessories.HeadModel.Face.SurfaceGui:WaitForChild("Face"):GetChildren()[1] ~= nil then
-child.Accessories.HeadModel.Face.SurfaceGui:WaitForChild("Face"):GetChildren()[1]:Destroy()
+if child.Accessories.HeadModel.Face.SurfaceGui:WaitForChild("Face"):FindFirstChild("UIGradient") then
+child.Accessories.HeadModel.Face.SurfaceGui:WaitForChild("Face"):FindFirstChild("UIGradient"):Destroy()
 end
 child.Accessories.HeadModel.Face.SurfaceGui:WaitForChild("Face").Image = "rbxassetid://99817640514915"
 child.Accessories.HeadModel.Face.SurfaceGui:WaitForChild("Face").ImageColor3 = Color3.new(1,1,1)
@@ -2727,7 +2727,7 @@ for i,v in pairs(child.Accessories.HeadModel:GetChildren()) do
 	end
 end
 child.Torso.Color = Color3.new(1,1,1)
-child.Torso.Material = Enum.Material.Plastic
+child.Torso.Material = Enum.Material.Plastic or "Plastic"
 pcall(function()
 child.Torso.SurfaceGui.ImageLabel.Image = "rbxassetid://110656048125503"
 end)
