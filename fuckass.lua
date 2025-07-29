@@ -2605,7 +2605,6 @@ end
 	local suc, err = pcall(function()
 if child and child:FindFirstChild("Accessories") and child:FindFirstChild("Accessories"):FindFirstChild("HeadModel") and child:FindFirstChild("Accessories"):FindFirstChild("HeadModel"):FindFirstChild("Face") and child:FindFirstChild("Accessories"):FindFirstChild("HeadModel"):FindFirstChild("Face"):FindFirstChild("SurfaceGui") and child:FindFirstChild("Accessories"):FindFirstChild("HeadModel"):FindFirstChild("Face"):FindFirstChild("SurfaceGui"):FindFirstChild("ImageLabel") and child:FindFirstChild("Accessories"):FindFirstChild("HeadModel"):FindFirstChild("Face"):FindFirstChild("SurfaceGui"):FindFirstChild("ImageLabel").Image == "rbxassetid://119281468568353" then
 child.Accessories.HeadModel.Face.SurfaceGui.ImageLabel.Image = ""
-child.Accessories.HeadModel.Face.SurfaceGui.ImageLabel.ImageContent = ""
 child.Accessories.HeadModel.Face.SurfaceGui.ImageLabel.BackgroundTransparency = 0
 child.Accessories.HeadModel.Face.SurfaceGui.Glasses:Destroy()
 child.Accessories.HeadModel.Face.SurfaceGui.Face.UIGradient:Destroy()
@@ -2711,7 +2710,6 @@ end
 local child = game:GetService("ReplicatedStorage").Characters.Killer.Badware.Goodware
 if child and child:FindFirstChild("Accessories") and child:FindFirstChild("Accessories"):FindFirstChild("HeadModel") and child:FindFirstChild("Accessories"):FindFirstChild("HeadModel"):FindFirstChild("Face") and child:FindFirstChild("Accessories"):FindFirstChild("HeadModel"):FindFirstChild("Face"):FindFirstChild("SurfaceGui") and child:FindFirstChild("Accessories"):FindFirstChild("HeadModel"):FindFirstChild("Face"):FindFirstChild("SurfaceGui"):FindFirstChild("ImageLabel") and child:FindFirstChild("Accessories"):FindFirstChild("HeadModel"):FindFirstChild("Face"):FindFirstChild("SurfaceGui"):FindFirstChild("ImageLabel").Image == "rbxassetid://119281468568353" then
 child.Accessories.HeadModel.Face.SurfaceGui.ImageLabel.Image = ""
-child.Accessories.HeadModel.Face.SurfaceGui.ImageLabel.ImageContent = ""
 child.Accessories.HeadModel.Face.SurfaceGui.ImageLabel.BackgroundTransparency = 0
 child.Accessories.HeadModel.Face.SurfaceGui.Glasses:Destroy()
 child.Accessories.HeadModel.Face.SurfaceGui.Face.UIGradient:Destroy()
