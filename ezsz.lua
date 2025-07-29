@@ -11,7 +11,7 @@ Function List Begins NOW!
 
 
 if makefolder and isfolder and writefile and isfile then
-if not isfolder("dodnexerhub") thenF
+if not isfolder("dodnexerhub") then
 makefolder("dodnexerhub")
 end
 if not isfolder("dodnexerhub/music") then
