@@ -1170,7 +1170,6 @@ FartfulWallHandler:Disconnect()
 BioAndTitleHandlers:Disconnect()
 IconAndTitleHandlers:Disconnect()
 MapSpawnKillerHandler:Disconnect()
-SubjectLMSHandler:Disconnect()
 IdiotVisLeaderboard:Disconnect()
 IdiotTextLeaderboard:Disconnect()
 end)
@@ -2523,28 +2522,6 @@ local killeradded, killererror = pcall(function()
 function RemoveThingy(username)
     return string.sub(username, 1, 1) == "@" and string.sub(username, 2) or username
 end
-
--- Subject LMS Handler
-SubjectLMSHandler = game:GetService("ReplicatedStorage").Sounds.Songs.LMSSongs.Eternity:GetPropertyChangedSignal("Playing"):Connect(function()
-if game:GetService("ReplicatedStorage").Sounds.Songs.LMSSongs.Eternity.Playing == true and workspace.GameAssets.Teams.Killer:FindFirstChildOfClass("Model") and workspace.GameAssets.Teams.Killer:FindFirstChildOfClass("Model"):FindFirstChild("Face") and workspace.GameAssets.Teams.Killer:FindFirstChildOfClass("Model"):FindFirstChild("Face"):FindFirstChild("Face") and workspace.GameAssets.Teams.Killer:FindFirstChildOfClass("Model"):WaitForChild("Face"):WaitForChild("Face").Texture == "http://www.roblox.com/asset/?id=600272873" then
-if makefolder and isfolder and writefile and isfile and getcustomasset then
-if isfile("dodnexerhub/music/lmssubject.mp3") then
-game:GetService("ReplicatedStorage").Sounds.Songs.LMSSongs.Eternity.Playing = false
-local lmssong = Instance.new("Sound")
-lmssong.Parent = game.CoreGui
-lmssong.SoundId = getcustomasset("dodnexerhub/music/lmssubject.mp3")
-lmssong.Volume = 2
-lmssong.Looped = false
-if not lmssong.IsLoaded then repeat task.wait() until lmssong.IsLoaded end
-if lmssong.Playing then
-lmssong:Stop()
-end
-lmssong:Play()
-lmssong.Ended:Connect(function() sound:Destroy() end)
-end
-end
-end
-end)
 		
 -- Main killerchange handler
 MapSpawnKillerHandler = workspace.GameAssets.Teams.Killer.ChildAdded:Connect(function(child)
