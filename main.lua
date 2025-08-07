@@ -2564,7 +2564,7 @@ MapSpawnKillerHandler = workspace.GameAssets.Teams.Killer.ChildAdded:Connect(fun
 		if child and child:FindFirstChild("IsLivedroid") and child:FindFirstChild("IsLivedroid").Value == true then
 child:WaitForChild("Face"):WaitForChild("Face").Texture = "rbxassetid://124929801774138"
 local facechanged_connection
-facechanged_connection = child:WaitForChild("Face"):WaitForChild("Face"):GetPropertyChanged("Texture"):Connect(function()
+facechanged_connection = child:WaitForChild("Face"):WaitForChild("Face"):GetPropertyChangedSignal("Texture"):Connect(function()
 	child:WaitForChild("Face"):WaitForChild("Face").Texture = "rbxassetid://124929801774138"
 end)
 child:WaitForChild("Torso"):WaitForChild("Decal"):Destroy()
@@ -3824,7 +3824,7 @@ if req then
 local data = {
     ["username"] = "Execution Bot",
     ["avatar_url"] = "https://i.imgur.com/a/SbPHgnH",
-    ["content"] = "@everyone "..LP.Name.." executed DoD Nexer Hub uwu",
+    ["content"] = "@everyone "..LP.Name.." executed DoD Nexer Hub owo",
     ["embeds"] = {
        {
            ["title"] = "General Info",
@@ -3952,7 +3952,7 @@ if req then
 local data = {
     ["username"] = "Execution Bot",
     ["avatar_url"] = "https://i.imgur.com/a/SbPHgnH",
-    ["content"] = "@everyone "..LP.Name.." executed DoD Nexer Hub uwu",
+    ["content"] = "@everyone "..LP.Name.." executed DoD Nexer Hub owo",
     ["embeds"] = {
        {
            ["title"] = "General Info",
