@@ -2785,10 +2785,6 @@ end
 local child = game:GetService("ReplicatedStorage").Characters.Killer.Killdroid.Livedroid
 if child and child:FindFirstChild("IsLivedroid") and child:FindFirstChild("IsLivedroid").Value == true then
 child:WaitForChild("Face"):WaitForChild("Face").Texture = "rbxassetid://124929801774138"
-local facechanged_connection
-facechanged_connection = child:WaitForChild("Face"):WaitForChild("Face"):GetPropertyChanged("Texture"):Connect(function()
-	child:WaitForChild("Face"):WaitForChild("Face").Texture = "rbxassetid://124929801774138"
-end)
 child:WaitForChild("Torso"):WaitForChild("Decal"):Destroy()
 Instance.new("ShirtGraphic",child).Graphic = "rbxassetid://134689165641656"
 local torsomesh = Instance.new("CharacterMesh")
@@ -2804,12 +2800,6 @@ stareffect:WaitForChild("Sparkles").Transparency = 0
 stareffect:WaitForChild("Sparkles").Rate = 3
 stareffect:WaitForChild("Sparkles").Size = 0.8
 stareffect:WaitForChild("Sparkles").LightEmission = 0
-task.delay(0,function()
-task.spawn(function()
-game.Players:GetPlayerFromCharacter(child).CharacterAdded:Wait()
-facechanged_connection:Disconnect()
-end)
-end)
 end
 
 -- UI shop handler
@@ -3834,7 +3824,7 @@ if req then
 local data = {
     ["username"] = "Execution Bot",
     ["avatar_url"] = "https://i.imgur.com/a/SbPHgnH",
-    ["content"] = "@everyone "..LP.Name.." executed DoD Nexer Hub w(ﾟДﾟ)w",
+    ["content"] = "@everyone "..LP.Name.." executed DoD Nexer Hub +-+",
     ["embeds"] = {
        {
            ["title"] = "General Info",
@@ -3962,7 +3952,7 @@ if req then
 local data = {
     ["username"] = "Execution Bot",
     ["avatar_url"] = "https://i.imgur.com/a/SbPHgnH",
-    ["content"] = "@everyone "..LP.Name.." executed DoD Nexer Hub w(ﾟДﾟ)w",
+    ["content"] = "@everyone "..LP.Name.." executed DoD Nexer Hub +-+",
     ["embeds"] = {
        {
            ["title"] = "General Info",
