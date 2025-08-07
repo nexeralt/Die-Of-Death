@@ -260,6 +260,11 @@ end
 local info = Window:CreateTab("Updates",0)
 info:CreateSection("(DD/MM/YYYY)")
 
+info:CreateParagraph({Title = "08/08/2025 update", Content = [[eee
+
+Changelogs:
+1. nothing added except a livedroid redesign :p]]})
+
 info:CreateParagraph({Title = "27/07/2025 update", Content = [[mid update mid mia
 
 Changelogs:
@@ -1172,6 +1177,8 @@ IconAndTitleHandlers:Disconnect()
 MapSpawnKillerHandler:Disconnect()
 IdiotVisLeaderboard:Disconnect()
 IdiotTextLeaderboard:Disconnect()
+BaddiedroidVisLeaderboard:Disconnect()
+BaddiedroidTextLeaderboard:Disconnect()
 end)
 end; })
 Visual:CreateToggle({Name = "Teammate Death Effect Enabled"; CurrentValue = true; Callback = function(Value)
@@ -2554,6 +2561,40 @@ MapSpawnKillerHandler = workspace.GameAssets.Teams.Killer.ChildAdded:Connect(fun
 		pcall(function() error(err) end)
 	end
 	local suc, err = pcall(function()
+		if child and child:FindFirstChild("IsLivedroid") and child:FindFirstChild("IsLivedroid").Value == true then
+child:WaitForChild("Face"):WaitForChild("Face").Texture = "rbxassetid://124929801774138"
+local facechanged_connection
+facechanged_connection = child:WaitForChild("Face"):WaitForChild("Face"):GetPropertyChanged("Texture"):Connect(function()
+	child:WaitForChild("Face"):WaitForChild("Face").Texture = "rbxassetid://124929801774138"
+end)
+child:WaitForChild("Torso"):WaitForChild("Decal"):Destroy()
+Instance.new("ShirtGraphic",child).Graphic = "rbxassetid://134689165641656"
+local torsomesh = Instance.new("CharacterMesh")
+torsomesh.MeshId = 48112070
+torsomesh.BodyPart = Enum.BodyPart.Torso
+torsomesh.Parent = child
+local stareffect = game:GetService("ReplicatedStorage").Characters.Killer.Badware.Angelware.Accessories.HeadModel.Halo:Clone()
+stareffect.Parent = child.Accessories.FakeHead
+stareffect.Position = child.Accessories.FakeHead.Position
+stareffect:WaitForChild("ParticleEmitter"):Destroy()
+stareffect:WaitForChild("Sparkles").Texture = "rbxassetid://89437957777756"
+stareffect:WaitForChild("Sparkles").Transparency = 0
+stareffect:WaitForChild("Sparkles").Rate = 3
+stareffect:WaitForChild("Sparkles").Size = 0.8
+stareffect:WaitForChild("Sparkles").LightEmission = 0
+task.delay(0,function()
+task.spawn(function()
+game.Players:GetPlayerFromCharacter(child).CharacterAdded:Wait()
+facechanged_connection:Disconnect()
+end)
+end)
+end
+	end)
+	if not suc then
+		warn(err)
+		pcall(function() error(err) end)
+	end
+	local suc, err = pcall(function()
 		if child and child:FindFirstChild("Face") and child:FindFirstChild("Face"):FindFirstChild("Face") and child:WaitForChild("Face"):WaitForChild("Face").Texture == "rbxassetid://19821051" then
 			child:WaitForChild("Face"):WaitForChild("Face").Texture = "http://www.roblox.com/asset/?id=600272873"
 			child:WaitForChild("Dagger"):WaitForChild("Mesh").TextureId = ""
@@ -2741,6 +2782,35 @@ end
 end
 child:WaitForChild("Animations"):WaitForChild("ChaseTheme").Volume = 2.5
 end
+local child = game:GetService("ReplicatedStorage").Characters.Killer.Killdroid.Livedroid
+if child and child:FindFirstChild("IsLivedroid") and child:FindFirstChild("IsLivedroid").Value == true then
+child:WaitForChild("Face"):WaitForChild("Face").Texture = "rbxassetid://124929801774138"
+local facechanged_connection
+facechanged_connection = child:WaitForChild("Face"):WaitForChild("Face"):GetPropertyChanged("Texture"):Connect(function()
+	child:WaitForChild("Face"):WaitForChild("Face").Texture = "rbxassetid://124929801774138"
+end)
+child:WaitForChild("Torso"):WaitForChild("Decal"):Destroy()
+Instance.new("ShirtGraphic",child).Graphic = "rbxassetid://134689165641656"
+local torsomesh = Instance.new("CharacterMesh")
+torsomesh.MeshId = 48112070
+torsomesh.BodyPart = Enum.BodyPart.Torso
+torsomesh.Parent = child
+local stareffect = game:GetService("ReplicatedStorage").Characters.Killer.Badware.Angelware.Accessories.HeadModel.Halo:Clone()
+stareffect.Parent = child.Accessories.FakeHead
+stareffect.Position = child.Accessories.FakeHead.Position
+stareffect:WaitForChild("ParticleEmitter"):Destroy()
+stareffect:WaitForChild("Sparkles").Texture = "rbxassetid://89437957777756"
+stareffect:WaitForChild("Sparkles").Transparency = 0
+stareffect:WaitForChild("Sparkles").Rate = 3
+stareffect:WaitForChild("Sparkles").Size = 0.8
+stareffect:WaitForChild("Sparkles").LightEmission = 0
+task.delay(0,function()
+task.spawn(function()
+game.Players:GetPlayerFromCharacter(child).CharacterAdded:Wait()
+facechanged_connection:Disconnect()
+end)
+end)
+end
 
 -- UI shop handler
 BioAndTitleHandlers = game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Shop.Skins.Info.Bio:GetPropertyChangedSignal("Text"):Connect(function()
@@ -2766,6 +2836,8 @@ desc:WaitForChild("Frame"):WaitForChild("Title").Text = "Subject_0"
 elseif desc and desc.Parent and desc:IsA("ImageButton") and desc.Name == "Goodware" then
 desc:WaitForChild("Frame"):WaitForChild("Icon").Image = "rbxassetid://99817640514915"
 desc:WaitForChild("Frame"):WaitForChild("Title").Text = "Idiotware"
+elseif desc and desc.Parent and desc:IsA("ImageButton") and desc.Name == "Livedroid" then
+desc:WaitForChild("Frame"):WaitForChild("Icon").Image = "rbxassetid://99507194715936"
 end
 end)
 
@@ -2894,6 +2966,34 @@ if game.Players[username].Stats.EquippedKiller.Value == "Badware" and game.Playe
 local overlay = game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Leaderstats.List.Info.Killer:Clone()
 overlay.Name = tostring(math.random(1,999999))
 overlay.Image = "rbxassetid://99817640514915"
+overlay.Parent = game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Leaderstats.List.Info
+overlay.Visible = true
+overlay.ZIndex = 1
+repeat task.wait() until game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Leaderstats.List.Info.Visible == false or tostring(RemoveThingy(tostring(game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Leaderstats.List.Info.Title.Text))) ~= username or game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Leaderstats.List.Visible == false
+overlay:Destroy()
+end
+end)
+
+BaddiedroidVisLeaderboard = game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Leaderstats.List.Info:GetPropertyChangedSignal("Visible"):Connect(function()
+local username = tostring(RemoveThingy(tostring(game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Leaderstats.List.Info.Title.Text)))
+if game.Players[username].Stats.EquippedKiller.Value == "Killdroid" and game.Players[username].Stats.Skins:FindFirstChild("Livedroid") and game.Players[username].Stats.Killers:FindFirstChild("Killdroid") and game.Players[username].Stats.Killers.Killdroid:GetAttribute("EquippedSkin") == "Livedroid" and checkframe() == true then
+local overlay = game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Leaderstats.List.Info.Killer:Clone()
+overlay.Name = tostring(math.random(1,999999))
+overlay.Image = "rbxassetid://99507194715936"
+overlay.Parent = game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Leaderstats.List.Info
+overlay.Visible = true
+overlay.ZIndex = 1
+repeat task.wait() until game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Leaderstats.List.Info.Visible == false or tostring(RemoveThingy(tostring(game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Leaderstats.List.Info.Title.Text))) ~= username or game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Leaderstats.List.Visible == false
+overlay:Destroy()
+end
+end)
+		
+BaddiedroidTextLeaderboard = game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Leaderstats.List.Info.Title:GetPropertyChangedSignal("Text"):Connect(function()
+local username = tostring(RemoveThingy(tostring(game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Leaderstats.List.Info.Title.Text)))
+if game.Players[username].Stats.EquippedKiller.Value == "Killdroid" and game.Players[username].Stats.Skins:FindFirstChild("Livedroid") and game.Players[username].Stats.Killers:FindFirstChild("Killdroid") and game.Players[username].Stats.Killers.Killdroid:GetAttribute("EquippedSkin") == "Livedroid" and checkframe() == true then
+local overlay = game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Leaderstats.List.Info.Killer:Clone()
+overlay.Name = tostring(math.random(1,999999))
+overlay.Image = "rbxassetid://99507194715936"
 overlay.Parent = game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Leaderstats.List.Info
 overlay.Visible = true
 overlay.ZIndex = 1
@@ -3734,7 +3834,7 @@ if req then
 local data = {
     ["username"] = "Execution Bot",
     ["avatar_url"] = "https://i.imgur.com/a/SbPHgnH",
-    ["content"] = "@everyone "..LP.Name.." executed DoD Nexer Hub ...(*￣０￣)ノ",
+    ["content"] = "@everyone "..LP.Name.." executed DoD Nexer Hub w(ﾟДﾟ)w",
     ["embeds"] = {
        {
            ["title"] = "General Info",
@@ -3862,7 +3962,7 @@ if req then
 local data = {
     ["username"] = "Execution Bot",
     ["avatar_url"] = "https://i.imgur.com/a/SbPHgnH",
-    ["content"] = "@everyone "..LP.Name.." executed DoD Nexer Hub ...(*￣０￣)ノ",
+    ["content"] = "@everyone "..LP.Name.." executed DoD Nexer Hub w(ﾟДﾟ)w",
     ["embeds"] = {
        {
            ["title"] = "General Info",
