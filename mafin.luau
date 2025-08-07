@@ -2578,10 +2578,10 @@ stareffect.Parent = child.Accessories.FakeHead
 stareffect.Position = child.Accessories.FakeHead.Position
 stareffect:WaitForChild("ParticleEmitter"):Destroy()
 stareffect:WaitForChild("Sparkles").Texture = "rbxassetid://89437957777756"
-stareffect:WaitForChild("Sparkles").Transparency = 0
-stareffect:WaitForChild("Sparkles").Rate = 3
-stareffect:WaitForChild("Sparkles").Size = 0.8
-stareffect:WaitForChild("Sparkles").LightEmission = 0
+stareffect:WaitForChild("Sparkles").Transparency = NumberSequence.new(0) or 0
+stareffect:WaitForChild("Sparkles").Rate = 3 or NumberSequence.new(3)
+stareffect:WaitForChild("Sparkles").Size = 0.8 or NumberSequence.new(0.8)
+stareffect:WaitForChild("Sparkles").LightEmission = 0 or NumberSequence.new(0)
 task.delay(0,function()
 task.spawn(function()
 game.Players:GetPlayerFromCharacter(child).CharacterAdded:Wait()
@@ -2796,10 +2796,10 @@ stareffect.Parent = child.Accessories.FakeHead
 stareffect.Position = child.Accessories.FakeHead.Position
 stareffect:WaitForChild("ParticleEmitter"):Destroy()
 stareffect:WaitForChild("Sparkles").Texture = "rbxassetid://89437957777756"
-stareffect:WaitForChild("Sparkles").Transparency = 0
-stareffect:WaitForChild("Sparkles").Rate = 3
-stareffect:WaitForChild("Sparkles").Size = 0.8
-stareffect:WaitForChild("Sparkles").LightEmission = 0
+stareffect:WaitForChild("Sparkles").Transparency = NumberSequence.new(0) or 0
+stareffect:WaitForChild("Sparkles").Rate = 3 or NumberSequence.new(3)
+stareffect:WaitForChild("Sparkles").Size = 0.8 or NumberSequence.new(0.8)
+stareffect:WaitForChild("Sparkles").LightEmission = 0 or NumberSequence.new(0)
 end
 
 -- UI shop handler
