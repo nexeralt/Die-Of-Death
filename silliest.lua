@@ -2936,8 +2936,8 @@ elseif game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Shop.Skins.Info.
 game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Shop.Skins.Info.Bio.Text = 'i know what you are'
 game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Shop.Skins.Info.Title.Text = "Idiotware"
 elseif game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Shop.Skins.Info.Bio.Text == '"Clair de Lune."' then
-game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Shop.Skins.Info.Bio.Text = 'i know what you are'
-game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Shop.Skins.Info.Title.Text = '"Yall will REGRET for not giving me catnips!"'
+game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Shop.Skins.Info.Bio.Text = '"Yall will REGRET for not giving me catnips!"'
+game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Shop.Skins.Info.Title.Text = 'Snow'
 end
 end)
 IconAndTitleHandlers = game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Shop.Skins.Frame.ScrollingFrame.ChildAdded:Connect(function(desc)
