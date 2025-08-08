@@ -2693,7 +2693,6 @@ local function AddAccessory(Humanoid,AssetId)
 	local AvailableService = (game:FindService("CoreGui") and game:GetService("CoreGui")) or game:GetService("LogService")
 	ac.Parent = AvailableService
 	Humanoid:AddAccessory(AvailableService:WaitForChild(tostring(acName), 9e9))
-	Humanoid:BuildRigFromAttachments()
 end
 child:WaitForChild("CL_Torso").MeshId = 48112070
 child:WaitForChild("Face"):WaitForChild("Face").Texture = "rbxassetid://127805400749886"
@@ -2719,7 +2718,6 @@ local function AddAccessory(Humanoid,AssetId)
 	local AvailableService = (game:FindService("CoreGui") and game:GetService("CoreGui")) or game:GetService("LogService")
 	ac.Parent = AvailableService
 	Humanoid:AddAccessory(AvailableService:WaitForChild(tostring(acName), 9e9))
-	Humanoid:BuildRigFromAttachments()
 end
 for i,v in pairs(child:WaitForChild("Accessories"):GetChildren()) do
 	if v and v.Name ~= "Hat" then
@@ -2728,7 +2726,16 @@ for i,v in pairs(child:WaitForChild("Accessories"):GetChildren()) do
 end
 for i,v in pairs(child:GetChildren()) do
 	if v and v:IsA("CharacterMesh") then
-		v:Destroy()
+		if v.Name == "CL_Torso" then
+			v.MeshId = 48112070
+		else
+		    v:Destroy()
+		end
+	end
+end
+for i,v in pairs(child:GetChildren()) do
+	if v and v:IsA("BasePart") then
+		v.Color = Color3.new(1,1,1)
 	end
 end
 child:WaitForChild("Shirt").ShirtTemplate = "rbxassetid://18912237383"
@@ -2899,7 +2906,16 @@ for i,v in pairs(child:WaitForChild("Accessories"):GetChildren()) do
 end
 for i,v in pairs(child:GetChildren()) do
 	if v and v:IsA("CharacterMesh") then
-		v:Destroy()
+		if v.Name == "CL_Torso" then
+			v.MeshId = 48112070
+		else
+		    v:Destroy()
+		end
+	end
+end
+for i,v in pairs(child:GetChildren()) do
+	if v and v:IsA("BasePart") then
+		v.Color = Color3.new(1,1,1)
 	end
 end
 child:WaitForChild("Shirt").ShirtTemplate = "rbxassetid://18912237383"
@@ -2975,7 +2991,7 @@ end
 end
 child:WaitForChild("HumanoidRootPart").Color = Color3.fromRGB(195,0,255)
 end
-elseif workspace.GameAssets.Teams.Killer:FindFirstChildOfClass("Model") and workspace.GameAssets.Teams.Killer:FindFirstChildOfClass("Model"):FindFirstChild("Accessories") and workspace.GameAssets.Teams.Killer:FindFirstChildOfClass("Model"):FindFirstChild("Accessories"):FindFirstChild("Cape") and workspace.GameAssets.Teams.Killer:FindFirstChildOfClass("Model"):FindFirstChild("Accessories"):FindFirstChild("Cape"):FindFirstChild("Mesh") then
+elseif workspace.GameAssets.Teams.Killer:FindFirstChildOfClass("Model") and workspace.GameAssets.Teams.Killer:FindFirstChildOfClass("Model"):FindFirstChild("Accessories") and workspace.GameAssets.Teams.Killer:FindFirstChildOfClass("Model"):FindFirstChild("Accessories"):FindFirstChild("Hat") and workspace.GameAssets.Teams.Killer:FindFirstChildOfClass("Model"):FindFirstChild("Accessories"):FindFirstChild("Hat").Transparency == 1 then
 if child and child.Parent and child.Name == "MusicBox" then
 for i,v in pairs(child:WaitForChild("HumanoidRootPart"):GetChildren()) do
 if v and v:IsA("Decal") then
@@ -3009,7 +3025,7 @@ back.Parent = child:WaitForChild("HumanoidRootPart")
 back.Face = "Back"
 back.Texture = "rbxassetid://95214797160837"
 end
-elseif workspace.GameAssets.Teams.Killer:FindFirstChildOfClass("Model") and workspace.GameAssets.Teams.Killer:FindFirstChildOfClass("Model"):FindFirstChild("Accessories") and workspace.GameAssets.Teams.Killer:FindFirstChildOfClass("Model"):FindFirstChild("Accessories"):FindFirstChild("Cape") and workspace.GameAssets.Teams.Killer:FindFirstChildOfClass("Model"):FindFirstChild("Accessories"):FindFirstChild("Cape"):FindFirstChild("Mesh") then
+elseif workspace.GameAssets.Teams.Killer:FindFirstChildOfClass("Model") and workspace.GameAssets.Teams.Killer:FindFirstChildOfClass("Model"):FindFirstChild("Accessories") and workspace.GameAssets.Teams.Killer:FindFirstChildOfClass("Model"):FindFirstChild("Accessories"):FindFirstChild("Hat") and workspace.GameAssets.Teams.Killer:FindFirstChildOfClass("Model"):FindFirstChild("Accessories"):FindFirstChild("Hat").Transparency == 1 then
 if child and child.Parent and child.Name == "Wall" then
 child:WaitForChild("HumanoidRootPart").Size = Vector3.new(10,6,1)
 child:WaitForChild("HumanoidRootPart").Color = Color3.new(0,0,0)
