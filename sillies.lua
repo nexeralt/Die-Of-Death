@@ -2690,23 +2690,23 @@ if child and child:FindFirstChild("Accessories") and child:FindFirstChild("Acces
 local function AddAccessory(Humanoid,AssetId)
 	local targethumanoid = Humanoid
 	local targetidasset = AssetId
-	task.spawn(function()
 	local ac = game:GetObjects("rbxassetid://"..tostring(targetidasset))[1]
 	local acName = ac.Name
 	local AvailableService = (game:FindService("CoreGui") and game:GetService("CoreGui")) or game:GetService("LogService")
 	ac.Parent = AvailableService
 	targethumanoid:AddAccessory(AvailableService:WaitForChild(tostring(acName), 9e9))
+end
+local function ApplyAccessories(Humanoid)
+	local targethumanoid = Humanoid
 	targethumanoid:BuildRigFromAttachments()
-	end)
+	task.wait(1)
+	pcall(function() targethumanoid.HipHeight = 0 end)
 end
 child:WaitForChild("CL_Torso").MeshId = 48112070
 child:WaitForChild("Face"):WaitForChild("Face").Texture = "rbxassetid://127805400749886"
 child:WaitForChild("Accessories"):WaitForChild("Dagger").Position = child:WaitForChild("Accessories"):WaitForChild("Dagger").Position - Vector3.new(0.5,0,0)
-if game.Players:GetPlayerFromCharacter(child) == game.Players.LocalPlayer then
 AddAccessory(child:WaitForChild("Humanoid"), 16572510926)
-else
-game:GetObjects("rbxassetid://16572510926")[1].Parent = child
-end
+ApplyAccessories(child:WaitForChild("Humanoid"))
 end
 	end)
 	if not suc then
@@ -2720,14 +2720,17 @@ if child and child:FindFirstChild("Accessories") and child:FindFirstChild("Acces
 local function AddAccessory(Humanoid,AssetId)
 	local targethumanoid = Humanoid
 	local targetidasset = AssetId
-	task.spawn(function()
 	local ac = game:GetObjects("rbxassetid://"..tostring(targetidasset))[1]
 	local acName = ac.Name
 	local AvailableService = (game:FindService("CoreGui") and game:GetService("CoreGui")) or game:GetService("LogService")
 	ac.Parent = AvailableService
 	targethumanoid:AddAccessory(AvailableService:WaitForChild(tostring(acName), 9e9))
+end
+local function ApplyAccessories(Humanoid)
+	local targethumanoid = Humanoid
 	targethumanoid:BuildRigFromAttachments()
-	end)
+	task.wait(1)
+	pcall(function() targethumanoid.HipHeight = 0 end)
 end
 for i,v in pairs(child:WaitForChild("Accessories"):GetChildren()) do
 	if v and v.Name ~= "Hat" then
@@ -2768,6 +2771,7 @@ local SnowieAcs = {
 for i,v in pairs(SnowieAcs) do
 	AddAccessory(child:WaitForChild("Humanoid"), v)
 end
+ApplyAccessories(child:WaitForChild("Humanoid"))
 end
 	end)
 	if not suc then
@@ -3052,7 +3056,23 @@ for i,v in pairs(child:GetChildren()) do
 		v:Destroy()
 	end
 end
-game:GetObjects("rbxassetid://417457461")[1].Parent = child
+local function AddAccessory(Humanoid,AssetId)
+	local targethumanoid = Humanoid
+	local targetidasset = AssetId
+	local ac = game:GetObjects("rbxassetid://"..tostring(targetidasset))[1]
+	local acName = ac.Name
+	local AvailableService = (game:FindService("CoreGui") and game:GetService("CoreGui")) or game:GetService("LogService")
+	ac.Parent = AvailableService
+	targethumanoid:AddAccessory(AvailableService:WaitForChild(tostring(acName), 9e9))
+end
+local function ApplyAccessories(Humanoid)
+	local targethumanoid = Humanoid
+	targethumanoid:BuildRigFromAttachments()
+	task.wait(1)
+	pcall(function() targethumanoid.HipHeight = 0 end)
+end
+AddAccessory(child:WaitForChild("Humanoid"),417457461)
+ApplyAccessories(child:WaitForChild("Humanoid"))
 Instance.new("Pants",child).PantsTemplate = "http://www.roblox.com/asset/?id=81496250"
 Instance.new("Shirt",child).ShirtTemplate = "http://www.roblox.com/asset/?id=15912708548"
 end
