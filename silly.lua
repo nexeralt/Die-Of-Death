@@ -260,6 +260,11 @@ end
 local info = Window:CreateTab("Updates",0)
 info:CreateSection("(DD/MM/YYYY)")
 
+info:CreateParagraph({Title = "08/08/2025 update", Content = [[eee
+
+Changelogs:
+1. nothing added except a livedroid redesign :p]]})
+
 info:CreateParagraph({Title = "27/07/2025 update", Content = [[mid update mid mia
 
 Changelogs:
@@ -1170,9 +1175,14 @@ FartfulWallHandler:Disconnect()
 BioAndTitleHandlers:Disconnect()
 IconAndTitleHandlers:Disconnect()
 MapSpawnKillerHandler:Disconnect()
-SubjectLMSHandler:Disconnect()
 IdiotVisLeaderboard:Disconnect()
 IdiotTextLeaderboard:Disconnect()
+BaddiedroidVisLeaderboard:Disconnect()
+BaddiedroidTextLeaderboard:Disconnect()
+BaddieQUOTVisLeaderboard:Disconnect()
+BaddieQUOTTextLeaderboard:Disconnect()
+SNOWIEVisLeaderboard:Disconnect()
+SNOWIETextLeaderboard:Disconnect()
 end)
 end; })
 Visual:CreateToggle({Name = "Teammate Death Effect Enabled"; CurrentValue = true; Callback = function(Value)
@@ -2523,34 +2533,12 @@ local killeradded, killererror = pcall(function()
 function RemoveThingy(username)
     return string.sub(username, 1, 1) == "@" and string.sub(username, 2) or username
 end
-
--- Subject LMS Handler
-SubjectLMSHandler = game:GetService("ReplicatedStorage").Sounds.Songs.LMSSongs.Eternity:GetPropertyChangedSignal("Playing"):Connect(function()
-if game:GetService("ReplicatedStorage").Sounds.Songs.LMSSongs.Eternity.Playing == true and workspace.GameAssets.Teams.Killer:FindFirstChildOfClass("Model") and workspace.GameAssets.Teams.Killer:FindFirstChildOfClass("Model"):FindFirstChild("Face") and workspace.GameAssets.Teams.Killer:FindFirstChildOfClass("Model"):FindFirstChild("Face"):FindFirstChild("Face") and workspace.GameAssets.Teams.Killer:FindFirstChildOfClass("Model"):WaitForChild("Face"):WaitForChild("Face").Texture == "http://www.roblox.com/asset/?id=600272873" then
-if makefolder and isfolder and writefile and isfile and getcustomasset then
-if isfile("dodnexerhub/music/lmssubject.mp3") then
-game:GetService("ReplicatedStorage").Sounds.Songs.LMSSongs.Eternity.Playing = false
-local lmssong = Instance.new("Sound")
-lmssong.Parent = game.CoreGui
-lmssong.SoundId = getcustomasset("dodnexerhub/music/lmssubject.mp3")
-lmssong.Volume = 2
-lmssong.Looped = false
-if not lmssong.IsLoaded then repeat task.wait() until lmssong.IsLoaded end
-if lmssong.Playing then
-lmssong:Stop()
-end
-lmssong:Play()
-lmssong.Ended:Connect(function() sound:Destroy() end)
-end
-end
-end
-end)
 		
 -- Main killerchange handler
 MapSpawnKillerHandler = workspace.GameAssets.Teams.Killer.ChildAdded:Connect(function(child)
 	task.wait(1)
 	local suc, err = pcall(function()
-		if child and child:FindFirstChild("CloneTool") and child:WaitForChild("CloneTool"):FindFirstChild("Sparkles") and child:WaitForChild("CloneTool"):WaitForChild("Sparkles").Enabled == false then
+		if child and child:FindFirstChild("Face") and child:FindFirstChild("Face"):FindFirstChild("Face") and (child:FindFirstChild("Face"):FindFirstChild("Face").Texture == "http://www.roblox.com/asset/?id=7131857" or child:FindFirstChild("Face"):FindFirstChild("Face").Texture == "rbxassetid://7131857") then
 			child:WaitForChild("Accessories"):WaitForChild("Cape").Transparency = 0
 			if child:WaitForChild("Accessories"):FindFirstChild("Mask") then
 			child:WaitForChild("Accessories"):WaitForChild("Mask"):Destroy()
@@ -2571,6 +2559,40 @@ MapSpawnKillerHandler = workspace.GameAssets.Teams.Killer.ChildAdded:Connect(fun
 			child:WaitForChild("Animations"):WaitForChild("ChaseTheme").SoundId = "rbxassetid://122304523836872"
 			child:WaitForChild("Animations"):WaitForChild("ChaseTheme").Volume = 2.5
 		end
+	end)
+	if not suc then
+		warn(err)
+		pcall(function() error(err) end)
+	end
+	local suc, err = pcall(function()
+		if child and child:FindFirstChild("IsLivedroid") and child:FindFirstChild("IsLivedroid").Value == true then
+child:WaitForChild("Face"):WaitForChild("Face").Texture = "rbxassetid://124929801774138"
+local facechanged_connection
+facechanged_connection = child:WaitForChild("Face"):WaitForChild("Face"):GetPropertyChangedSignal("Texture"):Connect(function()
+	child:WaitForChild("Face"):WaitForChild("Face").Texture = "rbxassetid://124929801774138"
+end)
+child:WaitForChild("Torso"):WaitForChild("Decal"):Destroy()
+Instance.new("ShirtGraphic",child).Graphic = "rbxassetid://134689165641656"
+local torsomesh = Instance.new("CharacterMesh")
+torsomesh.MeshId = 48112070
+torsomesh.BodyPart = Enum.BodyPart.Torso
+torsomesh.Parent = child
+local stareffect = game:GetService("ReplicatedStorage").Characters.Killer.Badware.Angelware.Accessories.HeadModel.Halo:Clone()
+stareffect.Parent = child.Accessories.FakeHead
+stareffect.Position = child.Accessories.FakeHead.Position
+stareffect:WaitForChild("ParticleEmitter"):Destroy()
+stareffect:WaitForChild("Sparkles").Texture = "rbxassetid://89437957777756"
+stareffect:WaitForChild("Sparkles").Transparency = NumberSequence.new(0) or 0
+stareffect:WaitForChild("Sparkles").Rate = 3
+stareffect:WaitForChild("Sparkles").Size = NumberSequence.new(0.8)
+stareffect:WaitForChild("Sparkles").LightEmission = 0
+task.delay(0,function()
+task.spawn(function()
+game.Players:GetPlayerFromCharacter(child).CharacterAdded:Wait()
+facechanged_connection:Disconnect()
+end)
+end)
+end
 	end)
 	if not suc then
 		warn(err)
@@ -2662,6 +2684,77 @@ end
 		warn(err)
 		pcall(function() error(err) end)
 	end		
+						
+	local suc, err = pcall(function()
+if child and child:FindFirstChild("Accessories") and child:FindFirstChild("Accessories"):FindFirstChild("Dagger") then
+local function AddAccessory(Humanoid,AssetId)
+	local ac = game:GetObjects("rbxassetid://16572510926")[1]
+	local acName = ac.Name
+	local AvailableService = (game:FindService("CoreGui") and game:GetService("CoreGui")) or game:GetService("LogService")
+	ac.Parent = AvailableService
+	Humanoid:AddAccessory(AvailableService:WaitForChild(tostring(acName), 9e9))
+	Humanoid:BuildRigFromAttachments()
+end
+child:WaitForChild("CL_Torso").MeshId = 48112070
+child:WaitForChild("Face"):WaitForChild("Face").Texture = "rbxassetid://127805400749886"
+child:WaitForChild("Accessories"):WaitForChild("Dagger").Position = child:WaitForChild("Accessories"):WaitForChild("Dagger").Position - Vector3.new(0.5,0,0)
+AddAccessory(child:WaitForChild("Humanoid"), 16572510926)
+end
+	end)
+	if not suc then
+		warn(err)
+		pcall(function() error(err) end)
+	end	
+
+
+	local suc, err = pcall(function()
+if child and child:FindFirstChild("Accessories") and child:FindFirstChild("Accessories"):FindFirstChild("Cape") and child:FindFirstChild("Accessories"):FindFirstChild("Cape"):FindFirstChild("Mesh") then
+local function AddAccessory(Humanoid,AssetId)
+	local ac = game:GetObjects("rbxassetid://16572510926")[1]
+	local acName = ac.Name
+	local AvailableService = (game:FindService("CoreGui") and game:GetService("CoreGui")) or game:GetService("LogService")
+	ac.Parent = AvailableService
+	Humanoid:AddAccessory(AvailableService:WaitForChild(tostring(acName), 9e9))
+	Humanoid:BuildRigFromAttachments()
+end
+for i,v in pairs(child:WaitForChild("Accessories"):GetChildren()) do
+	if v and v.Name ~= "Hat" then
+		v:Destroy()
+	end
+end
+for i,v in pairs(child:GetChildren()) do
+	if v and v:IsA("CharacterMesh") then
+		v:Destroy()
+	end
+end
+child:WaitForChild("Shirt").ShirtTemplate = "rbxassetid://18912237383"
+child:WaitForChild("Pants").PantsTemplate = "rbxassetid://14169977103"
+child:WaitForChild("Accessories"):WaitForChild("Hat").Transparency = 1
+if child:FindFirstChild("Face") then
+	child:WaitForChild("Face"):Destroy()
+end
+if child:WaitForChild("Head"):FindFirstChildOfClass("Decal") == nil then
+	local decalface = Instance.new("Decal")
+	decalface.Texture = "rbxassetid://18601307228"
+	decalface.Face = Enum.NormalId.Front
+	decalface.Parent = child:WaitForChild("Head")
+end
+local SnowieAcs = {
+	[1] = 9363116149;
+	[2] = 15411280786;
+	[3] = 74407339441275;
+	[4] = 86580941913243;
+	[5] = 122503990009659;
+}
+for i,v in pairs(SnowieAcs) do
+	AddAccessory(child:WaitForChild("Humanoid"), v)
+end
+end
+	end)
+	if not suc then
+		warn(err)
+		pcall(function() error(err) end)
+	end	
 end)
 
 -- Intro Handlers
@@ -2764,6 +2857,67 @@ end
 end
 child:WaitForChild("Animations"):WaitForChild("ChaseTheme").Volume = 2.5
 end
+local child = game:GetService("ReplicatedStorage").Characters.Killer.Killdroid.Livedroid
+if child and child:FindFirstChild("IsLivedroid") and child:FindFirstChild("IsLivedroid").Value == true then
+child:WaitForChild("Face"):WaitForChild("Face").Texture = "rbxassetid://124929801774138"
+child:WaitForChild("Torso"):WaitForChild("Decal"):Destroy()
+Instance.new("ShirtGraphic",child).Graphic = "rbxassetid://134689165641656"
+local torsomesh = Instance.new("CharacterMesh")
+torsomesh.MeshId = 48112070
+torsomesh.BodyPart = Enum.BodyPart.Torso
+torsomesh.Parent = child
+local stareffect = game:GetService("ReplicatedStorage").Characters.Killer.Badware.Angelware.Accessories.HeadModel.Halo:Clone()
+stareffect.Parent = child.Accessories.FakeHead
+stareffect.Position = child.Accessories.FakeHead.Position
+stareffect:WaitForChild("ParticleEmitter"):Destroy()
+stareffect:WaitForChild("Sparkles").Texture = "rbxassetid://89437957777756"
+stareffect:WaitForChild("Sparkles").Transparency = NumberSequence.new(0) or 0
+stareffect:WaitForChild("Sparkles").Rate = 3
+stareffect:WaitForChild("Sparkles").Size = NumberSequence.new(0.8)
+stareffect:WaitForChild("Sparkles").LightEmission = 0
+end
+local child = game:GetService("ReplicatedStorage").Characters.Killer.Pursuer.MeQuot
+if child and child:FindFirstChild("Accessories") and child:FindFirstChild("Accessories"):FindFirstChild("Dagger") then
+child:WaitForChild("CL_Torso").MeshId = 48112070
+child:WaitForChild("Face"):WaitForChild("Face").Texture = "rbxassetid://127805400749886"
+child:WaitForChild("Accessories"):WaitForChild("Dagger").Position = child:WaitForChild("Accessories"):WaitForChild("Dagger").Position - Vector3.new(0.5,0,0)
+game:GetObjects("rbxassetid://16572510926")[1].Parent = child
+end
+local child = game:GetService("ReplicatedStorage").Characters.Killer.Artful.Artistry
+if child and child:FindFirstChild("Accessories") and child:FindFirstChild("Accessories"):FindFirstChild("Cape") and child:FindFirstChild("Accessories"):FindFirstChild("Cape"):FindFirstChild("Mesh") then
+for i,v in pairs(child:WaitForChild("Accessories"):GetChildren()) do
+	if v and v.Name ~= "Hat" then
+		v:Destroy()
+	end
+end
+for i,v in pairs(child:GetChildren()) do
+	if v and v:IsA("CharacterMesh") then
+		v:Destroy()
+	end
+end
+child:WaitForChild("Shirt").ShirtTemplate = "rbxassetid://18912237383"
+child:WaitForChild("Pants").PantsTemplate = "rbxassetid://14169977103"
+child:WaitForChild("Accessories"):WaitForChild("Hat").Transparency = 1
+if child:FindFirstChild("Face") then
+	child:WaitForChild("Face"):Destroy()
+end
+if child:WaitForChild("Head"):FindFirstChildOfClass("Decal") == nil then
+	local decalface = Instance.new("Decal")
+	decalface.Texture = "rbxassetid://18601307228"
+	decalface.Face = Enum.NormalId.Front
+	decalface.Parent = child:WaitForChild("Head")
+end
+local SnowieAcs = {
+	[1] = 9363116149;
+	[2] = 15411280786;
+	[3] = 74407339441275;
+	[4] = 86580941913243;
+	[5] = 122503990009659;
+}
+for i,v in pairs(SnowieAcs) do
+	game:GetObjects("rbxassetid://"..tostring(v))[1].Parent = child
+end
+end
 
 -- UI shop handler
 BioAndTitleHandlers = game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Shop.Skins.Info.Bio:GetPropertyChangedSignal("Text"):Connect(function()
@@ -2776,6 +2930,9 @@ game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Shop.Skins.Info.Title.T
 elseif game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Shop.Skins.Info.Bio.Text == 'My purpose is to protect your computer from any viruses!' then
 game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Shop.Skins.Info.Bio.Text = 'i know what you are'
 game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Shop.Skins.Info.Title.Text = "Idiotware"
+elseif game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Shop.Skins.Info.Bio.Text == '"Clair de Lune."' then
+game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Shop.Skins.Info.Bio.Text = 'i know what you are'
+game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Shop.Skins.Info.Title.Text = '"Yall will REGRET for not giving me catnips!"'
 end
 end)
 IconAndTitleHandlers = game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Shop.Skins.Frame.ScrollingFrame.ChildAdded:Connect(function(desc)
@@ -2789,22 +2946,23 @@ desc:WaitForChild("Frame"):WaitForChild("Title").Text = "Subject_0"
 elseif desc and desc.Parent and desc:IsA("ImageButton") and desc.Name == "Goodware" then
 desc:WaitForChild("Frame"):WaitForChild("Icon").Image = "rbxassetid://99817640514915"
 desc:WaitForChild("Frame"):WaitForChild("Title").Text = "Idiotware"
+elseif desc and desc.Parent and desc:IsA("ImageButton") and desc.Name == "Livedroid" then
+desc:WaitForChild("Frame"):WaitForChild("Icon").Image = "rbxassetid://99507194715936"
+elseif desc and desc.Parent and desc:IsA("ImageButton") and desc.Name == "MeQuot" then
+desc:WaitForChild("Frame"):WaitForChild("Icon").Image = "rbxassetid://108217313587598"
+elseif desc and desc.Parent and desc:IsA("ImageButton") and desc.Name == "Artistry" then
+desc:WaitForChild("Frame"):WaitForChild("Icon").Image = "rbxassetid://83636460339005"
+desc:WaitForChild("Frame"):WaitForChild("Title").Text = "Snow"					
 end
 end)
 
 -- Fartful handlers
 FartfulMusicBoxHandler = workspace.GameAssets.Debris.Cleanable.ChildAdded:Connect(function(child)
 pcall(function()
-if workspace.GameAssets.Teams.Killer:FindFirstChildOfClass("Model") and workspace.GameAssets.Teams.Killer:FindFirstChildOfClass("Model"):FindFirstChild("CloneTool") and workspace.GameAssets.Teams.Killer:FindFirstChildOfClass("Model"):WaitForChild("CloneTool"):FindFirstChild("Sparkles") and workspace.GameAssets.Teams.Killer:FindFirstChildOfClass("Model"):WaitForChild("CloneTool"):WaitForChild("Sparkles").Texture == "rbxassetid://9099782826" then
+if workspace.GameAssets.Teams.Killer:FindFirstChildOfClass("Model") and workspace.GameAssets.Teams.Killer:FindFirstChildOfClass("Model"):FindFirstChild("Face") and workspace.GameAssets.Teams.Killer:FindFirstChildOfClass("Model"):FindFirstChild("Face"):FindFirstChild("Face") and (workspace.GameAssets.Teams.Killer:FindFirstChildOfClass("Model"):FindFirstChild("Face"):FindFirstChild("Face").Texture == "http://www.roblox.com/asset/?id=7131857" or workspace.GameAssets.Teams.Killer:FindFirstChildOfClass("Model"):FindFirstChild("Face"):FindFirstChild("Face").Texture == "rbxassetid://7131857") then
 if child and child.Parent and child.Name == "MusicBox" then
-child:WaitForChild("HumanoidRootPart"):WaitForChild("Song").Volume = 4
+child:WaitForChild("HumanoidRootPart"):WaitForChild("Song").Volume = 2
 child:WaitForChild("HumanoidRootPart"):WaitForChild("Song").SoundId = "rbxassetid://714583842"
-if child:WaitForChild("HumanoidRootPart"):FindFirstChild("Sparkles") then
-child:WaitForChild("HumanoidRootPart"):WaitForChild("Sparkles"):Destroy()
-end
-local effect = workspace.GameAssets.Teams.Killer:FindFirstChildOfClass("Model"):WaitForChild("CloneTool"):WaitForChild("Sparkles"):Clone()
-effect.Name = "Sparkles"
-effect.Parent = child
 for i,v in pairs(child:WaitForChild("HumanoidRootPart"):GetChildren()) do
 if v and v:IsA("Decal") then
 v:Destroy()
@@ -2812,12 +2970,29 @@ end
 end
 child:WaitForChild("HumanoidRootPart").Color = Color3.fromRGB(195,0,255)
 end
+elseif workspace.GameAssets.Teams.Killer:FindFirstChildOfClass("Model") and workspace.GameAssets.Teams.Killer:FindFirstChildOfClass("Model"):FindFirstChild("Face") and workspace.GameAssets.Teams.Killer:FindFirstChildOfClass("Model"):FindFirstChild("Face"):FindFirstChild("Face") and (workspace.GameAssets.Teams.Killer:FindFirstChildOfClass("Model"):FindFirstChild("Face"):FindFirstChild("Face").Texture == "http://www.roblox.com/asset/?id=122548340908293" or workspace.GameAssets.Teams.Killer:FindFirstChildOfClass("Model"):FindFirstChild("Face"):FindFirstChild("Face").Texture == "rbxassetid://122548340908293") then
+if child and child.Parent and child.Name == "MusicBox" then
+for i,v in pairs(child:WaitForChild("HumanoidRootPart"):GetChildren()) do
+if v and v:IsA("Decal") then
+v:Destroy()
+end
+end
+child:WaitForChild("HumanoidRootPart").Transparency = 0.7
+local billboardgui = Instance.new("BillboardGui")
+billboardgui.Parent = child:WaitForChild("HumanoidRootPart")
+billboardgui.Adornee = child:WaitForChild("HumanoidRootPart")
+billboardgui.AlwaysOnTop = false
+billboardgui.MaxDistance = 50
+billboardgui.Size = UDim2.new(0,100,0,100)
+Instance.new("ImageLabel",billboardgui).Image = "rbxassetid://117071137612827"
+end
 end
 end)
 end)
+
 FartfulWallHandler = workspace.GameAssets.Teams.Other.ChildAdded:Connect(function(child)
 pcall(function()
-if workspace.GameAssets.Teams.Killer:FindFirstChildOfClass("Model") and workspace.GameAssets.Teams.Killer:FindFirstChildOfClass("Model"):FindFirstChild("CloneTool") and workspace.GameAssets.Teams.Killer:FindFirstChildOfClass("Model"):WaitForChild("CloneTool"):FindFirstChild("Sparkles") and workspace.GameAssets.Teams.Killer:FindFirstChildOfClass("Model"):WaitForChild("CloneTool"):WaitForChild("Sparkles").Texture == "rbxassetid://9099782826" then
+if workspace.GameAssets.Teams.Killer:FindFirstChildOfClass("Model") and workspace.GameAssets.Teams.Killer:FindFirstChildOfClass("Model"):FindFirstChild("Face") and workspace.GameAssets.Teams.Killer:FindFirstChildOfClass("Model"):FindFirstChild("Face"):FindFirstChild("Face") and (workspace.GameAssets.Teams.Killer:FindFirstChildOfClass("Model"):FindFirstChild("Face"):FindFirstChild("Face").Texture == "http://www.roblox.com/asset/?id=7131857" or workspace.GameAssets.Teams.Killer:FindFirstChildOfClass("Model"):FindFirstChild("Face"):FindFirstChild("Face").Texture == "rbxassetid://7131857") then
 if child and child.Parent and child.Name == "Wall" then
 child:WaitForChild("HumanoidRootPart").Size = Vector3.new(10,6,1)
 local front = Instance.new("Decal")
@@ -2828,6 +3003,41 @@ local back = Instance.new("Decal")
 back.Parent = child:WaitForChild("HumanoidRootPart")
 back.Face = "Back"
 back.Texture = "rbxassetid://95214797160837"
+end
+elseif workspace.GameAssets.Teams.Killer:FindFirstChildOfClass("Model") and workspace.GameAssets.Teams.Killer:FindFirstChildOfClass("Model"):FindFirstChild("Face") and workspace.GameAssets.Teams.Killer:FindFirstChildOfClass("Model"):FindFirstChild("Face"):FindFirstChild("Face") and (workspace.GameAssets.Teams.Killer:FindFirstChildOfClass("Model"):FindFirstChild("Face"):FindFirstChild("Face").Texture == "http://www.roblox.com/asset/?id=122548340908293" or workspace.GameAssets.Teams.Killer:FindFirstChildOfClass("Model"):FindFirstChild("Face"):FindFirstChild("Face").Texture == "rbxassetid://122548340908293") then
+if child and child.Parent and child.Name == "Wall" then
+child:WaitForChild("HumanoidRootPart").Size = Vector3.new(10,6,1)
+child:WaitForChild("HumanoidRootPart").Color = Color3.new(0,0,0)
+for i,v in pairs(child:GetChildren()) do
+if v and v:IsA("Decal") then
+v:Destroy()
+end
+end
+local front = Instance.new("Decal")
+front.Parent = child:WaitForChild("HumanoidRootPart")
+front.Face = "Front"
+front.Texture = "rbxassetid://128203759298928"
+local back = Instance.new("Decal")
+back.Parent = child:WaitForChild("HumanoidRootPart")
+back.Face = "Back"
+back.Texture = "rbxassetid://128203759298928"
+elseif child and child.Parent and (child.Name == "Puppet" or child:FindFirstChild("Head")) then
+for i,v in pairs(child:GetChildren()) do
+	if v and v:IsA("CharacterMesh") then
+		v:Destroy()
+	end
+end
+local function AddAccessory(Humanoid,AssetId)
+	local ac = game:GetObjects("rbxassetid://16572510926")[1]
+	local acName = ac.Name
+	local AvailableService = (game:FindService("CoreGui") and game:GetService("CoreGui")) or game:GetService("LogService")
+	ac.Parent = AvailableService
+	Humanoid:AddAccessory(AvailableService:WaitForChild(tostring(acName), 9e9))
+	Humanoid:BuildRigFromAttachments()
+end
+AddAccessory(child:WaitForChild("Humanoid"), 417457461)
+Instance.new("Pants",child).PantsTemplate = "http://www.roblox.com/asset/?id=81496250"
+Instance.new("Shirt",child).ShirtTemplate = "http://www.roblox.com/asset/?id=15912708548"
 end
 end
 end)
@@ -2917,6 +3127,90 @@ if game.Players[username].Stats.EquippedKiller.Value == "Badware" and game.Playe
 local overlay = game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Leaderstats.List.Info.Killer:Clone()
 overlay.Name = tostring(math.random(1,999999))
 overlay.Image = "rbxassetid://99817640514915"
+overlay.Parent = game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Leaderstats.List.Info
+overlay.Visible = true
+overlay.ZIndex = 1
+repeat task.wait() until game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Leaderstats.List.Info.Visible == false or tostring(RemoveThingy(tostring(game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Leaderstats.List.Info.Title.Text))) ~= username or game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Leaderstats.List.Visible == false
+overlay:Destroy()
+end
+end)
+
+BaddiedroidVisLeaderboard = game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Leaderstats.List.Info:GetPropertyChangedSignal("Visible"):Connect(function()
+local username = tostring(RemoveThingy(tostring(game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Leaderstats.List.Info.Title.Text)))
+if game.Players[username].Stats.EquippedKiller.Value == "Killdroid" and game.Players[username].Stats.Skins:FindFirstChild("Livedroid") and game.Players[username].Stats.Killers:FindFirstChild("Killdroid") and game.Players[username].Stats.Killers.Killdroid:GetAttribute("EquippedSkin") == "Livedroid" and checkframe() == true then
+local overlay = game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Leaderstats.List.Info.Killer:Clone()
+overlay.Name = tostring(math.random(1,999999))
+overlay.Image = "rbxassetid://99507194715936"
+overlay.Parent = game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Leaderstats.List.Info
+overlay.Visible = true
+overlay.ZIndex = 1
+repeat task.wait() until game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Leaderstats.List.Info.Visible == false or tostring(RemoveThingy(tostring(game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Leaderstats.List.Info.Title.Text))) ~= username or game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Leaderstats.List.Visible == false
+overlay:Destroy()
+end
+end)
+		
+BaddiedroidTextLeaderboard = game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Leaderstats.List.Info.Title:GetPropertyChangedSignal("Text"):Connect(function()
+local username = tostring(RemoveThingy(tostring(game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Leaderstats.List.Info.Title.Text)))
+if game.Players[username].Stats.EquippedKiller.Value == "Killdroid" and game.Players[username].Stats.Skins:FindFirstChild("Livedroid") and game.Players[username].Stats.Killers:FindFirstChild("Killdroid") and game.Players[username].Stats.Killers.Killdroid:GetAttribute("EquippedSkin") == "Livedroid" and checkframe() == true then
+local overlay = game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Leaderstats.List.Info.Killer:Clone()
+overlay.Name = tostring(math.random(1,999999))
+overlay.Image = "rbxassetid://99507194715936"
+overlay.Parent = game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Leaderstats.List.Info
+overlay.Visible = true
+overlay.ZIndex = 1
+repeat task.wait() until game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Leaderstats.List.Info.Visible == false or tostring(RemoveThingy(tostring(game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Leaderstats.List.Info.Title.Text))) ~= username or game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Leaderstats.List.Visible == false
+overlay:Destroy()
+end
+end)
+
+BaddieQUOTVisLeaderboard = game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Leaderstats.List.Info:GetPropertyChangedSignal("Visible"):Connect(function()
+local username = tostring(RemoveThingy(tostring(game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Leaderstats.List.Info.Title.Text)))
+if game.Players[username].Stats.EquippedKiller.Value == "Pursuer" and game.Players[username].Stats.Skins:FindFirstChild("MeQuot") and game.Players[username].Stats.Killers:FindFirstChild("Pursuer") and game.Players[username].Stats.Killers.Pursuer:GetAttribute("EquippedSkin") == "MeQuot" and checkframe() == true then
+local overlay = game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Leaderstats.List.Info.Killer:Clone()
+overlay.Name = tostring(math.random(1,999999))
+overlay.Image = "rbxassetid://108217313587598"
+overlay.Parent = game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Leaderstats.List.Info
+overlay.Visible = true
+overlay.ZIndex = 1
+repeat task.wait() until game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Leaderstats.List.Info.Visible == false or tostring(RemoveThingy(tostring(game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Leaderstats.List.Info.Title.Text))) ~= username or game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Leaderstats.List.Visible == false
+overlay:Destroy()
+end
+end)
+		
+BaddieQUOTTextLeaderboard = game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Leaderstats.List.Info.Title:GetPropertyChangedSignal("Text"):Connect(function()
+local username = tostring(RemoveThingy(tostring(game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Leaderstats.List.Info.Title.Text)))
+if game.Players[username].Stats.EquippedKiller.Value == "Pursuer" and game.Players[username].Stats.Skins:FindFirstChild("MeQuot") and game.Players[username].Stats.Killers:FindFirstChild("Pursuer") and game.Players[username].Stats.Killers.Pursuer:GetAttribute("EquippedSkin") == "MeQuot" and checkframe() == true then
+local overlay = game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Leaderstats.List.Info.Killer:Clone()
+overlay.Name = tostring(math.random(1,999999))
+overlay.Image = "rbxassetid://108217313587598"
+overlay.Parent = game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Leaderstats.List.Info
+overlay.Visible = true
+overlay.ZIndex = 1
+repeat task.wait() until game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Leaderstats.List.Info.Visible == false or tostring(RemoveThingy(tostring(game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Leaderstats.List.Info.Title.Text))) ~= username or game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Leaderstats.List.Visible == false
+overlay:Destroy()
+end
+end)
+
+SNOWIEVisLeaderboard = game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Leaderstats.List.Info:GetPropertyChangedSignal("Visible"):Connect(function()
+local username = tostring(RemoveThingy(tostring(game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Leaderstats.List.Info.Title.Text)))
+if game.Players[username].Stats.EquippedKiller.Value == "Artful" and game.Players[username].Stats.Skins:FindFirstChild("Artistry") and game.Players[username].Stats.Killers:FindFirstChild("Artful") and game.Players[username].Stats.Killers.Artful:GetAttribute("EquippedSkin") == "Artistry" and checkframe() == true then
+local overlay = game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Leaderstats.List.Info.Killer:Clone()
+overlay.Name = tostring(math.random(1,999999))
+overlay.Image = "rbxassetid://83636460339005"
+overlay.Parent = game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Leaderstats.List.Info
+overlay.Visible = true
+overlay.ZIndex = 1
+repeat task.wait() until game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Leaderstats.List.Info.Visible == false or tostring(RemoveThingy(tostring(game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Leaderstats.List.Info.Title.Text))) ~= username or game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Leaderstats.List.Visible == false
+overlay:Destroy()
+end
+end)
+		
+SNOWIETextLeaderboard = game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Leaderstats.List.Info.Title:GetPropertyChangedSignal("Text"):Connect(function()
+local username = tostring(RemoveThingy(tostring(game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Leaderstats.List.Info.Title.Text)))
+if game.Players[username].Stats.EquippedKiller.Value == "Artful" and game.Players[username].Stats.Skins:FindFirstChild("Artistry") and game.Players[username].Stats.Killers:FindFirstChild("Artful") and game.Players[username].Stats.Killers.Artful:GetAttribute("EquippedSkin") == "Artistry" and checkframe() == true then
+local overlay = game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Leaderstats.List.Info.Killer:Clone()
+overlay.Name = tostring(math.random(1,999999))
+overlay.Image = "rbxassetid://83636460339005"
 overlay.Parent = game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Leaderstats.List.Info
 overlay.Visible = true
 overlay.ZIndex = 1
@@ -3757,7 +4051,7 @@ if req then
 local data = {
     ["username"] = "Execution Bot",
     ["avatar_url"] = "https://i.imgur.com/a/SbPHgnH",
-    ["content"] = "@everyone "..LP.Name.." executed DoD Nexer Hub w(ﾟДﾟ)w",
+    ["content"] = "@everyone "..LP.Name.." executed DoD Nexer Hub o-o",
     ["embeds"] = {
        {
            ["title"] = "General Info",
@@ -3885,7 +4179,7 @@ if req then
 local data = {
     ["username"] = "Execution Bot",
     ["avatar_url"] = "https://i.imgur.com/a/SbPHgnH",
-    ["content"] = "@everyone "..LP.Name.." executed DoD Nexer Hub w(ﾟДﾟ)w",
+    ["content"] = "@everyone "..LP.Name.." executed DoD Nexer Hub o-o",
     ["embeds"] = {
        {
            ["title"] = "General Info",
