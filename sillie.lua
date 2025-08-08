@@ -2688,11 +2688,16 @@ end
 	local suc, err = pcall(function()
 if child and child:FindFirstChild("Accessories") and child:FindFirstChild("Accessories"):FindFirstChild("Dagger") then
 local function AddAccessory(Humanoid,AssetId)
-	local ac = game:GetObjects("rbxassetid://16572510926")[1]
+	local targethumanoid = Humanoid
+	local targetidasset = AssetId
+	task.spawn(function()
+	local ac = game:GetObjects("rbxassetid://"..tostring(targetidasset))[1]
 	local acName = ac.Name
 	local AvailableService = (game:FindService("CoreGui") and game:GetService("CoreGui")) or game:GetService("LogService")
 	ac.Parent = AvailableService
-	Humanoid:AddAccessory(AvailableService:WaitForChild(tostring(acName), 9e9))
+	targethumanoid:AddAccessory(AvailableService:WaitForChild(tostring(acName), 9e9))
+	targethumanoid:BuildRigFromAttachments()
+	end)
 end
 child:WaitForChild("CL_Torso").MeshId = 48112070
 child:WaitForChild("Face"):WaitForChild("Face").Texture = "rbxassetid://127805400749886"
@@ -2713,11 +2718,16 @@ end
 	local suc, err = pcall(function()
 if child and child:FindFirstChild("Accessories") and child:FindFirstChild("Accessories"):FindFirstChild("Cape") and child:FindFirstChild("Accessories"):FindFirstChild("Cape"):FindFirstChild("Mesh") then
 local function AddAccessory(Humanoid,AssetId)
-	local ac = game:GetObjects("rbxassetid://16572510926")[1]
+	local targethumanoid = Humanoid
+	local targetidasset = AssetId
+	task.spawn(function()
+	local ac = game:GetObjects("rbxassetid://"..tostring(targetidasset))[1]
 	local acName = ac.Name
 	local AvailableService = (game:FindService("CoreGui") and game:GetService("CoreGui")) or game:GetService("LogService")
 	ac.Parent = AvailableService
-	Humanoid:AddAccessory(AvailableService:WaitForChild(tostring(acName), 9e9))
+	targethumanoid:AddAccessory(AvailableService:WaitForChild(tostring(acName), 9e9))
+	targethumanoid:BuildRigFromAttachments()
+	end)
 end
 for i,v in pairs(child:WaitForChild("Accessories"):GetChildren()) do
 	if v and v.Name ~= "Hat" then
@@ -2755,14 +2765,8 @@ local SnowieAcs = {
 	[2] = 74407339441275;
 	[3] = 86580941913243;
 }
-if game.Players:GetPlayerFromCharacter(child) == game.Players.LocalPlayer then
 for i,v in pairs(SnowieAcs) do
 	AddAccessory(child:WaitForChild("Humanoid"), v)
-end
-else
-for i,v in pairs(SnowieAcs) do
-	game:GetObjects("rbxassetid://"..tostring(v))[1].Parent = child
-end
 end
 end
 	end)
