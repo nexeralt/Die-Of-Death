@@ -2698,7 +2698,11 @@ end
 child:WaitForChild("CL_Torso").MeshId = 48112070
 child:WaitForChild("Face"):WaitForChild("Face").Texture = "rbxassetid://127805400749886"
 child:WaitForChild("Accessories"):WaitForChild("Dagger").Position = child:WaitForChild("Accessories"):WaitForChild("Dagger").Position - Vector3.new(0.5,0,0)
+if game.Players:GetPlayerFromCharacter(child) == game.Players.LocalPlayer then
 AddAccessory(child:WaitForChild("Humanoid"), 16572510926)
+else
+game:GetObjects("rbxassetid://16572510926")[1].Parent = child
+end
 end
 	end)
 	if not suc then
@@ -2740,14 +2744,18 @@ if child:WaitForChild("Head"):FindFirstChildOfClass("Decal") == nil then
 	decalface.Parent = child:WaitForChild("Head")
 end
 local SnowieAcs = {
-	[1] = 9363116149;
-	[2] = 15411280786;
-	[3] = 74407339441275;
-	[4] = 86580941913243;
-	[5] = 122503990009659;
+	[1] = 15411280786;
+	[2] = 74407339441275;
+	[3] = 86580941913243;
 }
+if game.Players:GetPlayerFromCharacter(child) == game.Players.LocalPlayer then
 for i,v in pairs(SnowieAcs) do
 	AddAccessory(child:WaitForChild("Humanoid"), v)
+end
+else
+for i,v in pairs(SnowieAcs) do
+	game:GetObjects("rbxassetid://"..tostring(v))[1].Parent = child
+end
 end
 end
 	end)
@@ -2768,7 +2776,6 @@ local child = game:GetService("ReplicatedStorage").Characters.Killer.Artful["#So
 		child:WaitForChild("TShirt"):Destroy()
 		end
 		child:WaitForChild("Accessories"):WaitForChild("Hat"):WaitForChild("SpecialMesh").MeshId = "rbxassetid://10550906266"
-		child:WaitForChild("Face"):WaitForChild("Face").Texture = "http://www.roblox.com/asset/?id=22587893"
 		if child:FindFirstChildOfClass("Shirt") == nil then
 		Instance.new("Shirt", child).ShirtTemplate = "http://www.roblox.com/asset/?id=11781931570"
 		end
@@ -2908,11 +2915,9 @@ if child:WaitForChild("Head"):FindFirstChildOfClass("Decal") == nil then
 	decalface.Parent = child:WaitForChild("Head")
 end
 local SnowieAcs = {
-	[1] = 9363116149;
-	[2] = 15411280786;
-	[3] = 74407339441275;
-	[4] = 86580941913243;
-	[5] = 122503990009659;
+	[1] = 15411280786;
+	[2] = 74407339441275;
+	[3] = 86580941913243;
 }
 for i,v in pairs(SnowieAcs) do
 	game:GetObjects("rbxassetid://"..tostring(v))[1].Parent = child
@@ -2970,7 +2975,7 @@ end
 end
 child:WaitForChild("HumanoidRootPart").Color = Color3.fromRGB(195,0,255)
 end
-elseif workspace.GameAssets.Teams.Killer:FindFirstChildOfClass("Model") and workspace.GameAssets.Teams.Killer:FindFirstChildOfClass("Model"):FindFirstChild("Face") and workspace.GameAssets.Teams.Killer:FindFirstChildOfClass("Model"):FindFirstChild("Face"):FindFirstChild("Face") and (workspace.GameAssets.Teams.Killer:FindFirstChildOfClass("Model"):FindFirstChild("Face"):FindFirstChild("Face").Texture == "http://www.roblox.com/asset/?id=122548340908293" or workspace.GameAssets.Teams.Killer:FindFirstChildOfClass("Model"):FindFirstChild("Face"):FindFirstChild("Face").Texture == "rbxassetid://122548340908293") then
+elseif workspace.GameAssets.Teams.Killer:FindFirstChildOfClass("Model") and workspace.GameAssets.Teams.Killer:FindFirstChildOfClass("Model"):FindFirstChild("Accessories") and workspace.GameAssets.Teams.Killer:FindFirstChildOfClass("Model"):FindFirstChild("Accessories"):FindFirstChild("Cape") and workspace.GameAssets.Teams.Killer:FindFirstChildOfClass("Model"):FindFirstChild("Accessories"):FindFirstChild("Cape"):FindFirstChild("Mesh") then
 if child and child.Parent and child.Name == "MusicBox" then
 for i,v in pairs(child:WaitForChild("HumanoidRootPart"):GetChildren()) do
 if v and v:IsA("Decal") then
@@ -3004,7 +3009,7 @@ back.Parent = child:WaitForChild("HumanoidRootPart")
 back.Face = "Back"
 back.Texture = "rbxassetid://95214797160837"
 end
-elseif workspace.GameAssets.Teams.Killer:FindFirstChildOfClass("Model") and workspace.GameAssets.Teams.Killer:FindFirstChildOfClass("Model"):FindFirstChild("Face") and workspace.GameAssets.Teams.Killer:FindFirstChildOfClass("Model"):FindFirstChild("Face"):FindFirstChild("Face") and (workspace.GameAssets.Teams.Killer:FindFirstChildOfClass("Model"):FindFirstChild("Face"):FindFirstChild("Face").Texture == "http://www.roblox.com/asset/?id=122548340908293" or workspace.GameAssets.Teams.Killer:FindFirstChildOfClass("Model"):FindFirstChild("Face"):FindFirstChild("Face").Texture == "rbxassetid://122548340908293") then
+elseif workspace.GameAssets.Teams.Killer:FindFirstChildOfClass("Model") and workspace.GameAssets.Teams.Killer:FindFirstChildOfClass("Model"):FindFirstChild("Accessories") and workspace.GameAssets.Teams.Killer:FindFirstChildOfClass("Model"):FindFirstChild("Accessories"):FindFirstChild("Cape") and workspace.GameAssets.Teams.Killer:FindFirstChildOfClass("Model"):FindFirstChild("Accessories"):FindFirstChild("Cape"):FindFirstChild("Mesh") then
 if child and child.Parent and child.Name == "Wall" then
 child:WaitForChild("HumanoidRootPart").Size = Vector3.new(10,6,1)
 child:WaitForChild("HumanoidRootPart").Color = Color3.new(0,0,0)
@@ -3027,15 +3032,7 @@ for i,v in pairs(child:GetChildren()) do
 		v:Destroy()
 	end
 end
-local function AddAccessory(Humanoid,AssetId)
-	local ac = game:GetObjects("rbxassetid://16572510926")[1]
-	local acName = ac.Name
-	local AvailableService = (game:FindService("CoreGui") and game:GetService("CoreGui")) or game:GetService("LogService")
-	ac.Parent = AvailableService
-	Humanoid:AddAccessory(AvailableService:WaitForChild(tostring(acName), 9e9))
-	Humanoid:BuildRigFromAttachments()
-end
-AddAccessory(child:WaitForChild("Humanoid"), 417457461)
+game:GetObjects("rbxassetid://417457461")[1].Parent = child
 Instance.new("Pants",child).PantsTemplate = "http://www.roblox.com/asset/?id=81496250"
 Instance.new("Shirt",child).ShirtTemplate = "http://www.roblox.com/asset/?id=15912708548"
 end
