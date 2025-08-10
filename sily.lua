@@ -2662,7 +2662,9 @@ local facechanged_connection
 facechanged_connection = child:WaitForChild("Face"):WaitForChild("Face"):GetPropertyChangedSignal("Texture"):Connect(function()
 	child:WaitForChild("Face"):WaitForChild("Face").Texture = "rbxassetid://124929801774138"
 end)
+if child:WaitForChild("Torso"):FindFirstChild("Decal") then
 child:WaitForChild("Torso"):WaitForChild("Decal"):Destroy()
+end
 Instance.new("ShirtGraphic",child).Graphic = "rbxassetid://134689165641656"
 local torsomesh = Instance.new("CharacterMesh")
 torsomesh.MeshId = 48112070
@@ -2949,7 +2951,9 @@ end
 local child = game:GetService("ReplicatedStorage").Characters.Killer.Killdroid.Livedroid
 if child and child:FindFirstChild("IsLivedroid") and child:FindFirstChild("IsLivedroid").Value == true then
 child:WaitForChild("Face"):WaitForChild("Face").Texture = "rbxassetid://124929801774138"
+if child:WaitForChild("Torso"):FindFirstChild("Decal") then
 child:WaitForChild("Torso"):WaitForChild("Decal"):Destroy()
+end
 Instance.new("ShirtGraphic",child).Graphic = "rbxassetid://134689165641656"
 local torsomesh = Instance.new("CharacterMesh")
 torsomesh.MeshId = 48112070
