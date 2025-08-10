@@ -2558,7 +2558,7 @@ function weldAttachments(attach1, attach2)
   return weld
 end
 
-function buildWeld(weldName, parent, part0, part1, c0, c1)
+local function buildWeld(weldName, parent, part0, part1, c0, c1)
   local weld = Instance.new("Weld")
   weld.Name = weldName
   weld.Part0 = part0
@@ -2569,7 +2569,7 @@ function buildWeld(weldName, parent, part0, part1, c0, c1)
   return weld
 end
 
-function findFirstMatchingAttachment(model, name)
+local function findFirstMatchingAttachment(model, name)
   for _, child in pairs(model:GetChildren()) do
     if child:IsA("Attachment") and child.Name == name then
       return child
@@ -3059,14 +3059,15 @@ desc:WaitForChild("Frame"):WaitForChild("Icon").Image = "rbxassetid://9950719471
 elseif desc and desc.Parent and desc:IsA("ImageButton") and desc.Name == "MeQuot" then
 desc:WaitForChild("Frame"):WaitForChild("Icon").Image = "rbxassetid://108217313587598"
 elseif desc and desc.Parent and desc:IsA("ImageButton") and desc.Name == "Artistry" then
-desc:WaitForChild("Frame"):WaitForChild("Icon").Image = "rbxassetid://70961148607759"
+desc:WaitForChild("Frame"):WaitForChild("Icon").Image = "rbxassetid://83636460339005"
 desc:WaitForChild("Frame"):WaitForChild("Title").Text = "Snow"					
 end
 end)
 
 -- Fartful handlers
 FartfulMusicBoxHandler = workspace.GameAssets.Debris.Cleanable.ChildAdded:Connect(function(child)
-pcall(function()
+
+local everythinggood, everythingbad = pcall(function()
 if workspace.GameAssets.Teams.Killer:FindFirstChildOfClass("Model") and workspace.GameAssets.Teams.Killer:FindFirstChildOfClass("Model"):FindFirstChild("Face") and workspace.GameAssets.Teams.Killer:FindFirstChildOfClass("Model"):FindFirstChild("Face"):FindFirstChild("Face") and (workspace.GameAssets.Teams.Killer:FindFirstChildOfClass("Model"):FindFirstChild("Face"):FindFirstChild("Face").Texture == "http://www.roblox.com/asset/?id=7131857" or workspace.GameAssets.Teams.Killer:FindFirstChildOfClass("Model"):FindFirstChild("Face"):FindFirstChild("Face").Texture == "rbxassetid://7131857") then
 if child and child.Parent and child.Name == "MusicBox" then
 child:WaitForChild("HumanoidRootPart"):WaitForChild("Song").Volume = 1.5
@@ -3101,10 +3102,13 @@ Instance.new("ImageLabel",billboardgui).Image = "rbxassetid://106696946880330"
 end
 end
 end)
+if not everythinggood then
+warn(everythingbad)
+end
 end)
 
 FartfulWallHandler = workspace.GameAssets.Teams.Other.ChildAdded:Connect(function(child)
-pcall(function()
+local everythinggood, everythingbad = pcall(function()
 if workspace.GameAssets.Teams.Killer:FindFirstChildOfClass("Model") and workspace.GameAssets.Teams.Killer:FindFirstChildOfClass("Model"):FindFirstChild("Face") and workspace.GameAssets.Teams.Killer:FindFirstChildOfClass("Model"):FindFirstChild("Face"):FindFirstChild("Face") and (workspace.GameAssets.Teams.Killer:FindFirstChildOfClass("Model"):FindFirstChild("Face"):FindFirstChild("Face").Texture == "http://www.roblox.com/asset/?id=7131857" or workspace.GameAssets.Teams.Killer:FindFirstChildOfClass("Model"):FindFirstChild("Face"):FindFirstChild("Face").Texture == "rbxassetid://7131857") then
 if child and child.Parent and child.Name == "Wall" then
 child:WaitForChild("HumanoidRootPart").Size = Vector3.new(10,6,1)
@@ -3146,6 +3150,9 @@ Instance.new("Shirt",child).ShirtTemplate = "http://www.roblox.com/asset/?id=159
 end
 end
 end)
+if not everythinggood then
+warn(everythingbad)
+end
 end)
 
 -- Leaderboard handler
@@ -3301,7 +3308,7 @@ local username = tostring(RemoveThingy(tostring(game:GetService("Players").Local
 if game.Players[username].Stats.EquippedKiller.Value == "Artful" and game.Players[username].Stats.Skins:FindFirstChild("Artistry") and game.Players[username].Stats.Killers:FindFirstChild("Artful") and game.Players[username].Stats.Killers.Artful:GetAttribute("EquippedSkin") == "Artistry" and checkframe() == true then
 local overlay = game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Leaderstats.List.Info.Killer:Clone()
 overlay.Name = tostring(math.random(1,999999))
-overlay.Image = "rbxassetid://83636460339005"
+overlay.Image = "rbxassetid://70961148607759"
 overlay.Parent = game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Leaderstats.List.Info
 overlay.Visible = true
 overlay.ZIndex = 1
@@ -3315,7 +3322,7 @@ local username = tostring(RemoveThingy(tostring(game:GetService("Players").Local
 if game.Players[username].Stats.EquippedKiller.Value == "Artful" and game.Players[username].Stats.Skins:FindFirstChild("Artistry") and game.Players[username].Stats.Killers:FindFirstChild("Artful") and game.Players[username].Stats.Killers.Artful:GetAttribute("EquippedSkin") == "Artistry" and checkframe() == true then
 local overlay = game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Leaderstats.List.Info.Killer:Clone()
 overlay.Name = tostring(math.random(1,999999))
-overlay.Image = "rbxassetid://83636460339005"
+overlay.Image = "rbxassetid://70961148607759"
 overlay.Parent = game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Leaderstats.List.Info
 overlay.Visible = true
 overlay.ZIndex = 1
