@@ -2826,7 +2826,7 @@ local SnowieAcs = {
   [3] = 86580941913243;
 }
 for i,v in ipairs(SnowieAcs) do
-AddAccessory(game.Players.LocalPlayer.Character, game:GetObjects("rbxassetid://"..tostring(v))[1])
+AddAccessory(child, game:GetObjects("rbxassetid://"..tostring(v))[1])
 end
 if makefolder and isfolder and writefile and isfile and getcustomasset then
 if isfile("dodnexerhub/music/snowie.mp3") then
