@@ -26,6 +26,9 @@ end
 if not isfile("dodnexerhub/music/lmssubject.mp3") then
 writefile("dodnexerhub/music/lmssubject.mp3", game:HttpGet("https://raw.githubusercontent.com/nexeralt/Die-Of-Death/refs/heads/main/Assets/LMS/subjectlms.mp3"))
 end
+if not isfile("dodnexerhub/music/snowie.mp3") then
+writefile("dodnexerhub/music/snowie.mp3", game:HttpGet("https://raw.githubusercontent.com/nexeralt/Die-Of-Death/refs/heads/main/Assets/ChaseThemes/Wibbly%20Wobbly%20Woo.mp3"))
+end
 end
 
 function getplrspeed(plr)
@@ -2527,7 +2530,95 @@ cmdbar:CreateButton({Name = "or click me to copy pastebin link with all cmds!"; 
 setclipboard(tostring("https://pastebin.com/raw/3VZyG7iD"))
 end; })
 
---[[  custom skins handlers ]]--
+--[[  
+		
+		
+		
+		
+		custom skins handlers 
+		
+		
+		
+		
+		
+		
+		
+		
+]]--
+
+
+
+function weldAttachments(attach1, attach2)
+  local weld = Instance.new("Weld")
+  weld.Part0 = attach1.Parent
+  weld.Part1 = attach2.Parent
+  weld.C0 = attach1.CFrame
+  weld.C1 = attach2.CFrame
+  weld.Parent = attach1.Parent
+  return weld
+end
+
+function buildWeld(weldName, parent, part0, part1, c0, c1)
+  local weld = Instance.new("Weld")
+  weld.Name = weldName
+  weld.Part0 = part0
+  weld.Part1 = part1
+  weld.C0 = c0
+  weld.C1 = c1
+  weld.Parent = parent
+  return weld
+end
+
+function findFirstMatchingAttachment(model, name)
+  for _, child in pairs(model:GetChildren()) do
+    if child:IsA("Attachment") and child.Name == name then
+      return child
+    elseif not child:IsA("Accoutrement") and not child:IsA("Tool") then -- Don't look in hats or tools in the character
+      local foundAttachment = findFirstMatchingAttachment(child, name)
+      if foundAttachment then
+        return foundAttachment
+      end
+    end
+  end
+end
+
+function AddAccessory(character, accoutrement)  
+  accoutrement.Parent = character
+  local handle = accoutrement:FindFirstChild("Handle")
+  if handle then
+    local accoutrementAttachment = handle:FindFirstChildOfClass("Attachment")
+    if accoutrementAttachment then
+      local characterAttachment = findFirstMatchingAttachment(character, accoutrementAttachment.Name)
+      if characterAttachment then
+        weldAttachments(characterAttachment, accoutrementAttachment)
+      end
+    else
+      local head = character:FindFirstChild("Head")
+      if head then
+        local attachmentCFrame = CFrame.new(0, 0.5, 0)
+        local hatCFrame = accoutrement.AttachmentPoint
+        buildWeld("HeadWeld", head, head, handle, attachmentCFrame, hatCFrame)
+      end
+    end
+  end
+end
+
+
+
+--[[local SnowieAcs = {
+  [1] = 15411280786;
+  [2] = 74407339441275;
+  [3] = 86580941913243;
+}
+
+for i,v in ipairs(SnowieAcs) do
+AddAccessory(game.Players.LocalPlayer.Character, game:GetObjects("rbxassetid://"..tostring(v))[1])
+end]]--
+
+
+
+
+		
 local killeradded, killererror = pcall(function()
 
 function RemoveThingy(username)
@@ -2687,26 +2778,10 @@ end
 						
 	local suc, err = pcall(function()
 if child and child:FindFirstChild("Accessories") and child:FindFirstChild("Accessories"):FindFirstChild("Dagger") then
-local function AddAccessory(Humanoid,AssetId)
-	local targethumanoid = Humanoid
-	local targetidasset = AssetId
-	local ac = game:GetObjects("rbxassetid://"..tostring(targetidasset))[1]
-	local acName = ac.Name
-	local AvailableService = (game:FindService("CoreGui") and game:GetService("CoreGui")) or game:GetService("LogService")
-	ac.Parent = AvailableService
-	targethumanoid:AddAccessory(AvailableService:WaitForChild(tostring(acName), 9e9))
-end
-local function ApplyAccessories(Humanoid)
-	local targethumanoid = Humanoid
-	targethumanoid:BuildRigFromAttachments()
-	task.wait(1)
-	pcall(function() targethumanoid.HipHeight = 0 end)
-end
 child:WaitForChild("CL_Torso").MeshId = 48112070
 child:WaitForChild("Face"):WaitForChild("Face").Texture = "rbxassetid://127805400749886"
 child:WaitForChild("Accessories"):WaitForChild("Dagger").Position = child:WaitForChild("Accessories"):WaitForChild("Dagger").Position - Vector3.new(0.5,0,0)
-AddAccessory(child:WaitForChild("Humanoid"), 16572510926)
-ApplyAccessories(child:WaitForChild("Humanoid"))
+AddAccessory(child, game:GetObjects("rbxassetid://16572510926")[1])
 end
 	end)
 	if not suc then
@@ -2717,21 +2792,6 @@ end
 
 	local suc, err = pcall(function()
 if child and child:FindFirstChild("Accessories") and child:FindFirstChild("Accessories"):FindFirstChild("Cape") and child:FindFirstChild("Accessories"):FindFirstChild("Cape"):FindFirstChild("Mesh") then
-local function AddAccessory(Humanoid,AssetId)
-	local targethumanoid = Humanoid
-	local targetidasset = AssetId
-	local ac = game:GetObjects("rbxassetid://"..tostring(targetidasset))[1]
-	local acName = ac.Name
-	local AvailableService = (game:FindService("CoreGui") and game:GetService("CoreGui")) or game:GetService("LogService")
-	ac.Parent = AvailableService
-	targethumanoid:AddAccessory(AvailableService:WaitForChild(tostring(acName), 9e9))
-end
-local function ApplyAccessories(Humanoid)
-	local targethumanoid = Humanoid
-	targethumanoid:BuildRigFromAttachments()
-	task.wait(1)
-	pcall(function() targethumanoid.HipHeight = 0 end)
-end
 for i,v in pairs(child:WaitForChild("Accessories"):GetChildren()) do
 	if v and v.Name ~= "Hat" then
 		v:Destroy()
@@ -2764,14 +2824,21 @@ if child:WaitForChild("Head"):FindFirstChildOfClass("Decal") == nil then
 	decalface.Parent = child:WaitForChild("Head")
 end
 local SnowieAcs = {
-	[1] = 15411280786;
-	[2] = 74407339441275;
-	[3] = 86580941913243;
+  [1] = 15411280786;
+  [2] = 74407339441275;
+  [3] = 86580941913243;
 }
-for i,v in pairs(SnowieAcs) do
-	AddAccessory(child:WaitForChild("Humanoid"), v)
+for i,v in ipairs(SnowieAcs) do
+AddAccessory(game.Players.LocalPlayer.Character, game:GetObjects("rbxassetid://"..tostring(v))[1])
 end
-ApplyAccessories(child:WaitForChild("Humanoid"))
+if makefolder and isfolder and writefile and isfile and getcustomasset then
+if isfile("dodnexerhub/music/snowie.mp3") then
+child:WaitForChild("Animations"):WaitForChild("ChaseTheme").SoundId = getcustomasset("dodnexerhub/music/snowie.mp3")
+end
+end
+child:WaitForChild("Animations"):WaitForChild("ChaseTheme").Volume = 2.5
+child:WaitForChild("HumanoidRootPart"):WaitForChild("Hit").SoundId = "rbxassetid://134699420140804"
+child:WaitForChild("HumanoidRootPart"):WaitForChild("Hit").Volume = 1.5
 end
 	end)
 	if not suc then
@@ -2946,6 +3013,14 @@ local SnowieAcs = {
 for i,v in pairs(SnowieAcs) do
 	game:GetObjects("rbxassetid://"..tostring(v))[1].Parent = child
 end
+if makefolder and isfolder and writefile and isfile and getcustomasset then
+if isfile("dodnexerhub/music/snowie.mp3") then
+child:WaitForChild("Animations"):WaitForChild("ChaseTheme").SoundId = getcustomasset("dodnexerhub/music/snowie.mp3")
+end
+end
+child:WaitForChild("Animations"):WaitForChild("ChaseTheme").Volume = 2.5
+child:WaitForChild("HumanoidRootPart"):WaitForChild("Hit").SoundId = "rbxassetid://134699420140804"
+child:WaitForChild("HumanoidRootPart"):WaitForChild("Hit").Volume = 1.5
 end
 
 -- UI shop handler
@@ -2960,7 +3035,7 @@ elseif game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Shop.Skins.Info.
 game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Shop.Skins.Info.Bio.Text = 'i know what you are'
 game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Shop.Skins.Info.Title.Text = "Idiotware"
 elseif game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Shop.Skins.Info.Bio.Text == '"Clair de Lune."' then
-game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Shop.Skins.Info.Bio.Text = '"Yall will REGRET for not giving me catnips!"'
+game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Shop.Skins.Info.Bio.Text = '"Stabby wooh wooh! :3"'
 game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Shop.Skins.Info.Title.Text = 'Snow'
 end
 end)
@@ -2980,7 +3055,7 @@ desc:WaitForChild("Frame"):WaitForChild("Icon").Image = "rbxassetid://9950719471
 elseif desc and desc.Parent and desc:IsA("ImageButton") and desc.Name == "MeQuot" then
 desc:WaitForChild("Frame"):WaitForChild("Icon").Image = "rbxassetid://108217313587598"
 elseif desc and desc.Parent and desc:IsA("ImageButton") and desc.Name == "Artistry" then
-desc:WaitForChild("Frame"):WaitForChild("Icon").Image = "rbxassetid://83636460339005"
+desc:WaitForChild("Frame"):WaitForChild("Icon").Image = "rbxassetid://70961148607759"
 desc:WaitForChild("Frame"):WaitForChild("Title").Text = "Snow"					
 end
 end)
@@ -2990,7 +3065,7 @@ FartfulMusicBoxHandler = workspace.GameAssets.Debris.Cleanable.ChildAdded:Connec
 pcall(function()
 if workspace.GameAssets.Teams.Killer:FindFirstChildOfClass("Model") and workspace.GameAssets.Teams.Killer:FindFirstChildOfClass("Model"):FindFirstChild("Face") and workspace.GameAssets.Teams.Killer:FindFirstChildOfClass("Model"):FindFirstChild("Face"):FindFirstChild("Face") and (workspace.GameAssets.Teams.Killer:FindFirstChildOfClass("Model"):FindFirstChild("Face"):FindFirstChild("Face").Texture == "http://www.roblox.com/asset/?id=7131857" or workspace.GameAssets.Teams.Killer:FindFirstChildOfClass("Model"):FindFirstChild("Face"):FindFirstChild("Face").Texture == "rbxassetid://7131857") then
 if child and child.Parent and child.Name == "MusicBox" then
-child:WaitForChild("HumanoidRootPart"):WaitForChild("Song").Volume = 2
+child:WaitForChild("HumanoidRootPart"):WaitForChild("Song").Volume = 1.5
 child:WaitForChild("HumanoidRootPart"):WaitForChild("Song").SoundId = "rbxassetid://714583842"
 for i,v in pairs(child:WaitForChild("HumanoidRootPart"):GetChildren()) do
 if v and v:IsA("Decal") then
@@ -3006,14 +3081,19 @@ if v and v:IsA("Decal") then
 v:Destroy()
 end
 end
+child:WaitForChild("HumanoidRootPart"):WaitForChild("Song").Volume = 3
+child:WaitForChild("HumanoidRootPart"):WaitForChild("Song").SoundId = "rbxassetid://91013239854044"
 child:WaitForChild("HumanoidRootPart").Transparency = 0.7
+if child:WaitForChild("HumanoidRootPart"):FindFirstChild("Mesh") then
+child:WaitForChild("HumanoidRootPart"):FindFirstChild("Mesh"):Destroy()
+end
 local billboardgui = Instance.new("BillboardGui")
 billboardgui.Parent = child:WaitForChild("HumanoidRootPart")
 billboardgui.Adornee = child:WaitForChild("HumanoidRootPart")
 billboardgui.AlwaysOnTop = false
 billboardgui.MaxDistance = 50
 billboardgui.Size = UDim2.new(0,100,0,100)
-Instance.new("ImageLabel",billboardgui).Image = "rbxassetid://117071137612827"
+Instance.new("ImageLabel",billboardgui).Image = "rbxassetid://106696946880330"
 end
 end
 end)
@@ -3036,7 +3116,7 @@ end
 elseif workspace.GameAssets.Teams.Killer:FindFirstChildOfClass("Model") and workspace.GameAssets.Teams.Killer:FindFirstChildOfClass("Model"):FindFirstChild("Accessories") and workspace.GameAssets.Teams.Killer:FindFirstChildOfClass("Model"):FindFirstChild("Accessories"):FindFirstChild("Hat") and workspace.GameAssets.Teams.Killer:FindFirstChildOfClass("Model"):FindFirstChild("Accessories"):FindFirstChild("Hat").Transparency == 1 then
 if child and child.Parent and child.Name == "Wall" then
 child:WaitForChild("HumanoidRootPart").Size = Vector3.new(10,6,1)
-child:WaitForChild("HumanoidRootPart").Color = Color3.new(0,0,0)
+child:WaitForChild("HumanoidRootPart").Color = Color3.new(1,1,1)
 for i,v in pairs(child:GetChildren()) do
 if v and v:IsA("Decal") then
 v:Destroy()
@@ -3056,23 +3136,7 @@ for i,v in pairs(child:GetChildren()) do
 		v:Destroy()
 	end
 end
-local function AddAccessory(Humanoid,AssetId)
-	local targethumanoid = Humanoid
-	local targetidasset = AssetId
-	local ac = game:GetObjects("rbxassetid://"..tostring(targetidasset))[1]
-	local acName = ac.Name
-	local AvailableService = (game:FindService("CoreGui") and game:GetService("CoreGui")) or game:GetService("LogService")
-	ac.Parent = AvailableService
-	targethumanoid:AddAccessory(AvailableService:WaitForChild(tostring(acName), 9e9))
-end
-local function ApplyAccessories(Humanoid)
-	local targethumanoid = Humanoid
-	targethumanoid:BuildRigFromAttachments()
-	task.wait(1)
-	pcall(function() targethumanoid.HipHeight = 0 end)
-end
-AddAccessory(child:WaitForChild("Humanoid"),417457461)
-ApplyAccessories(child:WaitForChild("Humanoid"))
+AddAccessory(child, game:GetObjects("rbxassetid://417457461")[1])
 Instance.new("Pants",child).PantsTemplate = "http://www.roblox.com/asset/?id=81496250"
 Instance.new("Shirt",child).ShirtTemplate = "http://www.roblox.com/asset/?id=15912708548"
 end
