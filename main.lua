@@ -263,6 +263,11 @@ end
 local info = Window:CreateTab("Updates",0)
 info:CreateSection("(DD/MM/YYYY)")
 
+info:CreateParagraph({Title = "10/08/2025 update", Content = [[eee
+
+Changelogs:
+1. mequot + artistry :3]]})
+
 info:CreateParagraph({Title = "08/08/2025 update", Content = [[eee
 
 Changelogs:
@@ -2826,7 +2831,7 @@ local SnowieAcs = {
   [3] = 86580941913243;
 }
 for i,v in ipairs(SnowieAcs) do
-AddAccessory(game.Players.LocalPlayer.Character, game:GetObjects("rbxassetid://"..tostring(v))[1])
+AddAccessory(child, game:GetObjects("rbxassetid://"..tostring(v))[1])
 end
 if makefolder and isfolder and writefile and isfile and getcustomasset then
 if isfile("dodnexerhub/music/snowie.mp3") then
