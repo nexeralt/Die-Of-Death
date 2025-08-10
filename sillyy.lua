@@ -2588,11 +2588,6 @@ function AddAccessory(character, accoutrement)
   if handle then
     local accoutrementAttachment = handle:FindFirstChildOfClass("Attachment")
     if accoutrementAttachment then
-      local characterAttachment = findFirstMatchingAttachment(character, accoutrementAttachment.Name)
-      if characterAttachment then
-        weldAttachments(characterAttachment, accoutrementAttachment)
-      end
-    else
       local head = character:FindFirstChild("Head")
       if head then
         local attachmentCFrame = CFrame.new(0, 0.5, 0)
