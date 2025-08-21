@@ -26,8 +26,11 @@ end
 if not isfile("dodnexerhub/music/lmssubject.mp3") then
 writefile("dodnexerhub/music/lmssubject.mp3", game:HttpGet("https://raw.githubusercontent.com/nexeralt/Die-Of-Death/refs/heads/main/Assets/LMS/subjectlms.mp3"))
 end
-if not isfile("dodnexerhub/music/snowie.mp3") then
-writefile("dodnexerhub/music/snowie.mp3", game:HttpGet("https://raw.githubusercontent.com/nexeralt/Die-Of-Death/refs/heads/main/Assets/ChaseThemes/Wibbly%20Wobbly%20Woo.mp3"))
+if not isfile("dodnexerhub/music/snowie_new.mp3") then
+writefile("dodnexerhub/music/snowie_new.mp3", game:HttpGet("https://raw.githubusercontent.com/nexeralt/Die-Of-Death/refs/heads/main/Assets/ChaseThemes/Unknown%20Theme%20-%20Die%20of%20Death%20UST.mp3"))
+end
+if not isfile("dodnexerhub/music/mequot.mp3") then
+writefile("dodnexerhub/music/mequot.mp3", game:HttpGet("https://raw.githubusercontent.com/nexeralt/Die-Of-Death/refs/heads/main/Assets/ChaseThemes/Insanely%20(MeQuot's%20Theme)%20-%20Bubswest%20Remix.mp3"))
 end
 end
 
@@ -259,66 +262,6 @@ end
 if TestFireSignal() ~= true then
 Notify("Warning!", "Your executor don't support firesignal function, which is being used in some of the features!", 8, false)
 end
-
-local info = Window:CreateTab("Updates",0)
-info:CreateSection("(DD/MM/YYYY)")
-
-info:CreateParagraph({Title = "10/08/2025 update", Content = [[eee
-
-Changelogs:
-1. mequot + artistry :3]]})
-
-info:CreateParagraph({Title = "08/08/2025 update", Content = [[eee
-
-Changelogs:
-1. nothing added except a livedroid redesign :p]]})
-
-info:CreateParagraph({Title = "27/07/2025 update", Content = [[mid update mid mia
-
-Changelogs:
-1. Crash Server got patched :[ ( Premium Tab )
-2. Glitch Server have been added :] ( Premium Tab )
-
-3. Added, removed and fixed abilities to give. ( and now you can spawn cards with them or spam them )
-
-4. Uhhh fixed esp
-
-5. Re-edited whole emote tab
-
-6-∞. Small fixes of bugs, and other minor changes...
-(psst... there's still no auto-block...)]]})
-
-info:CreateParagraph({Title = "19/07/2025 update", Content = [[i would like to say that this is pretty big update
-
-Changelogs:
-1. Added new tab: ''Teleport''
-2. Teleport features include teleporting to people from different teams, teleporting to bonus pad, survivors with caretaker, etc.
-
-3. Re-edited premium tab.
-4. Fixed ''predict'' method for insta-killing killer and improved it. Deleted ''velocity & magnitude'' method
-5. Added new method to invisibility, which allows you to use abilities even during it.
-6. Now you appear as a ghost instead of waiting in the void in crash server feature.
-7. Added more silly anims.
-8. Premium now can be obtained for free.
-
-9. Added ''Can Jump?'' toggle to movement management tab.
-
-10. Fixed change emote feature in emote management tab.
-
-11. You can now give yourself any ability in-game including killer abilities, test abilties and other ones in ability management.
-12. Summon cards is now working on almost every executor.
-
-13. Re-coded ESP in visual tab. Now they're using box handlers instead of highlights with different colors. ( and yes you can now see ghosts i don't know why would you need it anyway )
-14. Fixed disabling evil scary jumpscare feature.
-15. Added ''Teammate Death Effect Enabled?'' and open shop features.
-16. Added visual money giver. ( customizable )
-
-17. Fixed lagging after applying animations in animation changer.
-
-18. Fixed cooldown thingy in point farm tab.
-		
-19-∞. And a lot of more very cool features and fixes, go check them by yourself!
-(psst... there's still no auto-block...)]]})
 
 --[[ 
 
@@ -2784,6 +2727,12 @@ child:WaitForChild("CL_Torso").MeshId = 48112070
 child:WaitForChild("Face"):WaitForChild("Face").Texture = "rbxassetid://127805400749886"
 child:WaitForChild("Accessories"):WaitForChild("Dagger").Position = child:WaitForChild("Accessories"):WaitForChild("Dagger").Position - Vector3.new(0.5,0,0)
 AddAccessory(child, game:GetObjects("rbxassetid://16572510926")[1])
+if makefolder and isfolder and writefile and isfile and getcustomasset then
+if isfile("dodnexerhub/music/mequot.mp3") then
+child:WaitForChild("Animations"):WaitForChild("ChaseTheme").SoundId = getcustomasset("dodnexerhub/music/mequot.mp3")
+end
+end
+child:WaitForChild("Animations"):WaitForChild("ChaseTheme").Volume = 2.5
 end
 	end)
 	if not suc then
@@ -2834,8 +2783,8 @@ for i,v in ipairs(SnowieAcs) do
 AddAccessory(child, game:GetObjects("rbxassetid://"..tostring(v))[1])
 end
 if makefolder and isfolder and writefile and isfile and getcustomasset then
-if isfile("dodnexerhub/music/snowie.mp3") then
-child:WaitForChild("Animations"):WaitForChild("ChaseTheme").SoundId = getcustomasset("dodnexerhub/music/snowie.mp3")
+if isfile("dodnexerhub/music/snowie_new.mp3") then
+child:WaitForChild("Animations"):WaitForChild("ChaseTheme").SoundId = getcustomasset("dodnexerhub/music/snowie_new.mp3")
 end
 end
 child:WaitForChild("Animations"):WaitForChild("ChaseTheme").Volume = 2.5
@@ -2975,6 +2924,12 @@ child:WaitForChild("CL_Torso").MeshId = 48112070
 child:WaitForChild("Face"):WaitForChild("Face").Texture = "rbxassetid://127805400749886"
 child:WaitForChild("Accessories"):WaitForChild("Dagger").Position = child:WaitForChild("Accessories"):WaitForChild("Dagger").Position - Vector3.new(0.5,0,0)
 game:GetObjects("rbxassetid://16572510926")[1].Parent = child
+if makefolder and isfolder and writefile and isfile and getcustomasset then
+if isfile("dodnexerhub/music/mequot.mp3") then
+child:WaitForChild("Animations"):WaitForChild("ChaseTheme").SoundId = getcustomasset("dodnexerhub/music/mequot.mp3")
+end
+end
+child:WaitForChild("Animations"):WaitForChild("ChaseTheme").Volume = 2.5
 end
 local child = game:GetService("ReplicatedStorage").Characters.Killer.Artful.Artistry
 if child and child:FindFirstChild("Accessories") and child:FindFirstChild("Accessories"):FindFirstChild("Cape") and child:FindFirstChild("Accessories"):FindFirstChild("Cape"):FindFirstChild("Mesh") then
@@ -3018,8 +2973,8 @@ for i,v in pairs(SnowieAcs) do
 	game:GetObjects("rbxassetid://"..tostring(v))[1].Parent = child
 end
 if makefolder and isfolder and writefile and isfile and getcustomasset then
-if isfile("dodnexerhub/music/snowie.mp3") then
-child:WaitForChild("Animations"):WaitForChild("ChaseTheme").SoundId = getcustomasset("dodnexerhub/music/snowie.mp3")
+if isfile("dodnexerhub/music/snowie_new.mp3") then
+child:WaitForChild("Animations"):WaitForChild("ChaseTheme").SoundId = getcustomasset("dodnexerhub/music/snowie_new.mp3")
 end
 end
 child:WaitForChild("Animations"):WaitForChild("ChaseTheme").Volume = 2.5
