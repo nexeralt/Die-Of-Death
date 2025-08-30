@@ -1973,6 +1973,35 @@ until AntiStun == false
 end
 end; })
 
+function StudsIntoPower(studs)
+return (studs * 6)
+end
+
+PremiumFeatures:CreateSection("Hitbox Extender °^°")
+
+PremiumFeatures:CreateToggle({Name = "Extend Hitbox"; CurrentValue = false; Callback = function(Value)
+if HavePremium() ~= true then
+ErrorPremium()
+return nil
+end
+ExtendHitbox = Value
+if ExtendHitbox == true then
+local distance = StudsIntoPower(10)
+repeat game:GetService("RunService").Heartbeat:Wait()
+local vel, movel = nil, 0.1
+while not (game:GetService("Players").LocalPlayer.Character and game:GetService("Players").LocalPlayer.Character.Parent and game:GetService("Players").LocalPlayer.Character.HumanoidRootPart and game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Parent) do
+game:GetService("RunService").Heartbeat:Wait()
+end
+vel = game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Velocity
+game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Velocity = vel * distance + (game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame.LookVector * distance)
+game:GetService("RunService").RenderStepped:Wait()
+if (game:GetService("Players").LocalPlayer.Character and game:GetService("Players").LocalPlayer.Character.Parent and game:GetService("Players").LocalPlayer.Character.HumanoidRootPart and game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Parent) then
+game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Velocity = vel
+end
+until ExtendHitbox == false
+end
+end; })
+
 PremiumFeatures:CreateSection("Silly animations UwU")
 
 local preferedanimat
