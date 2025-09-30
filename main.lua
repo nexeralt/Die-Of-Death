@@ -263,6 +263,18 @@ if TestFireSignal() ~= true then
 Notify("Warning!", "Your executor don't support firesignal function, which is being used in some of the features!", 8, false)
 end
 
+
+pcall(function()
+local Announcements = Window:CreateTab("Announce",0)
+Announcements:CreateParagraph({Title = "Hi there!", Content = "Script will update soon, at the moment, i almost fully recoded and fixed this script. \nthere will be new OP features too, here are some of them: hitbox breakers, auto block, a lot of more immunity features, fun stuff and other cool features. \nstay tuned! join my discord server below"})
+Announcements:CreateButton({Name = "Copy Discord Server Link"; Callback = function()
+setclipboard(tostring("https://discord.gg/R6TWSu87Aw"))
+Notify("Success!", "Copied Link!", 3, true)
+end; })
+end)
+
+		
+
 --[[ 
 
 
